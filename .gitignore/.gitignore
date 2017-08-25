@@ -1,5 +1,10 @@
 # Created by https://www.gitignore.io/api/windows
-node_modules/
+.node_modules
+
+### NotepadPP ###
+# Notepad++ backups #
+*.bak
+
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
