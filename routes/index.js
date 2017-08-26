@@ -7,9 +7,9 @@ router.get('/', function(req, res, next) {
 
 });
 
-router.get('/secret',function(req, res){
+router.get('/game',function(req, res){
   if(req.session.user){
-    res.render('secret');
+    res.render('game');
     console.log(req.session.user);
   }else {
     res.redirect('/');

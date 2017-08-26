@@ -1,0 +1,52 @@
+body{
+  margin:0;
+  padding:0;
+}
+  #matchmaking{
+    position: absolute;
+    width:100%;
+    Height:100%;
+    background: blue;
+  }
+  #wrap{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: skyblue;
+    padding:80px;
+    border-radius: 20px;
+    line-height: 40px;
+    font-size: 40px;
+    border: 4px black solid;
+    height: 300px;
+    width: 250px;
+  }
+  input{
+    font-size: 30px;
+    background: white;
+    border-radius: 20px;
+    padding:10px;
+    outline: none;
+  }
+  select{
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding:5px;
+  }
+  #loading{
+position:absolute;
+width:150px;
+top:50px;
+left:50%;
+margin: 0 0 0 -75px;
+transform: rotate(0deg);
+animation: runt .7s infinite;
+}
+@keyframes runt {
+  to{
+      transform: rotate(360deg);
+  }
+}
