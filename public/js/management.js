@@ -23,3 +23,6 @@ function casualSel(){
 function rankedSel(){
   document.getElementById("chooseElo").innerHTML ='<select id="Elo" name="elo">  <option value="0">Any (fast queue time)</option><option value="1">Better elo than me</option><option value="-1">Worse elo than me</option> </select>';
 }
+socket.on("Opponent_DC",function(){
+  alert("Your Opponent ran like a chicken! You won the game");
+});

@@ -4,76 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-  <script>
-    var socket = io();
-    socket.on('displayMSG',function(msg){
-      if(!isHTML(msg.msg)){
-        document.getElementById('message').innerHTML = document.getElementById('message').innerHTML + "<br>"+"<font style='color:blue'>" + msg.username + ": </font>"+msg.msg;
-        var element = document.getElementById("message");
-        element.scrollTop = element.scrollHeight;
-      }
-    });
-    socket.on('mustlogin',function(){
-      alert("You need to login to send messages");
-    });
-    function send(){
-      socket.emit('sendMSG', document.getElementById('text').value)
-      document.getElementById('text').value = "";
-    }
-    socket.on('leaderboard',function(leaderboard){
-      var board = document.getElementById('leader')
-      board.innerHTML = "<h3>SCORE:</h3><ul>";
-      for(var i in leaderboard){
-        board.innerHTML = board.innerHTML + "<li>" + leaderboard[i] +"</li>"
-      }
-      board.innerHTML = board.innerHTML + "</ul>"
-      console.log(leaderboard);
-    });
-    function isHTML(str) {
-    var a = document.createElement('div');
-    a.innerHTML = str;
-    for (var c = a.childNodes, i = c.length; i--; ) {
-        if (c[i].nodeType == 1) return true;
-    }
-    return false;
-}
-  </script>
   <style>
-  #message{
-    width:500px;
-    height:500px;
-    border: solid black 2px;
-    overflow-y: scroll;
-    overflow-wrap: break-word;
-  }
-  #leader{
-    width:300px;
-    height:auto;
-    max-height:350px;
-    border: solid black 2px;
-    overflow-y: scroll;
-    padding:10px;
-  }
+	body{
+		font-size:35px;
+	}
   </style>
   <title>Document</title>
 </head>
 <body>
-  <div id="div"></div>
   <a href="users/register">register</a><br>
   <a href="users/login">login</a><br>
   <a href="users/logout">logout</a><br>
-  <a href="/secret">secret</a><br>
-  <center>
-    <div>
-      <div id="message"></div><br>
-      <form onsubmit="send();return false" autocomplete="off">
-        <input type="text" id="text" name="text" placeholder="Write message here" value="">
-        <input type="submit" value="Send">
-      </form>
-    </div><br><br>
-    <div id="leader">
-    </div>
-  </center>
+  <a href="/game">Game</a><br>
 </body>
 </html>

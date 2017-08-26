@@ -13,6 +13,8 @@ var mongoose = require('mongoose');
 var sharedsession = require("express-socket.io-session");
 let User = require('./models/user');
 
+let matchmaking = require('./matchmaking_server.js');
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.engine('html', cons.swig)
@@ -47,22 +49,10 @@ app.use('/users', users);
 var SOCKETS = {};
 var GAMES = [];
 var STARTED_GAMES = [];
-function player(id, elo, name, socket){
-	this.x;
-	this.y = 10;
-	this.facing;
-	this.action = "Idle";
-	this.elo = elo;
-	this.id = id;
-	this.socket = socket;
-	this.name = name;
-}
+exports.SOCKETS = SOCKETS;
+exports.GAMES = GAMES;
+exports.STARTED_GAMES = STARTED_GAMES;
 
-function game_instance(player, type){
-	this.type = type
-	this.player1 = player;
-	this.player2 = null;
-}
 //socket.handshake.session.
 var io = require("socket.io")(serv)
 io.use(sharedsession(session));
@@ -71,61 +61,21 @@ io.on("connection", function(socket) {
 	socket.id =id;
 	SOCKETS[id] = socket
 	socket.on('match_making',function(type){
-		find_match(socket, type);
+		matchmaking.find_match(socket, type);
 	});
+  socket.on("disconnect",function(){
+    var queue_check = matchmaking.findplayer(GAMES, socket.id);
+    var games_check = matchmaking.findplayer(STARTED_GAMES, socket.id);
+    if(queue_check != -1){
+      GAMES.splice(queue_check.index, 1);
+    }else if(games_check != -1){
+      STARTED_GAMES[games_check.index][games_check.NotPlayer].socket.emit('Opponent_DC');
+      STARTED_GAMES.splice(games_check.index, 1);
+    }
+    console.log("Queue " + GAMES.length);
+    console.log("Running games "+STARTED_GAMES.length)
+  })
 });
-
-function find_match(socket, type){
-	var plyr = new player(socket.id, socket.handshake.session.user.elo,  socket.handshake.session.user.username, socket);
-	var found = false;
-	var index = 0;
-		for(var i = 0; i < GAMES.length; i++){
-				if(type == 0 && GAMES[i].type == 0){
-					plyr.x = 100;
-					plyr.facing = "left"
-					GAMES[i].player2 = plyr;
-					GAMES[i].player2.socket.emit("Game_start", GAMES[i].player1.name);
-					GAMES[i].player1.socket.emit("Game_start", GAMES[i].player2.name);
-					found = true;
-					index = i;
-				}else if(type == 0 && (plyr.elo - GAMES[i].player1.elo)*GAMES[i].type >= 0){
-					plyr.x = 100;
-					plyr.facing = "left"
-					GAMES[i].player2 = plyr;
-					GAMES[i].player2.socket.emit("Game_start", GAMES[i].player1.name);
-					GAMES[i].player1.socket.emit("Game_start", GAMES[i].player2.name);
-					found = true;
-					index = i;
-				}else if((GAMES[i].player1.elo - plyr.elo)*type >= 0 && GAMES[i].type == 0){
-					plyr.x = 100;
-					plyr.facing = "left"
-					GAMES[i].player2 = plyr;
-					GAMES[i].player2.socket.emit("Game_start", GAMES[i].player1.name);
-					GAMES[i].player1.socket.emit("Game_start", GAMES[i].player2.name);
-					found = true;
-					index = i;
-				}else if((GAMES[i].player1.elo - plyr.elo)*type >= 0 && (plyr.elo - GAMES[i].player1.elo)*GAMES[i].type >= 0){
-					plyr.x = 100;
-					plyr.facing = "left"
-					GAMES[i].player2 = plyr;
-					GAMES[i].player2.socket.emit("Game_start", GAMES[i].player1.name);
-					GAMES[i].player1.socket.emit("Game_start", GAMES[i].player2.name);
-					found = true;
-					index = i;
-				}
-			}
-			if(found){
-				STARTED_GAMES.push(GAMES[index])
-				GAMES.splice(index, 1);
-			}else{
-				plyr.x = 0;
-				plyr.facing = "right"
-				var game = new game_instance(plyr,type);
-				GAMES.push(game);
-				plyr.socket.emit('waiting')
-			}
-			console.log(GAMES.length)
-}
 
 			/*for(var i = 0; i < GAMES.length; i++){
 				if(GAMES[i].player2 == null){
