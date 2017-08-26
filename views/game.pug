@@ -1,0 +1,32 @@
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width')
+    title Stickman ninja
+    link(rel='stylesheet', type='text/css', href='css/matchmaking.css')
+    link(rel='stylesheet', type='text/css', href='css/game.css')
+  body
+    #matchmaking
+      #wrap
+        form(onsubmit='match(); return false')
+          label(for='input') Ranked:
+          input#ranked(type='radio', name='mode', checked='', onclick='rankedSel()')
+          br
+          label(for='input')
+            | Casual:
+            input#casual(type='radio', name='mode', onclick='casualSel()')
+            br
+            br
+            #chooseElo
+              select#Elo(name='elo')
+                option(value='0') Any (fast queue time)
+                option(value='1') Better elo than me
+                option(value='-1') Worse elo than me
+            br
+            br
+            input(type='submit', value='Search Match')
+    canvas#main(width='1280', height='720')
+    script(src='https://cdn.socket.io/socket.io-1.4.5.js')
+    script(src='js/management.js')
+    script(src='js/game.js')
+    script(src='js/data.js')

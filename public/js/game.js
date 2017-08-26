@@ -6,6 +6,7 @@ window.onload = function() {
 		ctx.fillRect(world[i].xstart,world[i].y,world[i].xend - world[i].xstart,world[i].thickness);
 	}
 };
+//to make sure canvas doesnt get to big
 document.getElementById("main").style.maxHeight = window.innerHeight + "px";
    onresize = function(){
      document.getElementById("main").style.maxWidth = window.innerWidth-50 + "px";

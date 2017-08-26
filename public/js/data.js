@@ -1,4 +1,5 @@
-var world = [
+//coordinates and data for platforms
+var platform = [
 	{
 		xstart: 50,
 		xend: 500,

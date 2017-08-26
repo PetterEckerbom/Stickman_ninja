@@ -1,0 +1,19 @@
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    title Document
+  body
+    form(method='POST', action='/users/register')
+      h1 Register
+      lable Username
+      input(name='username', type='text')
+      br
+      lable Email
+      input(name='email', type='text')
+      br
+      lable password
+      input(name='password', type='password')
+      br
+      input(type='submit')

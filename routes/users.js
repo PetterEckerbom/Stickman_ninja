@@ -19,7 +19,7 @@ router.post('/register', function(req, res){
     username:username,
     email:email,
     password:password,
-    elo:-10
+    elo:0
   });
   newUser.save(function(err){
           if(err){
