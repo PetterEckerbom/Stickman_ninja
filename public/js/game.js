@@ -1,9 +1,10 @@
+//Just draws all platforms
 window.onload = function() {
     var c=document.getElementById("main");
     var ctx=c.getContext("2d");
 	ctx.fillStyle="#ff0026";
-    for(var i=0;i<world.length;i++){
-		ctx.fillRect(world[i].xstart,world[i].y,world[i].xend - world[i].xstart,world[i].thickness);
+    for(var i=0;i<platform.length;i++){
+		ctx.fillRect(platform[i].xstart,platform[i].y,platform[i].xend - platform[i].xstart,platform[i].thickness);
 	}
 };
 //to make sure canvas doesnt get to big

@@ -1,17 +1,21 @@
+/*Gets rid of body border*/
 body{
   margin:0;
   padding:0;
 }
+/*fills the page with blue div*/
   #matchmaking{
     position: absolute;
     width:100%;
     Height:100%;
     background: blue;
   }
+  /*Wrap around form to keep proprtions once diffrent options appear/disappear*/
   #wrap{
     position: absolute;
     top: 50%;
     left: 50%;
+    /*centers it on page*/
     transform: translate(-50%, -50%);
     text-align: center;
     background: skyblue;
@@ -23,6 +27,7 @@ body{
     height: 300px;
     width: 250px;
   }
+  /*Pretty much only effects submit button*/
   input{
     font-size: 30px;
     background: white;
@@ -30,12 +35,14 @@ body{
     padding:10px;
     outline: none;
   }
+  /*Makes the select a little more bold and good looking*/
   select{
     font-size: 20px;
     font-weight: bold;
     text-align: center;
     padding:5px;
   }
+  /*Below are the loading picture that javascript applys once you are waiting*/
   #loading{
 position:absolute;
 width:150px;
@@ -45,6 +52,7 @@ margin: 0 0 0 -75px;
 transform: rotate(0deg);
 animation: runt .7s infinite;
 }
+/*Animation to make loading image spin*/
 @keyframes runt {
   to{
       transform: rotate(360deg);

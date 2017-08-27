@@ -1,5 +1,5 @@
+/*Canvas css, centers it and gives background pretty much*/
 canvas{
-  background: green;
   display:block;
   width: auto;
   height: auto;
