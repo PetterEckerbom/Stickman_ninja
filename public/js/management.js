@@ -13,7 +13,7 @@ socket.on("Game_start",function(name){
 });
 function match(){
   if(document.getElementById("ranked").checked){
-    socket.emit('match_making', document.getElementById("chooseElo").value);
+    socket.emit('match_making', document.getElementById("Elo").value);
   }
 }
 

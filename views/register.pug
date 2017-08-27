@@ -5,6 +5,7 @@ html(lang='en')
     meta(http-equiv='X-UA-Compatible', content='ie=edge')
     title Document
   body
+    !=messages()
     form(method='POST', action='/users/register')
       h1 Register
       lable Username
@@ -16,4 +17,6 @@ html(lang='en')
       lable password
       input(name='password', type='password')
       br
+      lable password
+      input(name='password2', type='password')
       input(type='submit')

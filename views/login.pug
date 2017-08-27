@@ -5,6 +5,7 @@ html(lang='en')
     meta(http-equiv='X-UA-Compatible', content='ie=edge')
     title Document
   body#body
+    !=messages()
     form(method='POST', action='/users/login')
       h1 login
       lable Username

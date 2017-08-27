@@ -12,7 +12,7 @@ var session = require("express-session")({
 var mongoose = require('mongoose');
 var sharedsession = require("express-socket.io-session");
 let User = require('./models/user');
-const flash = require('connect-flash');
+var flash = require('connect-flash');
 
 //brings in exported functions from matchmaking such as tha matchmaking fuckion etc
 let matchmaking = require('./matchmaking_server.js');
@@ -44,8 +44,12 @@ console.log("server started");
 
 //enables sessions
 app.use(session);
-//start connect-flash
+//start connect-flash and express-messages
 app.use(require('connect-flash')());
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res);
+  next();
+});
 //allows us to check users form input
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

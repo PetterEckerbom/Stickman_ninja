@@ -4,7 +4,6 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index');
-
 });
 
 router.get('/game',function(req, res){
@@ -12,6 +11,7 @@ router.get('/game',function(req, res){
     res.render('game');
     console.log(req.session.user);
   }else {
+    req.flash('error','You cannot join a game before you are logged in');
     res.redirect('/');
     console.log(req.session.user);
   }
