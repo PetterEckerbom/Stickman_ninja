@@ -24,8 +24,8 @@ body{
     line-height: 40px;
     font-size: 40px;
     border: 4px black solid;
-    height: 300px;
-    width: 250px;
+    height: 400px;
+    width: 400px;
   }
   /*Pretty much only effects submit button*/
   input{
@@ -34,6 +34,7 @@ body{
     border-radius: 20px;
     padding:10px;
     outline: none;
+    text-align: center;
   }
   /*Makes the select a little more bold and good looking*/
   select{
@@ -57,4 +58,8 @@ animation: runt .7s infinite;
   to{
       transform: rotate(360deg);
   }
+}
+
+.friend_selector{
+  font-size: 25px;
 }

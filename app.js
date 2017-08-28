@@ -61,11 +61,7 @@ app.use('/users', users);
 
 //Creates Array and objects related to game and makes accessable from any file
 var SOCKETS = {};
-var GAMES = [];
-var STARTED_GAMES = [];
 exports.SOCKETS = SOCKETS;
-exports.GAMES = GAMES;
-exports.STARTED_GAMES = STARTED_GAMES;
 
 //Allows us to edit and acces session infromation from socket.
 var io = require("socket.io")(serv)
@@ -76,24 +72,66 @@ io.on("connection", function(socket) {
 	socket.id =id;
 	SOCKETS[id] = socket
   //calls for a match to be created, gives out what elo user asked for and the socket
-	socket.on('match_making',function(type){
-		matchmaking.find_match(socket, type);
+	socket.on('match_making_ranked',function(type){
+    if(socket.handshake.session.user){
+      matchmaking.find_ranked(socket, type);
+    }else{
+      socket.emit('not_logged_in')
+    }
 	});
+  socket.on('match_making_casual',function(){
+    if(socket.handshake.session.user){
+      matchmaking.find_casual(socket);
+    }else{
+      socket.emit('not_logged_in')
+    }
+	});
+  socket.on('match_making_friend',function(data){
+    if(data.code.length != 5 || data.code*1 % 1 != 0){
+      socket.emit('bad_code');
+    }else{
+        if(socket.handshake.session.user){
+            if(data.new_match){
+              socket.codeID = data.code;
+              matchmaking.create_match_friend(socket, data.code);
+            }else{
+              socket.codeID = data.code;
+            	matchmaking.find_match_friend(socket, data.code);
+            }
+        }
+      }
+	});
+  socket.on('test',function(){
+    console.log("Ranked queue " + matchmaking.RankedQueue.length);
+    console.log("Casual queue " + matchmaking.CasualQueue.length);
+    console.log("Friend queue " + matchmaking.FriendQueue.length);
+    console.log("Running games "+matchmaking.STARTED_GAMES.length)
+  })
 
   socket.on("disconnect",function(){
     //start by calling fuckion that return in what game a user is based on socketid
-    var queue_check = matchmaking.findplayer(GAMES, socket.id);
-    var games_check = matchmaking.findplayer(STARTED_GAMES, socket.id);
-    if(queue_check != -1){
+    var queueR_check = matchmaking.findplayer(matchmaking.RankedQueue, socket.id);
+    var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
+    var queueC_check = matchmaking.findplayer(matchmaking.CasualQueue, socket.id);
+    //var queue_check = matchmaking.findplayer(matchmaking.RankedQueue, socket.id);
+    if(queueR_check != -1){
       //If game had not started yet we just throw it away
-      GAMES.splice(queue_check.index, 1);
+      matchmaking.RankedQueue.splice(queue_check.index, 1);
     }else if(games_check != -1){
       //if game had started we alert remaining user and throw the game away
-      STARTED_GAMES[games_check.index][games_check.NotPlayer].socket.emit('Opponent_DC');
-      STARTED_GAMES.splice(games_check.index, 1);
+      matchmaking.STARTED_GAMES[games_check.index][games_check.NotPlayer].socket.emit('Opponent_DC');
+      matchmaking.STARTED_GAMES.splice(games_check.index, 1);
+    }else if(queueC_check != -1){
+      //if game had started we alert remaining user and throw the game away
+      //matchmaking.CasualQueue[games_check.index][games_check.NotPlayer].socket.emit('Opponent_DC');
+      matchmaking.CasualQueue.splice(games_check.index, 1);
+    }else if(matchmaking.FriendQueue[socket.codeID]){
+      if(matchmaking.FriendQueue[socket.codeID].player1ID == socket.id){
+        delete matchmaking.FriendQueue[socket.codeID];
+      }
     }
-    console.log("Queue " + GAMES.length);
-    console.log("Running games "+STARTED_GAMES.length)
+    console.log("Queue " + matchmaking.RankedQueue.length);
+    console.log("Running games "+matchmaking.STARTED_GAMES.length)
   })
 });
 
