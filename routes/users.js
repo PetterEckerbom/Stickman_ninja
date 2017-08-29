@@ -38,7 +38,7 @@ router.post('/register', function(req, res){
   //checks if there is a user with the same username
   User.findOne({username: username}, function(err, user) {
     if(err){
-      res.send("error");
+      req.flash('error','There was an error! Please contact support!');
       res.redirect('/users/register');
       return false
     }
@@ -52,7 +52,7 @@ router.post('/register', function(req, res){
       //email is not already in use
       User.findOne({email: email}, function(err, user) {
         if(err){
-          res.send("error");
+          req.flash('error','There was an error! Please contact support!');
           res.redirect('/users/register');
           return false
         }
@@ -103,8 +103,9 @@ router.post('/login', function(req,res){
   //looks for a user with given username
   User.findOne({username: username}, function(err, user) {
     if(err){
-      res.send("error");
-      res.redirect('/register');
+      req.session.user = null;
+      req.flash('error','There was an error! Please contact support!');
+      res.redirect('/users/login');
     }
     if(!user){
       //if theres no user with given username we tell the client so and point them to /users/register
@@ -131,6 +132,7 @@ router.post('/login', function(req,res){
  router.get('/logout',function(req,res){
    //removes any possible user saved in seesion and sends user to index page
    req.session.user = null;
+   req.flash('Success','You are now logged out!');
    res.redirect('/');
  })
 module.exports = router;
