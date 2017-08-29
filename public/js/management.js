@@ -18,6 +18,11 @@ socket.on("Game_start",function(name){
   document.getElementById('matchmaking').style.height ="0"
   document.getElementById('matchmaking').style.background ="none"
 });
+document.getElementById("main").style.maxHeight = window.innerHeight + "px";
+   onresize = function(){
+     document.getElementById("main").style.maxWidth = window.innerWidth-50 + "px";
+     document.getElementById("main").style.maxHeight = window.innerHeight-50 + "px";
+   }
 
 socket.on("code_taken", function(){
   alert('Sorry, someone already uses this code. Please pick another code');
