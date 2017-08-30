@@ -36,4 +36,8 @@ var platform = [
 		y:100,
 		thickness:40
 	}
-]
+];
+var animations = {
+	idle: {frames:8, width:150, height:300, hitbox_W:150, hitbox_H:300, sprite:"idle"},
+	hej: "hello"
+}
