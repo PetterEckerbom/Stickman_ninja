@@ -11,8 +11,11 @@ exports.FriendQueue = FriendQueue;
 
 //custructos below... pretty self explanatory
 function player(id, elo, name, socket){
-	this.x;
+	this.x = 0;
 	this.y = 10;
+	this.x_speed = 0;
+	this.y_speed = 0;
+	this.direction = 0;
 	this.facing;
 	this.action = "Idle";
 	this.elo = elo;

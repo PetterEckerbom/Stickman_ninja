@@ -116,7 +116,7 @@ io.on("connection", function(socket) {
     //var queue_check = matchmaking.findplayer(matchmaking.RankedQueue, socket.id);
     if(queueR_check != -1){
       //If game had not started yet we just throw it away
-      matchmaking.RankedQueue.splice(queue_check.index, 1);
+      matchmaking.RankedQueue.splice(queueR_check.index, 1);
     }else if(games_check != -1){
       //if game had started we alert remaining user and throw the game away
       matchmaking.STARTED_GAMES[games_check.index][games_check.NotPlayer].socket.emit('Opponent_DC');

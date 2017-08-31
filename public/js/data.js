@@ -14,12 +14,12 @@ var platform = [
 		xstart: 340,
 		xend: 520,
 		y:490,
-		thickness:10
+		thickness:20
 	},{
 		xstart: 760,
 		xend: 940,
 		y:490,
-		thickness:10
+		thickness:20
 	},{
 		xstart: 500,
 		xend: 780,
