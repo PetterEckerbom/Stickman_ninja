@@ -11,7 +11,7 @@ function move_players(){
     if(players[i].x_speed < 0){
       players[i].x_speed += players[i].friction;
     }
-    if(players[i].dir == 0 && players[i].x_speed < 0.1 && players[i].x_speed> -0.1){
+    if(players[i].dir == 0 && players[i].x_speed < 0.3 && players[i].x_speed> -0.3){
       players[i].x_speed = 0;
     }
     players[i].x += players[i].x_speed;

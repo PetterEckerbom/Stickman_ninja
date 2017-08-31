@@ -12,10 +12,14 @@ exports.FriendQueue = FriendQueue;
 //custructos below... pretty self explanatory
 function player(id, elo, name, socket){
 	this.x = 0;
-	this.y = 10;
+	this.y = 100;
 	this.x_speed = 0;
 	this.y_speed = 0;
-	this.direction = 0;
+	this.max_speed = 7;
+	this.dir = 0;
+	this.friction = 0.2;
+	this.accerelation = 0.3;
+	this.gravity = 0.4;
 	this.facing;
 	this.action = "Idle";
 	this.elo = elo;
@@ -55,7 +59,7 @@ exports.find_ranked = function(socket, type){
 			}
 			//if we found a game we give the player starting point and place him as "player2" in that game
 			if(found){
-        plyr.x = 100;
+        plyr.x = 1180;
         plyr.facing = "left"
         RankedQueue[index].player2 = plyr;
         RankedQueue[index].player2ID = plyr.id;
@@ -67,7 +71,7 @@ exports.find_ranked = function(socket, type){
 				RankedQueue.splice(index, 1);
 			}else{
 				//if we didnt find a game we create a new one and save player as player1 in that game.
-				plyr.x = 0;
+				plyr.x = 100;
 				plyr.facing = "right"
 				var game = new game_instance(plyr,type,plyr.id);
 				RankedQueue.push(game);
@@ -84,7 +88,7 @@ exports.find_casual = function(socket){
 	//below we GAMES that have not yet been started, if elo request satisfied we save what game it is in "index"
 		for(var i = 0; i < CasualQueue.length; i++){
 				if(CasualQueue[i].player2 == null){
-					plyr.x = 100;
+					plyr.x = 1180;
 	        plyr.facing = "left"
 	        CasualQueue[i].player2 = plyr;
 	        CasualQueue[i].player2ID = plyr.id;
@@ -100,7 +104,7 @@ exports.find_casual = function(socket){
 			//if we found a game we give the player starting point and place him as "player2" in that game
 				//if we didnt find a game we create a new one and save player as player1 in that game.
 				if(!found){
-					plyr.x = 0;
+					plyr.x = 100;
 					plyr.facing = "right"
 					var game = new game_instance(plyr,0,plyr.id);
 					CasualQueue.push(game);
@@ -115,7 +119,7 @@ exports.create_match_friend = function(socket, code){
 		if(FriendQueue[code]){
 			socket.emit('code_taken');
 		}else{
-			plyr.x = 0;
+			plyr.x = 100;
 			plyr.facing = "right"
 			var game = new game_instance(plyr,0,plyr.id);
 			FriendQueue[code] = game;
@@ -128,6 +132,7 @@ exports.create_match_friend = function(socket, code){
 exports.find_match_friend = function(socket, code){
 	//console.log(FriendQueue[code])
 	var plyr = new player(socket.id, socket.handshake.session.user.elo,  socket.handshake.session.user.username, socket);
+	plyr.x = 1180;
 		if(FriendQueue[code]){
 			FriendQueue[code].player2 = plyr;
 			FriendQueue[code].player2ID = plyr.id;
@@ -140,7 +145,7 @@ exports.find_match_friend = function(socket, code){
 		}
 }
 
-exports.findplayer = function(array, id){
+var findplayer = function(array, id){
 	//checks if there are a player with a given id in a given array
 	 var index = array.map(function(e) { return e.player1ID; }).indexOf(id);
 	 if(index != -1){
@@ -157,4 +162,32 @@ exports.findplayer = function(array, id){
 		 //if no player found we return -1
 		 return -1;
 	 }
+}
+
+exports.findplayer = findplayer;
+
+exports.disconnect = function(socket){
+	//start by calling fuckion that return in what game a user is based on socketid
+	var queueR_check = findplayer(RankedQueue, socket.id);
+	var games_check = findplayer(STARTED_GAMES, socket.id);
+	var queueC_check = findplayer(CasualQueue, socket.id);
+	//var queue_check = matchmaking.findplayer(matchmaking.RankedQueue, socket.id);
+	if(queueR_check != -1){
+		//If game had not started yet we just throw it away
+		RankedQueue.splice(queueR_check.index, 1);
+	}else if(games_check != -1){
+		//if game had started we alert remaining user and throw the game away
+		STARTED_GAMES[games_check.index][games_check.NotPlayer].socket.emit('Opponent_DC');
+		STARTED_GAMES.splice(games_check.index, 1);
+	}else if(queueC_check != -1){
+		//if game had started we alert remaining user and throw the game away
+		//matchmaking.CasualQueue[games_check.index][games_check.NotPlayer].socket.emit('Opponent_DC');
+		CasualQueue.splice(games_check.index, 1);
+	}else if(FriendQueue[socket.codeID]){
+		if(FriendQueue[socket.codeID].player1ID == socket.id){
+			delete FriendQueue[socket.codeID];
+		}
+	}
+	console.log("Queue " + RankedQueue.length);
+	console.log("Running games "+STARTED_GAMES.length)
 }

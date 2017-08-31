@@ -13,6 +13,8 @@ var mongoose = require('mongoose');
 var sharedsession = require("express-socket.io-session");
 let User = require('./models/user');
 var flash = require('connect-flash');
+var game_clock = require('./game_clock.js');
+var communication = require('./communication.js')
 
 //brings in exported functions from matchmaking such as tha matchmaking fuckion etc
 let matchmaking = require('./matchmaking_server.js');
@@ -68,9 +70,9 @@ var io = require("socket.io")(serv)
 io.use(sharedsession(session));
 io.on("connection", function(socket) {
   //gives ID to socket and saves it in SOCKETS object. Useful to manage sockets noy in game
-	var id = Math.random()
+	var id = Math.random();
 	socket.id =id;
-	SOCKETS[id] = socket
+	SOCKETS[id] = socket;
   //calls for a match to be created, gives out what elo user asked for and the socket
 	socket.on('match_making_ranked',function(type){
     if(socket.handshake.session.user){
@@ -101,40 +103,17 @@ io.on("connection", function(socket) {
         }
       }
 	});
-  socket.on('test',function(){
-    console.log("Ranked queue " + matchmaking.RankedQueue.length);
-    console.log("Casual queue " + matchmaking.CasualQueue.length);
-    console.log("Friend queue " + matchmaking.FriendQueue.length);
-    console.log("Running games "+matchmaking.STARTED_GAMES.length)
-  })
 
-  socket.on("disconnect",function(){
-    //start by calling fuckion that return in what game a user is based on socketid
-    var queueR_check = matchmaking.findplayer(matchmaking.RankedQueue, socket.id);
-    var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
-    var queueC_check = matchmaking.findplayer(matchmaking.CasualQueue, socket.id);
-    //var queue_check = matchmaking.findplayer(matchmaking.RankedQueue, socket.id);
-    if(queueR_check != -1){
-      //If game had not started yet we just throw it away
-      matchmaking.RankedQueue.splice(queueR_check.index, 1);
-    }else if(games_check != -1){
-      //if game had started we alert remaining user and throw the game away
-      matchmaking.STARTED_GAMES[games_check.index][games_check.NotPlayer].socket.emit('Opponent_DC');
-      matchmaking.STARTED_GAMES.splice(games_check.index, 1);
-    }else if(queueC_check != -1){
-      //if game had started we alert remaining user and throw the game away
-      //matchmaking.CasualQueue[games_check.index][games_check.NotPlayer].socket.emit('Opponent_DC');
-      matchmaking.CasualQueue.splice(games_check.index, 1);
-    }else if(matchmaking.FriendQueue[socket.codeID]){
-      if(matchmaking.FriendQueue[socket.codeID].player1ID == socket.id){
-        delete matchmaking.FriendQueue[socket.codeID];
-      }
-    }
-    console.log("Queue " + matchmaking.RankedQueue.length);
-    console.log("Running games "+matchmaking.STARTED_GAMES.length)
-  })
+
+socket.on('move', function(data){
+  communication.move_change(socket, data);
 });
 
+
+socket.on("disconnect",function(){
+  matchmaking.disconnect(socket)
+});
+});
 			/*for(var i = 0; i < GAMES.length; i++){
 				if(GAMES[i].player2 == null){
 					plyr.x = 100;

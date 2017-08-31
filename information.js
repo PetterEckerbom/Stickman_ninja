@@ -1,4 +1,3 @@
-//coordinates and data for platforms
 var platform = [
 	{
 		xstart: 50,
@@ -38,8 +37,4 @@ var platform = [
 	}
 ];
 
-
-var animations = {
-	idle: {frames:8, width:150, height:300, hitbox_W:150, hitbox_H:300, sprite:"idle"},
-	hej: "hello"
-}
+exports.platforms = platform;
