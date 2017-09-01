@@ -109,6 +109,9 @@ socket.on('move', function(data){
   communication.move_change(socket, data);
 });
 
+socket.on('jump', function(){
+  communication.jump(socket)
+})
 
 socket.on("disconnect",function(){
   matchmaking.disconnect(socket)

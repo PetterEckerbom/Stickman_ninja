@@ -63,6 +63,9 @@ onkeyup = function(e){
   if(e.keyCode == 65 && players[0].dir == -1){
     socket.emit('move', 0)
   }
+  if(e.keyCode == 32){
+    socket.emit('jump', 0)
+  }
 }
 
 socket.on('Change_direction_you', function(dir){
@@ -74,7 +77,7 @@ socket.on('Change_direction_you', function(dir){
   }
   if(dir == -1){
     players[0].facing = "left";
-    players[0].x_speed = -2;  
+    players[0].x_speed = -2;
     animation_change_you(animations.running);
   }
   if(dir == 0){
@@ -98,6 +101,7 @@ socket.on('Change_direction_enemy', function(dir){
   }
 });
 socket.on('sync', function(players_skinned){
+  console.log(players_skinned.you.y)
   players[0].x = players_skinned.you.x;
   players[0].y = players_skinned.you.y;
   players[0].x_speed = players_skinned.you.x_speed;
@@ -112,6 +116,12 @@ socket.on('sync', function(players_skinned){
   players[1].facing = players_skinned.enemy.facing;
   players[1].dir = players_skinned.enemy.dir;
 
+});
+socket.on('you_jump',function(){
+  players[0].y_speed = -8;
+});
+socket.on('enemy_jump',function(){
+  players[1].y_speed = -8;
 });
 
 
