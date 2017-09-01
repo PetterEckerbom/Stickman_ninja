@@ -25,9 +25,11 @@ function move_down(){
     if(!y_check){
        players[i].y+=players[i].y_speed;
        players[i].y_speed += players[i].gravity;
+      find_animation(players[i])
     }else{
        players[i].y=y_check
         players[i].y_speed = 0;
+        find_animation(players[i])
     }
   }
 }

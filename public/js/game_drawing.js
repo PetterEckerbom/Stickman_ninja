@@ -26,18 +26,37 @@ function draw_players(){
 }
 
 function animation_change_you(animation){
-  if(players[0].animation != animation){
+  if(players[0].animation != animation && !players[0].animation_block ){
     clearInterval(you_animation);
     players[0].animation = animation;
-    you_animation = setInterval(flipframes_you, animation.fps)
+    players[0].frames = 1;
+    you_animation = setInterval(flipframes_you, animation.fps);
   }
-
 }
 function animation_change_enemy(animation){
-  if(players[1].animation != animation){
+  if(players[1].animation != animation && !players[1].animation_block ){
     clearInterval(enemy_animation);
+    players[1].frames = 1;
     players[1].animation = animation;
     enemy_animation = setInterval(flipframes_enemy, animation.fps)
   }
 
+}
+
+function find_animation(player){
+  var animation_found;
+  if(player.y_speed != 0){
+    animation_found = animations.falling;
+  }else if(player.dir == 0){
+    animation_found = animations.idle;
+  }else if(player.dir != 0){
+    animation_found = animations.running;
+  }
+
+
+  if(players[0] == player){
+    animation_change_you(animation_found)
+  }else{
+    animation_change_enemy(animation_found)
+  }
 }

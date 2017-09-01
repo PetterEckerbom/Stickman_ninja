@@ -24,7 +24,7 @@ exports.move_change = function(socket, dir){
 exports.jump = function(socket){
   var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
   if(games_check.index != -1){
-    matchmaking.STARTED_GAMES[games_check.index][games_check.Player].y_speed = -8;
+    matchmaking.STARTED_GAMES[games_check.index][games_check.Player].y_speed = -14;
     matchmaking.STARTED_GAMES[games_check.index][games_check.Player].socket.emit('you_jump');
     matchmaking.STARTED_GAMES[games_check.index][games_check.NotPlayer].socket.emit('enemy_jump');
   }

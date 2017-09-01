@@ -30,15 +30,21 @@ html
             br
             input(type='submit', value='Search Match')
     canvas#main(width='1280', height='720')
+    //All sprites for idle animations!
     img#RED_idle_left.invis(src='sprites/RED/left/RED_idle_left.png')
     img#RED_idle_right.invis(src='sprites/RED/right/RED_idle_right.png')
     img#BLUE_idle_right.invis(src='sprites/BLUE/right/BLUE_idle_right.png')
     img#BLUE_idle_left.invis(src='sprites/BLUE/left/BLUE_idle_left.png')
-
-    img#RED_running_left.invis(src='sprites/RED/left/RED_running_left_new.png')
-    img#RED_running_right.invis(src='sprites/RED/right/RED_running_right_new.png')
-    img#BLUE_running_right.invis(src='sprites/BLUE/right/BLUE_running_right_new.png')
-    img#BLUE_running_left.invis(src='sprites/BLUE/left/BLUE_running_left_new.png')
+    //All sprites for running animations!
+    img#RED_running_left.invis(src='sprites/RED/left/RED_running_left.png')
+    img#RED_running_right.invis(src='sprites/RED/right/RED_running_right.png')
+    img#BLUE_running_right.invis(src='sprites/BLUE/right/BLUE_running_right.png')
+    img#BLUE_running_left.invis(src='sprites/BLUE/left/BLUE_running_left.png')
+    //All sprites for falling animations!  
+    img#RED_falling_left.invis(src='sprites/RED/left/RED_falling_left.png')
+    img#RED_falling_right.invis(src='sprites/RED/right/RED_falling_right.png')
+    img#BLUE_falling_right.invis(src='sprites/BLUE/right/BLUE_falling_right.png')
+    img#BLUE_falling_left.invis(src='sprites/BLUE/left/BLUE_falling_left.png')
     script(src='https://cdn.socket.io/socket.io-1.4.5.js')
     script(src='js/data.js')
     script(src='js/game_drawing.js')

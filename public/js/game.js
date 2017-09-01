@@ -38,7 +38,6 @@ enemy = {
     accerelation:0.3,
     gravity: 0.4,
     max_speed:7,
-    moving:0,
     state:"idle",
     facing:"left",
     animation: animations.idle
@@ -118,10 +117,10 @@ socket.on('sync', function(players_skinned){
 
 });
 socket.on('you_jump',function(){
-  players[0].y_speed = -8;
+  players[0].y_speed = -14;
 });
 socket.on('enemy_jump',function(){
-  players[1].y_speed = -8;
+  players[1].y_speed = -14;
 });
 
 
