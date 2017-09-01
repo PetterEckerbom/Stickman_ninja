@@ -3,7 +3,7 @@ var you_animation;
 
 function startanimation(){
   enemy_animation = setInterval(flipframes_enemy, 1000/10);
-  enemy_animation = setInterval(flipframes_you, 1000/10);
+  you_animation = setInterval(flipframes_you, 1000/10);
 }
 function flipframes_enemy(){
   players[1].frame++;
@@ -23,4 +23,21 @@ function draw_players(){
      var player_height = players[i].animation.height;
      ctx.drawImage(sprite,xcrop,0,player_width,player_height,players[i].x-((player_width/3)/2),players[i].y-(player_height/3),player_width/3,player_height/3);
    }
+}
+
+function animation_change_you(animation){
+  if(players[0].animation != animation){
+    clearInterval(you_animation);
+    players[0].animation = animation;
+    you_animation = setInterval(flipframes_you, animation.fps)
+  }
+
+}
+function animation_change_enemy(animation){
+  if(players[1].animation != animation){
+    clearInterval(enemy_animation);
+    players[1].animation = animation;
+    enemy_animation = setInterval(flipframes_enemy, animation.fps)
+  }
+
 }

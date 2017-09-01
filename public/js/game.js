@@ -69,18 +69,32 @@ socket.on('Change_direction_you', function(dir){
   players[0].dir = dir;
   if(dir == 1){
     players[0].facing = "right";
+    players[0].x_speed = 2;
+    animation_change_you(animations.running);
   }
   if(dir == -1){
     players[0].facing = "left";
+    players[0].x_speed = -2;  
+    animation_change_you(animations.running);
+  }
+  if(dir == 0){
+    animation_change_you(animations.idle);
   }
 });
 socket.on('Change_direction_enemy', function(dir){
   players[1].dir = dir;
   if(dir == 1){
     players[1].facing = "right";
+    players[1].x_speed = 2;
+    animation_change_enemy(animations.running);
   }
   if(dir == -1){
     players[1].facing = "left";
+    players[1].x_speed = -2;
+    animation_change_enemy(animations.running);
+  }
+  if(dir == 0){
+    animation_change_enemy(animations.idle);
   }
 });
 socket.on('sync', function(players_skinned){

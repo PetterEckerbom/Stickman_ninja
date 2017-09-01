@@ -40,6 +40,6 @@ var platform = [
 
 
 var animations = {
-	idle: {frames:8, width:150, height:300, hitbox_W:150, hitbox_H:300, sprite:"idle"},
-	hej: "hello"
+	idle: {frames:8, width:150, height:300, hitbox_W:150, hitbox_H:300, sprite:"idle", fps:100},
+	running: {frames:3, width:290, height:310, hitbox_W:290, hitbox_H:310, sprite:"running", fps:100},
 }

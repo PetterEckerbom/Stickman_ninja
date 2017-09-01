@@ -14,7 +14,7 @@ exports.move_players = function(){
     if(matchmaking.STARTED_GAMES[i].player1.x_speed < 0){
       matchmaking.STARTED_GAMES[i].player1.x_speed += matchmaking.STARTED_GAMES[i].player1.friction;
     }
-    if(matchmaking.STARTED_GAMES[i].player1.dir == 0 && matchmaking.STARTED_GAMES[i].player1.x_speed < 0.1 && matchmaking.STARTED_GAMES[i].player1.x_speed> -0.1){
+    if(matchmaking.STARTED_GAMES[i].player1.dir == 0 && matchmaking.STARTED_GAMES[i].player1.x_speed < 0.3 && matchmaking.STARTED_GAMES[i].player1.x_speed> -0.3){
       matchmaking.STARTED_GAMES[i].player1.x_speed = 0;
     }
     matchmaking.STARTED_GAMES[i].player1.x += matchmaking.STARTED_GAMES[i].player1.x_speed;
@@ -31,7 +31,6 @@ exports.move_players = function(){
     }
     if(matchmaking.STARTED_GAMES[i].player2.dir == 0 && matchmaking.STARTED_GAMES[i].player2.x_speed < 0.3 && matchmaking.STARTED_GAMES[i].player2.x_speed> -0.3){
       matchmaking.STARTED_GAMES[i].player2.x_speed = 0;
-      //console.log("Happened8");
     }
     matchmaking.STARTED_GAMES[i].player2.x += matchmaking.STARTED_GAMES[i].player2.x_speed;
   }

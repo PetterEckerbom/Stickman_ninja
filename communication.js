@@ -9,14 +9,15 @@ exports.move_change = function(socket, dir){
         if(matchmaking.STARTED_GAMES[games_check.index][games_check.Player].dir != dir){
           //console.log(matchmaking.STARTED_GAMES[games_check.index][games_check.Player].dir)
           matchmaking.STARTED_GAMES[games_check.index][games_check.Player].dir = dir;
-            console.log(matchmaking.STARTED_GAMES[games_check.index].player1.dir)
           matchmaking.STARTED_GAMES[games_check.index][games_check.Player].socket.emit('Change_direction_you', dir);
           matchmaking.STARTED_GAMES[games_check.index][games_check.NotPlayer].socket.emit('Change_direction_enemy', dir);
           if(dir == 1){
             matchmaking.STARTED_GAMES[games_check.index][games_check.Player].facing = "right"
+            matchmaking.STARTED_GAMES[games_check.index][games_check.Player].x_speed = 2;
           }
           if(dir == -1){
             matchmaking.STARTED_GAMES[games_check.index][games_check.Player].facing = "left"
+            matchmaking.STARTED_GAMES[games_check.index][games_check.Player].x_speed = -2;
           }
         }
       }
