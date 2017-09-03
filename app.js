@@ -110,11 +110,11 @@ socket.on('move', function(data){
 });
 
 socket.on('jump', function(){
-  communication.jump(socket)
-})
+  communication.jump(socket);
+});
 
 socket.on("disconnect",function(){
-  matchmaking.disconnect(socket)
+  matchmaking.disconnect(socket);
 });
 });
 			/*for(var i = 0; i < GAMES.length; i++){

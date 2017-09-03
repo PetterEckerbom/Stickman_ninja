@@ -2,13 +2,14 @@ let matchmaking = require('./matchmaking_server.js');
 let physics = require('./physics.js');
 
 setInterval(function(){
+    matchmaking.setstate();
     physics.move_players();
     physics.move_down();
-},1000/30)
+},1000/30);
 
 setInterval(function(){
   for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
-    sync(matchmaking.STARTED_GAMES[i].player1, matchmaking.STARTED_GAMES[i].player2)
+    sync(matchmaking.STARTED_GAMES[i].players[0], matchmaking.STARTED_GAMES[i].players[1]);
   }
 },1000);
 

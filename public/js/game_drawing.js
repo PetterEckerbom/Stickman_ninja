@@ -15,7 +15,7 @@ function draw_players(){
       for(var i = 0; i < 2; i++){
       var color ="RED_";
       if(i == 0){
-        color = "BLUE_"
+        color = "BLUE_";
       }
      var sprite = document.getElementById(color+players[i].animation.sprite+"_"+players[i].facing);
      var xcrop = (players[i].frame%players[i].animation.frames)*players[i].animation.width;
@@ -38,7 +38,7 @@ function animation_change_enemy(animation){
     clearInterval(enemy_animation);
     players[1].frames = 1;
     players[1].animation = animation;
-    enemy_animation = setInterval(flipframes_enemy, animation.fps)
+    enemy_animation = setInterval(flipframes_enemy, animation.fps);
   }
 
 }
@@ -55,8 +55,8 @@ function find_animation(player){
 
 
   if(players[0] == player){
-    animation_change_you(animation_found)
+    animation_change_you(animation_found);
   }else{
-    animation_change_enemy(animation_found)
+    animation_change_enemy(animation_found);
   }
 }

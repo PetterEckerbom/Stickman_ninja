@@ -38,9 +38,96 @@ var platform = [
 	}
 ];
 
+var walls = [
+	{
+		x:20,
+		ystart:300,
+		yend:500,
+		thickness:15,
+		bouncy:true
+	},
+	{
+		x:1245,
+		ystart:300,
+		yend:500,
+		thickness:15,
+		bouncy:true
+	},
+	{
+		x:485,
+		ystart:685,
+		yend:715,
+		thickness:15,
+		bouncy:false
+	},
+	{
+		x:50,
+		ystart:685,
+		yend:715,
+		thickness:15,
+		bouncy:false
+	},
+	{
+		x:780,
+		ystart:685,
+		yend:715,
+		thickness:15,
+		bouncy:false
+	},
+	{
+		x:1215,
+		ystart:685,
+		yend:715,
+		thickness:15,
+		bouncy:false
+	},
+	{
+		x:500,
+		ystart:305,
+		yend:335,
+		thickness:15,
+		bouncy:false
+	},
+	{
+		x:765,
+		ystart:305,
+		yend:335,
+		thickness:15,
+		bouncy:false
+	},
+	{
+		x:185,
+		ystart:105,
+		yend:135,
+		thickness:15,
+		bouncy:false
+	},
+	{
+		x:1080,
+		ystart:105,
+		yend:135,
+		thickness:15,
+		bouncy:false
+	},
+	{
+		x:0,
+		ystart:105,
+		yend:135,
+		thickness:15,
+		bouncy:false
+	},
+	{
+		x:1265,
+		ystart:105,
+		yend:135,
+		thickness:15,
+		bouncy:false
+	},
+];
+
 
 var animations = {
-	idle: {frames:8, width:150, height:300, hitbox_W:150, hitbox_H:300, sprite:"idle", fps:100},
-	running: {frames:3, width:290, height:310, hitbox_W:290, hitbox_H:310, sprite:"running", fps:100},
-	falling: {frames:3, width:200, height:300, hitbox_W:200, hitbox_H:300, sprite:"falling", fps:1000/15}
-}
+	idle: {frames:8, width:150, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"idle", fps:100},
+	running: {frames:3, width:290, height:310, hitbox_W:180/3, hitbox_H:310/3, sprite:"running", fps:100},
+	falling: {frames:3, width:200, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"falling", fps:1000/15}
+};

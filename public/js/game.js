@@ -6,11 +6,11 @@ window.onload = function() {
     for(var i=0;i<platform.length;i++){
 		ctx.fillRect(platform[i].xstart,platform[i].y,platform[i].xend - platform[i].xstart,platform[i].thickness);
 	}
-  startanimation()
+  startanimation();
 };
 var players = [
   you = {
-    name,
+    name:"",
     x:100,
     y:100,
     frame:1,
@@ -18,16 +18,16 @@ var players = [
     y_speed:0,
     dir:0,
     friction: 0.2,
-    accerelation:0.3,
+    accerelation:0.6,
     gravity: 0.4,
-    max_speed:7,
+    max_speed:12,
     state:"idle",
     enemy:false,
     facing:"right",
-    animation: animations.idle
+    animation: animations.idle,
   },
 enemy = {
-    name,
+    name:"",
     x:1180,
     y:100,
     frame:1,
@@ -35,9 +35,9 @@ enemy = {
     y_speed:0,
     dir:0,
     friction: 0.2,
-    accerelation:0.3,
+    accerelation:0.6,
     gravity: 0.4,
-    max_speed:7,
+    max_speed:12,
     state:"idle",
     facing:"left",
     animation: animations.idle
@@ -49,34 +49,32 @@ var ctx=c.getContext("2d");
 
 onkeydown = function(e){
   if(e.keyCode == 68){
-    socket.emit('move', 1)
+    socket.emit('move', 1);
   }
   if(e.keyCode == 65){
-    socket.emit('move', -1)
+    socket.emit('move', -1);
   }
-}
+};
 onkeyup = function(e){
   if(e.keyCode == 68 && players[0].dir == 1){
-    socket.emit('move', 0)
+    socket.emit('move', 0);
   }
   if(e.keyCode == 65 && players[0].dir == -1){
-    socket.emit('move', 0)
+    socket.emit('move', 0);
   }
   if(e.keyCode == 32){
-    socket.emit('jump', 0)
+    socket.emit('jump', 0);
   }
-}
+};
 
 socket.on('Change_direction_you', function(dir){
   players[0].dir = dir;
   if(dir == 1){
     players[0].facing = "right";
-    players[0].x_speed = 2;
     animation_change_you(animations.running);
   }
   if(dir == -1){
     players[0].facing = "left";
-    players[0].x_speed = -2;
     animation_change_you(animations.running);
   }
   if(dir == 0){
@@ -87,20 +85,38 @@ socket.on('Change_direction_enemy', function(dir){
   players[1].dir = dir;
   if(dir == 1){
     players[1].facing = "right";
-    players[1].x_speed = 2;
     animation_change_enemy(animations.running);
   }
   if(dir == -1){
     players[1].facing = "left";
-    players[1].x_speed = -2;
     animation_change_enemy(animations.running);
   }
   if(dir == 0){
     animation_change_enemy(animations.idle);
   }
 });
+socket.on('you_bounce',function(){
+  players[0].x_speed = players[0].x_speed*-1*10;
+  if(players[0].x_speed > 12){
+    players[0].x_speed = 12;
+  }else if(players[0].x_speed < -12){
+    players[0].x_speed = -12;
+  }
+  players[0].y_speed = -14;
+  players[0].dir =0;
+});
+socket.on('enemy_bounce',function(){
+  players[1].x_speed = players[1].x_speed*-1*10;
+  if(players[1].x_speed > 12){
+    players[1].x_speed = 12;
+  }else if(players[1].x_speed < -12){
+    players[1].x_speed = -12;
+  }
+  players[1].y_speed = -14;
+  players[1].dir =0;
+});
+
 socket.on('sync', function(players_skinned){
-  console.log(players_skinned.you.y)
   players[0].x = players_skinned.you.x;
   players[0].y = players_skinned.you.y;
   players[0].x_speed = players_skinned.you.x_speed;
@@ -131,6 +147,11 @@ setInterval(function () {
   for(var i=0;i<platform.length;i++){
   ctx.fillRect(platform[i].xstart,platform[i].y,platform[i].xend - platform[i].xstart,platform[i].thickness);
   }
+  ctx.fillStyle="#00f735";
+  for(var y=0;y<walls.length;y++){
+  ctx.fillRect(walls[y].x,walls[y].ystart,walls[y].thickness,walls[y].yend - walls[y].ystart);
+  }
+
   move_down();
   move_players();
   draw_players();
