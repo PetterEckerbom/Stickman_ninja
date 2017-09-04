@@ -145,11 +145,11 @@ setInterval(function () {
   ctx.clearRect(0, 0, c.width, c.height);
   ctx.fillStyle="#ff0026";
   for(var i=0;i<platform.length;i++){
-  ctx.fillRect(platform[i].xstart,platform[i].y,platform[i].xend - platform[i].xstart,platform[i].thickness);
+  ctx.fillRect(platform[i].xstart+100,platform[i].y+50,(platform[i].xend - platform[i].xstart),platform[i].thickness);
   }
   ctx.fillStyle="#00f735";
   for(var y=0;y<walls.length;y++){
-  ctx.fillRect(walls[y].x,walls[y].ystart,walls[y].thickness,walls[y].yend - walls[y].ystart);
+  ctx.fillRect(walls[y].x+100,walls[y].ystart+50,walls[y].thickness,walls[y].yend - walls[y].ystart);
   }
 
   move_down();

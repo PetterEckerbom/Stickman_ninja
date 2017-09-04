@@ -21,7 +21,7 @@ function draw_players(){
      var xcrop = (players[i].frame%players[i].animation.frames)*players[i].animation.width;
      var player_width = players[i].animation.width;
      var player_height = players[i].animation.height;
-     ctx.drawImage(sprite,xcrop,0,player_width,player_height,players[i].x-((player_width/3)/2),players[i].y-(player_height/3),player_width/3,player_height/3);
+     ctx.drawImage(sprite,xcrop,0,player_width,player_height,players[i].x-((player_width/3)/2)+100,players[i].y-(player_height/3)+50,player_width/3,player_height/3);
    }
 }
 

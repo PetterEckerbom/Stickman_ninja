@@ -165,14 +165,14 @@ var findplayer = function(array, id){
 	 var index = array.map(function(e) { return e.player1ID; }).indexOf(id);
 	 if(index != -1){
 		 //if there is a player in the array and it is set to player1 we return that as an object. (we also return the other player because why not?)
-		 return{Player: 0,NotPlayer:1,  index: index}
+		 return{Player: 0,NotPlayer:1,  index: index};
 	 }else{
 		 //if there are no player1 we check player2
 		 index = array.map(function(e) { return e.player2ID; }).indexOf(id);
 	 }
 	 if(index != -1){
 		 //if there is a player2 we do same thing as player1 but inverted
-		 return{Player: 1,NotPlayer:0, index: index}
+		 return{Player: 1,NotPlayer:0, index: index};
 	 }else{
 		 //if no player found we return -1
 		 return -1;
