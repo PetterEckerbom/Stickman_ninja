@@ -20,7 +20,7 @@ function player(id, elo, name, socket){
 	this.max_speed = 12;
 	this.dir = 0;
 	this.friction = 0.2;
-	this.accerelation = 0.6;
+	this.accerelation = 0.45;
 	this.gravity = 0.4;
 	this.facing = null;
 	this.action = "Idle";
