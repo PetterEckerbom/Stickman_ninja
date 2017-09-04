@@ -1,6 +1,6 @@
 let matchmaking = require('./matchmaking_server.js');
 let info = require('./information.js');
-
+let gameclock = require('./game_clock.js');
 exports.move_players = function(){
   for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
     for(var y = 0; y < 2; y++){
@@ -94,6 +94,7 @@ function check_x_move(player){
       if(player.y - player.state.hitbox_H <  info.walls[i].yend && player.y > info.walls[i].ystart){
         if(info.walls[i].bouncy){
           var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);
+          gameclock.sync(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player], matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer]);
           matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].socket.emit('you_bounce');
           matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].socket.emit('enemy_bounce');
           return "bounce";

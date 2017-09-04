@@ -46,7 +46,17 @@ enemy = {
 //to make sure canvas doesnt get to big
 var c=document.getElementById("main");
 var ctx=c.getContext("2d");
+var server_time = 0;
+var client_time = null;
+socket.on('server_time',function(time){
+  clearInterval(client_time);
+  server_time = time;
+  client_time = setInterval(increase_time,5);
+});
 
+function increase_time(){
+  server_time += 5;
+}
 onkeydown = function(e){
   if(e.keyCode == 68){
     socket.emit('move', 1);
@@ -117,21 +127,47 @@ socket.on('enemy_bounce',function(){
 });
 
 socket.on('sync', function(players_skinned){
-  players[0].x = players_skinned.you.x;
-  players[0].y = players_skinned.you.y;
-  players[0].x_speed = players_skinned.you.x_speed;
-  players[0].y_speed = players_skinned.you.y_speed;
+  var n  = Math.abs(server_time - players_skinned.time);
+  var friction = 0;
+  if(players_skinned.you.x_speed > 0){
+    friction = -1;
+  }else if(players_skinned.you.x_speed < 0){
+    friction = 1;
+  }
+  players[0].x_speed = players_skinned.you.x_speed + (((players[0].accerelation - players[0].friction*friction)*n)/(1000/30));
+  if(players_skinned.you.x_speed == 0){
+    players[0].x_speed = 0;
+  }
+  players[0].y_speed = players_skinned.you.y_speed +((players[0].gravity * n)/(1000/30));
+  if(players_skinned.you.y_speed == 0){
+    players[0].y_speed = 0;
+  }
+  players[0].x = players_skinned.you.x + ((players[0].x_speed * n)/(1000/30));
+  players[0].y = players_skinned.you.y + ((players[0].y_speed * n)/(1000/30));
   players[0].facing = players_skinned.you.facing;
   players[0].dir = players_skinned.you.dir;
 
-  players[1].x = players_skinned.enemy.x;
-  players[1].y = players_skinned.enemy.y;
-  players[1].x_speed = players_skinned.enemy.x_speed;
-  players[1].y_speed = players_skinned.enemy.y_speed;
+  friction = 0;
+  if(players_skinned.enemy.x_speed > 0){
+    friction = -1;
+  }else if(players_skinned.enemy.x_speed < 0){
+    friction = 1;
+  }
+  players[1].x_speed = players_skinned.enemy.x_speed + (((players[1].accerelation - players[1].friction*friction)*n)/(100/30));
+  if(players_skinned.enemy.x_speed == 0){
+    players[1].x_speed = 0;
+  }
+  players[1].y_speed = players_skinned.enemy.y_speed +((players[1].gravity * n)/(1000/30));
+  if(players_skinned.enemy.y_speed == 0){
+    players[1].y_speed = 0;
+  }
+  players[1].x = players_skinned.enemy.x + ((players[1].x_speed * n)/(1000/30));
+  players[1].y = players_skinned.enemy.y + ((players[1].y_speed * n)/(1000/30));
   players[1].facing = players_skinned.enemy.facing;
   players[1].dir = players_skinned.enemy.dir;
 
 });
+
 socket.on('you_jump',function(){
   players[0].y_speed = -14;
 });
