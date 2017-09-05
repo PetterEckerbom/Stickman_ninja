@@ -28,6 +28,8 @@ function player(id, elo, name, socket){
 	this.id = id;
 	this.socket = socket;
 	this.name = name;
+	this.time = 0;
+	this.ping = 0;
 }
 //this one is for the "wrap" that the players are in and pretty much whole game
 function game_instance(player, type,id){
@@ -156,9 +158,9 @@ exports.find_match_friend = function(socket, code){
 			STARTED_GAMES.push(FriendQueue[code]);
 			delete FriendQueue.code;
 		}else{
-			socket.emit('No_code')
+			socket.emit('No_code');
 		}
-}
+};
 
 var findplayer = function(array, id){
 	//checks if there are a player with a given id in a given array

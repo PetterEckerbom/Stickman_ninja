@@ -113,6 +113,15 @@ socket.on('jump', function(){
   communication.jump(socket);
 });
 
+socket.on('back_ping',function(){
+  var gamecheck = matchmaking.findplayer(matchmaking.STARTED_GAMES,socket.id);
+  var d = new Date();
+  var n = d.getTime();
+  if(gamecheck != -1){
+    matchmaking.STARTED_GAMES[gamecheck.index].players[gamecheck.Player].ping = (n - matchmaking.STARTED_GAMES[gamecheck.index].players[gamecheck.Player].time)/2;
+  }
+});
+
 socket.on("disconnect",function(){
   matchmaking.disconnect(socket);
 });

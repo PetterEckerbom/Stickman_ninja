@@ -48,7 +48,7 @@ var c=document.getElementById("main");
 var ctx=c.getContext("2d");
 var server_time = 0;
 var client_time = null;
-socket.on('server_time',function(time){
+/*socket.on('server_time',function(time){
   clearInterval(client_time);
   server_time = time;
   client_time = setInterval(increase_time,5);
@@ -56,7 +56,7 @@ socket.on('server_time',function(time){
 
 function increase_time(){
   server_time += 5;
-}
+}*/
 onkeydown = function(e){
   if(e.keyCode == 68){
     socket.emit('move', 1);
@@ -126,8 +126,13 @@ socket.on('enemy_bounce',function(){
   players[1].dir =0;
 });
 
+socket.on('ping',function(){
+  socket.emit('back_ping');
+});
+
 socket.on('sync', function(players_skinned){
-  var n  = Math.abs(server_time - players_skinned.time);
+  var n = players_skinned.ping;
+  document.getElementById('ping').innerHTML = "Ping:"+Math.round(n)+"ms";
   var friction = 0;
   if(players_skinned.you.x_speed > 0){
     friction = -1;

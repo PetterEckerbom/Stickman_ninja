@@ -11,3 +11,6 @@ canvas{
 .invis{
   display:none;
 }
+h1{
+  position: absolute;
+}
