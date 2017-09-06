@@ -1,4 +1,8 @@
 /*Canvas css, centers it and gives background pretty much*/
+body{
+  overflow: hidden;
+  background:black;
+}
 canvas{
   display:block;
   width: auto;
@@ -12,5 +16,7 @@ canvas{
   display:none;
 }
 h1{
+  color:white;
+  top:0;
   position: absolute;
 }

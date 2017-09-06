@@ -2,9 +2,21 @@ function move_players(){
   for(var i = 0; i < 2; i++){
     var do_what = check_x_move(players[i]);
     if(do_what == "stop"){
+      if(players[i].x_speed < 0){
+        players[i].x += 5;
+      }else{
+        players[i].x -= 5;
+      }
       players[i].x_speed = 0;
-    }else if(do_what == "wait"){
-      console.log("predicting bounce");
+    }else if(do_what == "bounce"){
+      players[i].x_speed = players[i].x_speed*-1*10;
+      if(players[i].x_speed > 12){
+        players[i].x_speed = 12;
+      }else if(players[i].x_speed < -12){
+        players[i].x_speed = -12;
+      }
+      players[i].y_speed = -12;
+      players[i].dir = 0;
     }
         if(players[i].dir != 0){
           if(players[i].x_speed < players[i].max_speed && players[i].x_speed > players[i].max_speed*-1){
@@ -83,7 +95,7 @@ function check_x_move(player){
     if(player.x + (player.animation.hitbox_W/2) + player.x_speed >= walls[i].x && player.x - (player.animation.hitbox_W/2) + player.x_speed <= walls[i].x +walls[i].thickness ){
       if(player.y - player.animation.hitbox_W <  walls[i].yend && player.y > walls[i].ystart){
         if(walls[i].bouncy){
-          return "wait";
+          return "bounce";
         }else{
           return "stop";
         }

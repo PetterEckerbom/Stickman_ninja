@@ -13,6 +13,7 @@ exports.FriendQueue = FriendQueue;
 
 //custructos below... pretty self explanatory
 function player(id, elo, name, socket){
+	this.jumpready = true;
 	this.x = 0;
 	this.y = 100;
 	this.x_speed = 0;
@@ -67,8 +68,8 @@ exports.find_ranked = function(socket, type){
         RankedQueue[index].players[1] = plyr;
         RankedQueue[index].player2ID = plyr.id;
 				//we notefie the clients that the game has started and the opponents name, the rest the can figuer out on their own
-        RankedQueue[index].players[1].socket.emit("Game_start", RankedQueue[index].players[0].name);
-        RankedQueue[index].players[0].socket.emit("Game_start", RankedQueue[index].players[1].name);
+        RankedQueue[index].players[1].socket.emit("Game_start", {you:RankedQueue[index].players[1].name, enemy: RankedQueue[index].players[0].name});
+        RankedQueue[index].players[0].socket.emit("Game_start", {you:RankedQueue[index].players[0].name, enemy: RankedQueue[index].players[1].name});
 				var player1_skinned = {x: RankedQueue[index].players[0].x, y: RankedQueue[index].players[0].y,x_speed: RankedQueue[index].players[0].x_speed, y_speed: RankedQueue[index].players[0].y_speed,facing: RankedQueue[index].players[0].facing, dir: RankedQueue[index].players[0].dir};
 			  var player2_skinned = {x: RankedQueue[index].players[1].x, y: RankedQueue[index].players[1].y,x_speed: RankedQueue[index].players[1].x_speed, y_speed: RankedQueue[index].players[1].y_speed,facing: RankedQueue[index].players[1].facing, dir: RankedQueue[index].players[1].dir};
 			  RankedQueue[index].players[0].socket.emit('sync', {you:player1_skinned,enemy:player2_skinned});
@@ -100,8 +101,8 @@ exports.find_casual = function(socket){
 	        CasualQueue[i].players[1] = plyr;
 	        CasualQueue[i].player2ID = plyr.id;
 					//we notefie the clients that the game has started and the opponents name, the rest the can figuer out on their own
-	        CasualQueue[i].players[1].socket.emit("Game_start", CasualQueue[i].players[0].name);
-	        CasualQueue[i].players[0].socket.emit("Game_start", CasualQueue[i].players[1].name);
+	        CasualQueue[i].players[1].socket.emit("Game_start", {you:CasualQueue[i].players[1].name, enemy: CasualQueue[i].players[0].name});
+	        CasualQueue[i].players[0].socket.emit("Game_start", {you:CasualQueue[i].players[1].name, enemy: CasualQueue[i].players[0].name});
 					var index = i;
 					var player1_skinned = {x: CasualQueue[index].players[0].x, y: CasualQueue[index].players[0].y,x_speed: CasualQueue[index].players[0].x_speed, y_speed: CasualQueue[index].players[0].y_speed,facing: CasualQueue[index].players[0].facing, dir: CasualQueue[index].players[0].dir};
 				  var player2_skinned = {x: CasualQueue[index].players[1].x, y: CasualQueue[index].players[1].y,x_speed: CasualQueue[index].players[1].x_speed, y_speed: CasualQueue[index].players[1].y_speed,facing: CasualQueue[index].players[1].facing, dir: CasualQueue[index].players[1].dir};
@@ -149,8 +150,8 @@ exports.find_match_friend = function(socket, code){
 		if(FriendQueue[code]){
 			FriendQueue[code].players[1] = plyr;
 			FriendQueue[code].player2ID = plyr.id;
-			FriendQueue[code].players[1].socket.emit("Game_start", FriendQueue[code].players[0].name);
-			FriendQueue[code].players[0].socket.emit("Game_start", FriendQueue[code].players[1].name);
+			FriendQueue[code].players[1].socket.emit("Game_start", {you:FriendQueue[code].players[1].name, enemy: FriendQueue[code].players[0].name});
+			FriendQueue[code].players[0].socket.emit("Game_start", {you:FriendQueue[code].players[0].name, enemy: FriendQueue[code].players[1].name});
 			var player1_skinned = {x:FriendQueue[code].players[0].x, y:FriendQueue[code].players[0].y,x_speed:FriendQueue[code].players[0].x_speed, y_speed:FriendQueue[code].players[0].y_speed,facing:FriendQueue[code].players[0].facing, dir:FriendQueue[code].players[0].dir};
 			var player2_skinned = {x:FriendQueue[code].players[1].x, y:FriendQueue[code].players[1].y,x_speed:FriendQueue[code].players[1].x_speed, y_speed:FriendQueue[code].players[1].y_speed,facing:FriendQueue[code].players[1].facing, dir:FriendQueue[code].players[1].dir};
 			FriendQueue[code].players[0].socket.emit('sync', {you:player1_skinned,enemy:player2_skinned});

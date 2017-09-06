@@ -1,5 +1,20 @@
 //Just draws all platforms
 window.onload = function() {
+  if(window.innerWidth >= 1480 && window.innerHeight >= 820){
+    document.getElementById("main").width = window.innerWidth;
+    document.getElementById("main").height = window.innerHeight;
+    xoffset = (window.innerWidth - 1480)/2;
+    yoffset = (window.innerHeight - 820)/2;
+    document.getElementById("main").style.maxWidth = "none";
+    document.getElementById("main").style.maxHeight = "none";
+  }else{
+    document.getElementById("main").width = 1480;
+    document.getElementById("main").height = 820;
+    xoffset = 100;
+    yoffset = 50;
+    document.getElementById("main").style.maxWidth = window.innerWidth-50 + "px";
+    document.getElementById("main").style.maxHeight = window.innerHeight-50 + "px";
+  }
     var c=document.getElementById("main");
     var ctx=c.getContext("2d");
 	  ctx.fillStyle="#ff0026";
@@ -105,7 +120,7 @@ socket.on('Change_direction_enemy', function(dir){
     animation_change_enemy(animations.idle);
   }
 });
-socket.on('you_bounce',function(){
+/*socket.on('you_bounce',function(){
   players[0].x_speed = players[0].x_speed*-1*10;
   if(players[0].x_speed > 12){
     players[0].x_speed = 12;
@@ -124,7 +139,7 @@ socket.on('enemy_bounce',function(){
   }
   players[1].y_speed = -14;
   players[1].dir =0;
-});
+});*/
 
 socket.on('ping',function(){
   socket.emit('back_ping');
@@ -174,10 +189,10 @@ socket.on('sync', function(players_skinned){
 });
 
 socket.on('you_jump',function(){
-  players[0].y_speed = -14;
+  players[0].y_speed = -13;
 });
 socket.on('enemy_jump',function(){
-  players[1].y_speed = -14;
+  players[1].y_speed = -13;
 });
 
 
@@ -186,11 +201,11 @@ setInterval(function () {
   ctx.clearRect(0, 0, c.width, c.height);
   ctx.fillStyle="#ff0026";
   for(var i=0;i<platform.length;i++){
-  ctx.fillRect(platform[i].xstart+100,platform[i].y+50,(platform[i].xend - platform[i].xstart),platform[i].thickness);
+  ctx.fillRect(platform[i].xstart+xoffset,platform[i].y+yoffset,(platform[i].xend - platform[i].xstart),platform[i].thickness);
   }
   ctx.fillStyle="#00f735";
   for(var y=0;y<walls.length;y++){
-  ctx.fillRect(walls[y].x+100,walls[y].ystart+50,walls[y].thickness,walls[y].yend - walls[y].ystart);
+  ctx.fillRect(walls[y].x+xoffset,walls[y].ystart+yoffset,walls[y].thickness,walls[y].yend - walls[y].ystart);
   }
 
   move_down();

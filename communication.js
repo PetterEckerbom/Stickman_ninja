@@ -25,12 +25,15 @@ exports.jump = function(socket){
   var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
   if(games_check != -1){
 
-    if(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y_speed == 0){
-      matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y_speed = -14;
+    if(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].jumpready){
+      if(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y_speed != 0){
+        matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].jumpready = false;
+      }
+      matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y_speed = -11.5;
       gameclock.sync(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player], matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer]);
-      
-      matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].socket.emit('you_jump');
-      matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].socket.emit('enemy_jump');
+
+      /*matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].socket.emit('you_jump');
+      matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].socket.emit('enemy_jump');*/
     }
   }
 };

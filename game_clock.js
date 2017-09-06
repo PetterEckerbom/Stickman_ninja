@@ -17,7 +17,7 @@ setInterval(function(){
     matchmaking.STARTED_GAMES[i].players[0].socket.emit('ping');
     matchmaking.STARTED_GAMES[i].players[1].socket.emit('ping');
   }
-},1000);
+},700);
 /*setInterval(function(){
   for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
     var d = new Date();

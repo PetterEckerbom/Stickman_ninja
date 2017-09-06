@@ -12,17 +12,34 @@ socket.on("waiting_friend",function(code){
 //When server says game should start we remve matchmaking div
 socket.on("Game_start",function(name){
   console.log('you are now in a game with '+name);
+  players[0].name = name.you;
+  players[1].name = name.enemy;
   document.getElementById('matchmaking').innerHTML="";
-  document.getElementById('matchmaking').style.width ="none"
-  document.getElementById('matchmaking').style.width ="0"
-  document.getElementById('matchmaking').style.height ="0"
-  document.getElementById('matchmaking').style.background ="none"
+  document.getElementById('matchmaking').style.width ="none";
+  document.getElementById('matchmaking').style.width ="0";
+  document.getElementById('matchmaking').style.height ="0";
+  document.getElementById('matchmaking').style.background ="none";
 });
-document.getElementById("main").style.maxHeight = window.innerHeight + "px";
+var xoffset;
+var yoffset;
+/*document.getElementById("main").style.maxHeight = window.innerHeight + "px";*/
    onresize = function(){
-     document.getElementById("main").style.maxWidth = window.innerWidth-50 + "px";
-     document.getElementById("main").style.maxHeight = window.innerHeight-50 + "px";
-   }
+     if(window.innerWidth >= 1480 && window.innerHeight >= 820){
+       document.getElementById("main").width = window.innerWidth;
+       document.getElementById("main").height = window.innerHeight;
+       xoffset = (window.innerWidth - 1480)/2;
+       yoffset = (window.innerHeight - 820)/2;
+       document.getElementById("main").style.maxWidth = "none";
+       document.getElementById("main").style.maxHeight = "none";
+     }else{
+       document.getElementById("main").width = 1480;
+       document.getElementById("main").height = 820;
+       xoffset = 100;
+       yoffset = 50;
+       document.getElementById("main").style.maxWidth = window.innerWidth + "px";
+       document.getElementById("main").style.maxHeight = window.innerHeight + "px";
+     }
+   };
 
 socket.on("code_taken", function(){
   alert('Sorry, someone already uses this code. Please pick another code');

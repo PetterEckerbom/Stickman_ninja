@@ -15,6 +15,11 @@ exports.move_players = function(){
         matchmaking.STARTED_GAMES[i].players[y].y_speed = -14;
         matchmaking.STARTED_GAMES[i].players[y].dir = 0;
       }else if(do_what == "stop"){
+        if(matchmaking.STARTED_GAMES[i].players[y].x_speed < 0){
+          matchmaking.STARTED_GAMES[i].players[y].x += 5;
+        }else{
+          matchmaking.STARTED_GAMES[i].players[y].x -= 5;
+        }
         matchmaking.STARTED_GAMES[i].players[y].x_speed = 0;
       }
         if(matchmaking.STARTED_GAMES[i].players[y].dir != 0){
@@ -58,6 +63,7 @@ exports.move_down = function(){
     }else{
        matchmaking.STARTED_GAMES[i].players[y].y=y_check;
         matchmaking.STARTED_GAMES[i].players[y].y_speed = 0;
+        matchmaking.STARTED_GAMES[i].players[y].jumpready = true;
     }
   }
 }
@@ -94,9 +100,9 @@ function check_x_move(player){
       if(player.y - player.state.hitbox_H <  info.walls[i].yend && player.y > info.walls[i].ystart){
         if(info.walls[i].bouncy){
           var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);
-          gameclock.sync(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player], matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer]);
+          /*gameclock.sync(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player], matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer]);
           matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].socket.emit('you_bounce');
-          matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].socket.emit('enemy_bounce');
+          matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].socket.emit('enemy_bounce');*/
           return "bounce";
         }else{
           return "stop";
