@@ -12,8 +12,8 @@ window.onload = function() {
     document.getElementById("main").height = 820;
     xoffset = 100;
     yoffset = 50;
-    document.getElementById("main").style.maxWidth = window.innerWidth-50 + "px";
-    document.getElementById("main").style.maxHeight = window.innerHeight-50 + "px";
+    document.getElementById("main").style.maxWidth = window.innerWidth + "px";
+    document.getElementById("main").style.maxHeight = window.innerHeight + "px";
   }
     var c=document.getElementById("main");
     var ctx=c.getContext("2d");

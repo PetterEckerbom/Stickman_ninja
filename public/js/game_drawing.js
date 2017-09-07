@@ -14,7 +14,6 @@ function flipframes_you(){
 function draw_players(){
   ctx.fillStyle="#0000ff";
   ctx.font="20px Arial";
-  ctx.fillText("hej",0,100);
       for(var i = 0; i < 2; i++){
       var color ="RED_";
       if(i == 0){
