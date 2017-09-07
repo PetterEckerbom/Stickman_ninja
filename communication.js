@@ -48,7 +48,7 @@ exports.ping = function(){
     matchmaking.STARTED_GAMES[i].players[1].time = time;
     matchmaking.STARTED_GAMES[i].players[0].pingID = id;
     matchmaking.STARTED_GAMES[i].players[1].pingID = id2;
-    matchmaking.STARTED_GAMES[i].players[0].socket.emit('ping', id);
-    matchmaking.STARTED_GAMES[i].players[1].socket.emit('ping', id2);
+    matchmaking.STARTED_GAMES[i].players[0].socket.emit('ping', {id:id,ping:matchmaking.STARTED_GAMES[i].players[0].ping});
+    matchmaking.STARTED_GAMES[i].players[1].socket.emit('ping', {id:id2,ping:matchmaking.STARTED_GAMES[i].players[1].ping});
   }
 };
