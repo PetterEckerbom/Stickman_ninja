@@ -2,11 +2,11 @@ var socket = io();
 
 //When server doen't find a match at first we tell client to wait by displaing text and a image that spinns from css
 socket.on("waiting",function(){
-  document.getElementById('wrap').innerHTML ="<img src='img/loading.png' id='loading'/><br><br><br><br>Looking for opponent..."
+  document.getElementById('wrap').innerHTML ="<img src='img/loading.png' id='loading'/><br><br><br><br>Looking for opponent...";
 });
 
 socket.on("waiting_friend",function(code){
-  document.getElementById('wrap').innerHTML ="<img src='img/loading.png' id='loading'/><br><br><br><br>Waiting for friend to connect to game " + code + "...."
+  document.getElementById('wrap').innerHTML ="<img src='img/loading.png' id='loading'/><br><br><br><br>Waiting for friend to connect to game " + code + "....";
 });
 
 //When server says game should start we remve matchmaking div

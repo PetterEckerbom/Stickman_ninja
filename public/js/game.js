@@ -141,8 +141,8 @@ socket.on('enemy_bounce',function(){
   players[1].dir =0;
 });*/
 
-socket.on('ping',function(){
-  socket.emit('back_ping');
+socket.on('ping',function(id){
+  socket.emit('back_ping', id);
 });
 
 socket.on('sync', function(players_skinned){

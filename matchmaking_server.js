@@ -2,6 +2,8 @@
 let main = require('./app.js');
 let info = require('./information.js');
 let game = require('./game_clock.js');
+var gameclock = require('./game_clock.js');
+
 var RankedQueue = [];
 var CasualQueue = [];
 var FriendQueue = {};
@@ -31,6 +33,7 @@ function player(id, elo, name, socket){
 	this.name = name;
 	this.time = 0;
 	this.ping = 0;
+	this.pingID = 0;
 }
 //this one is for the "wrap" that the players are in and pretty much whole game
 function game_instance(player, type,id){
@@ -70,10 +73,7 @@ exports.find_ranked = function(socket, type){
 				//we notefie the clients that the game has started and the opponents name, the rest the can figuer out on their own
         RankedQueue[index].players[1].socket.emit("Game_start", {you:RankedQueue[index].players[1].name, enemy: RankedQueue[index].players[0].name});
         RankedQueue[index].players[0].socket.emit("Game_start", {you:RankedQueue[index].players[0].name, enemy: RankedQueue[index].players[1].name});
-				var player1_skinned = {x: RankedQueue[index].players[0].x, y: RankedQueue[index].players[0].y,x_speed: RankedQueue[index].players[0].x_speed, y_speed: RankedQueue[index].players[0].y_speed,facing: RankedQueue[index].players[0].facing, dir: RankedQueue[index].players[0].dir};
-			  var player2_skinned = {x: RankedQueue[index].players[1].x, y: RankedQueue[index].players[1].y,x_speed: RankedQueue[index].players[1].x_speed, y_speed: RankedQueue[index].players[1].y_speed,facing: RankedQueue[index].players[1].facing, dir: RankedQueue[index].players[1].dir};
-			  RankedQueue[index].players[0].socket.emit('sync', {you:player1_skinned,enemy:player2_skinned});
-			  RankedQueue[index].players[1].socket.emit('sync', {you:player2_skinned,enemy:player1_skinned});
+				gameclock.sync(  RankedQueue[index].players[0],  RankedQueue[index].players[1]);
 				//we remove game from the queue and add it to games that have started
 				STARTED_GAMES.push(RankedQueue[index]);
 				RankedQueue.splice(index, 1);
@@ -97,17 +97,13 @@ exports.find_casual = function(socket){
 		for(var i = 0; i < CasualQueue.length; i++){
 				if(CasualQueue[i].players[1]  == null){
 					plyr.x = 1180;
-	        plyr.facing = "left"
+	        plyr.facing = "left";
 	        CasualQueue[i].players[1] = plyr;
 	        CasualQueue[i].player2ID = plyr.id;
 					//we notefie the clients that the game has started and the opponents name, the rest the can figuer out on their own
 	        CasualQueue[i].players[1].socket.emit("Game_start", {you:CasualQueue[i].players[1].name, enemy: CasualQueue[i].players[0].name});
 	        CasualQueue[i].players[0].socket.emit("Game_start", {you:CasualQueue[i].players[1].name, enemy: CasualQueue[i].players[0].name});
-					var index = i;
-					var player1_skinned = {x: CasualQueue[index].players[0].x, y: CasualQueue[index].players[0].y,x_speed: CasualQueue[index].players[0].x_speed, y_speed: CasualQueue[index].players[0].y_speed,facing: CasualQueue[index].players[0].facing, dir: CasualQueue[index].players[0].dir};
-				  var player2_skinned = {x: CasualQueue[index].players[1].x, y: CasualQueue[index].players[1].y,x_speed: CasualQueue[index].players[1].x_speed, y_speed: CasualQueue[index].players[1].y_speed,facing: CasualQueue[index].players[1].facing, dir: CasualQueue[index].players[1].dir};
-				  CasualQueue[index].players[0].socket.emit('sync', {you:player1_skinned,enemy:player2_skinned});
-				  CasualQueue[index].players[1].socket.emit('sync', {you:player2_skinned,enemy:player1_skinned});
+					gameclock.sync(CasualQueue[i].players[0], CasualQueue[i].players[1]);
 					//we remove game from the queue and add it to games that have started
 					STARTED_GAMES.push(CasualQueue[i]);
 					CasualQueue.splice(i, 1);
@@ -118,14 +114,14 @@ exports.find_casual = function(socket){
 				//if we didnt find a game we create a new one and save player as player1 in that game.
 				if(!found){
 					plyr.x = 100;
-					plyr.facing = "right"
+					plyr.facing = "right";
 					var game = new game_instance(plyr,0,plyr.id);
 					CasualQueue.push(game);
 					//we tell the client that we are waiting for an opponent
 					plyr.socket.emit('waiting');
 				}
-			console.log(CasualQueue.length)
-}
+			console.log(CasualQueue.length);
+};
 
 exports.create_match_friend = function(socket, code){
 	var plyr = new player(socket.id, socket.handshake.session.user.elo,  socket.handshake.session.user.username, socket);
@@ -133,14 +129,14 @@ exports.create_match_friend = function(socket, code){
 			socket.emit('code_taken');
 		}else{
 			plyr.x = 100;
-			plyr.facing = "right"
+			plyr.facing = "right";
 			var game = new game_instance(plyr,0,plyr.id);
 			FriendQueue[code] = game;
 			//we tell the client that we are waiting for an opponent
 			plyr.socket.emit('waiting_friend', code);
 
 		}
-}
+};
 
 exports.find_match_friend = function(socket, code){
 	//console.log(FriendQueue[code])
@@ -152,10 +148,7 @@ exports.find_match_friend = function(socket, code){
 			FriendQueue[code].player2ID = plyr.id;
 			FriendQueue[code].players[1].socket.emit("Game_start", {you:FriendQueue[code].players[1].name, enemy: FriendQueue[code].players[0].name});
 			FriendQueue[code].players[0].socket.emit("Game_start", {you:FriendQueue[code].players[0].name, enemy: FriendQueue[code].players[1].name});
-			var player1_skinned = {x:FriendQueue[code].players[0].x, y:FriendQueue[code].players[0].y,x_speed:FriendQueue[code].players[0].x_speed, y_speed:FriendQueue[code].players[0].y_speed,facing:FriendQueue[code].players[0].facing, dir:FriendQueue[code].players[0].dir};
-			var player2_skinned = {x:FriendQueue[code].players[1].x, y:FriendQueue[code].players[1].y,x_speed:FriendQueue[code].players[1].x_speed, y_speed:FriendQueue[code].players[1].y_speed,facing:FriendQueue[code].players[1].facing, dir:FriendQueue[code].players[1].dir};
-			FriendQueue[code].players[0].socket.emit('sync', {you:player1_skinned,enemy:player2_skinned});
-			FriendQueue[code].players[1].socket.emit('sync', {you:player2_skinned,enemy:player1_skinned});
+			gameclock.sync(FriendQueue[code].players[0],FriendQueue[code].players[1]);
 			STARTED_GAMES.push(FriendQueue[code]);
 			delete FriendQueue.code;
 		}else{
@@ -180,7 +173,7 @@ var findplayer = function(array, id){
 		 //if no player found we return -1
 		 return -1;
 	 }
-}
+};
 
 exports.findplayer = findplayer;
 
@@ -207,8 +200,8 @@ exports.disconnect = function(socket){
 		}
 	}
 	console.log("Queue " + RankedQueue.length);
-	console.log("Running games "+STARTED_GAMES.length)
-}
+	console.log("Running games "+STARTED_GAMES.length);
+};
 
 exports.setstate = function(){
 	for(var i = 0; i < STARTED_GAMES.length; i++){
@@ -224,4 +217,4 @@ exports.setstate = function(){
 			}
 	}
 }
-}
+};
