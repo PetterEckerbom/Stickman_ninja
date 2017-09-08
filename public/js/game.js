@@ -141,13 +141,13 @@ socket.on('enemy_bounce',function(){
   players[1].dir =0;
 });*/
 
-socket.on('ping',function(){
-  socket.emit('back_ping');
+socket.on('ping',function(data){
+    document.getElementById('ping').innerHTML = "Ping:"+Math.round(data.ping)+"ms";
+  socket.emit('back_ping', data.id);
 });
 
 socket.on('sync', function(players_skinned){
   var n = players_skinned.ping;
-  document.getElementById('ping').innerHTML = "Ping:"+Math.round(n)+"ms";
   var friction = 0;
   if(players_skinned.you.x_speed > 0){
     friction = -1;
