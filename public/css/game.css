@@ -2,7 +2,6 @@
 body{
   overflow: hidden;
   background:black;
-  zoom:0.85;
 }
 canvas{
   display:block;
