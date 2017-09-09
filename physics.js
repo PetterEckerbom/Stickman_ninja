@@ -30,13 +30,20 @@ exports.move_players = function(){
           }
         }
         if(matchmaking.STARTED_GAMES[i].players[y].x_speed > 0){
-          matchmaking.STARTED_GAMES[i].players[y].x_speed -= matchmaking.STARTED_GAMES[i].players[y].friction;
+          if(matchmaking.STARTED_GAMES[i].players[y].y_speed == 0 ){
+            matchmaking.STARTED_GAMES[i].players[y].x_speed -= matchmaking.STARTED_GAMES[i].players[y].friction;
+          }
+          matchmaking.STARTED_GAMES[i].players[y].x_speed -= (matchmaking.STARTED_GAMES[i].players[y].friction*1.5);
         }
         if(matchmaking.STARTED_GAMES[i].players[y].x_speed < 0){
-          matchmaking.STARTED_GAMES[i].players[y].x_speed += matchmaking.STARTED_GAMES[i].players[y].friction;
+          if(matchmaking.STARTED_GAMES[i].players[y].y_speed == 0 ){
+            matchmaking.STARTED_GAMES[i].players[y].x_speed += matchmaking.STARTED_GAMES[i].players[y].friction;
+          }
+          matchmaking.STARTED_GAMES[i].players[y].x_speed += (matchmaking.STARTED_GAMES[i].players[y].friction*1.5);
         }
-        if(matchmaking.STARTED_GAMES[i].players[y].dir == 0 && matchmaking.STARTED_GAMES[i].players[y].x_speed < 0.3 && matchmaking.STARTED_GAMES[i].players[y].x_speed> -0.3){
+        if(matchmaking.STARTED_GAMES[i].players[y].x_speed < 1 && matchmaking.STARTED_GAMES[i].players[y].x_speed> -1){
           matchmaking.STARTED_GAMES[i].players[y].x_speed = 0;
+          matchmaking.STARTED_GAMES[i].players[y].x_speed = 3*matchmaking.STARTED_GAMES[i].players[y].dir ;
         }
         matchmaking.STARTED_GAMES[i].players[y].x += matchmaking.STARTED_GAMES[i].players[y].x_speed;
       }

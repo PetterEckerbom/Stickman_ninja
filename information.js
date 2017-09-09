@@ -54,71 +54,71 @@ var walls = [
 	},
 	{
 		x:485,
-		ystart:682,
-		yend:718,
+		ystart:680,
+		yend:720,
 		thickness:15,
 		bouncy:false
 	},
 	{
 		x:50,
-		ystart:682,
-		yend:718,
+		ystart:680,
+		yend:720,
 		thickness:15,
 		bouncy:false
 	},
 	{
 		x:780,
-		ystart:682,
-		yend:718,
+		ystart:680,
+		yend:720,
 		thickness:15,
 		bouncy:false
 	},
 	{
 		x:1215,
-		ystart:682,
-		yend:718,
+		ystart:680,
+		yend:720,
 		thickness:15,
 		bouncy:false
 	},
 	{
 		x:500,
-		ystart:302,
-		yend:338,
+		ystart:300,
+		yend:340,
 		thickness:15,
 		bouncy:false
 	},
 	{
 		x:765,
-		ystart:302,
-		yend:338,
+		ystart:300,
+		yend:340,
 		thickness:15,
 		bouncy:false
 	},
 	{
 		x:185,
-		ystart:102,
-		yend:138,
+		ystart:100,
+		yend:140,
 		thickness:15,
 		bouncy:false
 	},
 	{
 		x:1080,
-		ystart:102,
-		yend:138,
+		ystart:100,
+		yend:140,
 		thickness:15,
 		bouncy:false
 	},
 	{
 		x:0,
-		ystart:102,
-		yend:138,
+		ystart:100,
+		yend:140,
 		thickness:15,
 		bouncy:false
 	},
 	{
 		x:1265,
-		ystart:102,
-		yend:138,
+		ystart:100,
+		yend:140,
 		thickness:15,
 		bouncy:false
 	},

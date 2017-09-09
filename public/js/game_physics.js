@@ -25,13 +25,20 @@ function move_players(){
           }
         }
         if(players[i].x_speed > 0){
-          players[i].x_speed -= players[i].friction;
+          if(players[i].y_speed == 0 ){
+            players[i].x_speed -= players[i].friction;
+          }
+          players[i].x_speed -= (players[i].friction*1.5);
         }
         if(players[i].x_speed < 0){
-          players[i].x_speed += players[i].friction;
+          if(players[i].y_speed == 0 ){
+            players[i].x_speed += players[i].friction;
+          }
+          players[i].x_speed += (players[i].friction*1.5);
         }
-        if(players[i].dir == 0 && players[i].x_speed < 0.3 && players[i].x_speed> -0.3){
+        if(players[i].x_speed < 1 && players[i].x_speed> -1){
           players[i].x_speed = 0;
+          players[i].x_speed = 3*players[i].dir;
         }
         players[i].x += players[i].x_speed;
 

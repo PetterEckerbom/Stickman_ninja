@@ -1,5 +1,5 @@
-let matchmaking = require('./matchmaking_server.js');
-let gameclock = require('./game_clock.js');
+var matchmaking = require('./matchmaking_server.js');
+var gameclock = require('./game_clock.js');
 
 exports.move_change = function(socket, dir){
   if(dir > 1 || dir < -1){
