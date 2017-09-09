@@ -5,7 +5,14 @@ exports.move_players = function(){
   for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
     for(var y = 0; y < 2; y++){
       var do_what = check_x_move(matchmaking.STARTED_GAMES[i].players[y]);
-      if(do_what == "bounce"){
+      if(do_what == "stop"){
+        if(matchmaking.STARTED_GAMES[i].players[y].x_speed < 0){
+          matchmaking.STARTED_GAMES[i].players[y].x += 5;
+        }else{
+          matchmaking.STARTED_GAMES[i].players[y].x -= 5;
+        }
+        matchmaking.STARTED_GAMES[i].players[y].x_speed = 0;
+      } else if(do_what == "bounce"){
         matchmaking.STARTED_GAMES[i].players[y].x_speed = matchmaking.STARTED_GAMES[i].players[y].x_speed*-1*10;
         if(matchmaking.STARTED_GAMES[i].players[y].x_speed > 12){
           matchmaking.STARTED_GAMES[i].players[y].x_speed = 12;
@@ -16,13 +23,6 @@ exports.move_players = function(){
         matchmaking.STARTED_GAMES[i].players[y].dir = 0;
         var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, matchmaking.STARTED_GAMES[i].players[y].socket.id);
         gameclock.sync(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player], matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer]);
-      }else if(do_what == "stop"){
-        if(matchmaking.STARTED_GAMES[i].players[y].x_speed < 0){
-          matchmaking.STARTED_GAMES[i].players[y].x += 5;
-        }else{
-          matchmaking.STARTED_GAMES[i].players[y].x -= 5;
-        }
-        matchmaking.STARTED_GAMES[i].players[y].x_speed = 0;
       }
         if(matchmaking.STARTED_GAMES[i].players[y].dir != 0){
           if(matchmaking.STARTED_GAMES[i].players[y].x_speed < matchmaking.STARTED_GAMES[i].players[y].max_speed && matchmaking.STARTED_GAMES[i].players[y].x_speed > matchmaking.STARTED_GAMES[i].players[y].max_speed*-1){
@@ -44,10 +44,11 @@ exports.move_players = function(){
   };
 
 exports.move_down = function(){
+  var y_check = null;
   for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
     for(var y = 0; y < 2; y++){
       if(matchmaking.STARTED_GAMES[i].players[y].y_speed < 0){
-        var y_check = check_head_collision(matchmaking.STARTED_GAMES[i].players[y]);
+        y_check = check_head_collision(matchmaking.STARTED_GAMES[i].players[y]);
         if(!y_check){
           matchmaking.STARTED_GAMES[i].players[y].y+=matchmaking.STARTED_GAMES[i].players[y].y_speed;
           matchmaking.STARTED_GAMES[i].players[y].y_speed += matchmaking.STARTED_GAMES[i].players[y].gravity;
@@ -56,7 +57,7 @@ exports.move_down = function(){
            matchmaking.STARTED_GAMES[i].players[y].y_speed = 1;
         }
       }else{
-    var y_check = check_feet_collision(matchmaking.STARTED_GAMES[i].players[y]);
+        y_check = check_feet_collision(matchmaking.STARTED_GAMES[i].players[y]);
   if(!y_check){
        matchmaking.STARTED_GAMES[i].players[y].y+=matchmaking.STARTED_GAMES[i].players[y].y_speed;
       if(matchmaking.STARTED_GAMES[i].players[y].y_speed < 17){
@@ -75,7 +76,7 @@ exports.move_down = function(){
 function check_feet_collision(player){
   for(var i = 0; i < info.platforms.length; i++){
     if(player.x + (player.state.hitbox_W/2)  >= info.platforms[i].xstart && player.x - (player.state.hitbox_W/2) <= info.platforms[i].xend){
-      if(player.y >= info.platforms[i].y && player.y <= info.platforms[i].y +  info.platforms[i].thickness){
+      if(player.y + player.y_speed>= info.platforms[i].y && player.y + player.y_speed <= info.platforms[i].y +  info.platforms[i].thickness){
         return info.platforms[i].y;
       }
     }
@@ -87,7 +88,7 @@ function check_head_collision(player){
   for(var i = 0; i < info.platforms.length; i++){
     if(info.platforms[i].thickness > 30){
       if(player.x + (player.state.hitbox_W/2) >= info.platforms[i].xstart && player.x - (player.state.hitbox_W/2) <= info.platforms[i].xend){
-        if(player.y - player.state.hitbox_H <= info.platforms[i].y + info.platforms[i].thickness && player.y - player.state.hitbox_H >= info.platforms[i].y){
+        if(player.y - player.state.hitbox_H + player.y_speed <= info.platforms[i].y + info.platforms[i].thickness && player.y - player.state.hitbox_H + player.y_speed >= info.platforms[i].y){
           return info.platforms[i].y+info.platforms[i].thickness+player.state.hitbox_H;
         }
       }

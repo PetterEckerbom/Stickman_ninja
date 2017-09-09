@@ -41,14 +41,14 @@ var platform = [
 var walls = [
 	{
 		x:20,
-		ystart:300,
+		ystart:350,
 		yend:500,
 		thickness:15,
 		bouncy:true
 	},
 	{
 		x:1245,
-		ystart:300,
+		ystart:350,
 		yend:500,
 		thickness:15,
 		bouncy:true

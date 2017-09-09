@@ -4,8 +4,8 @@ var communication = require('./communication.js');
 
 setInterval(function(){
     matchmaking.setstate();
-    physics.move_players();
     physics.move_down();
+    physics.move_players();
 },1000/30);
 
 setInterval(function(){

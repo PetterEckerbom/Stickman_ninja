@@ -61,14 +61,13 @@ function move_down(){
         players[i].y_speed = 0;
     }
   }
-    find_animation(players[i]);
 }
 }
 
 function check_feet_collision(player){
   for(var i = 0; i < platform.length; i++){
     if(player.x + (player.animation.hitbox_W/2) >= platform[i].xstart && player.x - (player.animation.hitbox_W/2) <= platform[i].xend){
-      if(player.y >= platform[i].y && player.y <= platform[i].y +  platform[i].thickness){
+      if(player.y + player.y_speed >= platform[i].y && player.y + player.y_speed <= platform[i].y +  platform[i].thickness){
         return platform[i].y;
       }
     }
@@ -80,7 +79,7 @@ function check_head_collision(player){
   for(var i = 0; i < platform.length; i++){
     if(platform[i].thickness > 30){
       if(player.x + (player.animation.hitbox_W/2) >= platform[i].xstart && player.x - (player.animation.hitbox_W/2) <= platform[i].xend){
-        if(player.y - player.animation.hitbox_H <= platform[i].y + platform[i].thickness && player.y - player.animation.hitbox_H >= platform[i].y){
+        if(player.y - player.animation.hitbox_H + player.y_speed<= platform[i].y + platform[i].thickness && player.y - player.animation.hitbox_H + player.y_speed >= platform[i].y){
           return platform[i].y+platform[i].thickness+player.animation.hitbox_H;
         }
       }
@@ -103,4 +102,12 @@ function check_x_move(player){
     }
     }
   return "normal";
+}
+
+function latency_comp(ping){
+  while(ping > 100/3){
+    move_players();
+    draw_players();
+    ping -= (100/3);
+  }
 }

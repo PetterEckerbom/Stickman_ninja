@@ -40,85 +40,85 @@ var platform = [
 var walls = [
 	{
 		x:20,
-		ystart:300,
+		ystart:350,
 		yend:500,
 		thickness:15,
 		bouncy:true
 	},
 	{
 		x:1245,
-		ystart:300,
+		ystart:350,
 		yend:500,
 		thickness:15,
 		bouncy:true
 	},
 	{
 		x:485,
-		ystart:680,
-		yend:720,
+		ystart:682,
+		yend:718,
 		thickness:15,
 		bouncy:false
 	},
 	{
 		x:50,
-		ystart:680,
-		yend:720,
+		ystart:682,
+		yend:718,
 		thickness:15,
 		bouncy:false
 	},
 	{
 		x:780,
-		ystart:680,
-		yend:720,
+		ystart:682,
+		yend:718,
 		thickness:15,
 		bouncy:false
 	},
 	{
 		x:1215,
-		ystart:680,
-		yend:720,
+		ystart:682,
+		yend:718,
 		thickness:15,
 		bouncy:false
 	},
 	{
 		x:500,
-		ystart:300,
-		yend:340,
+		ystart:302,
+		yend:338,
 		thickness:15,
 		bouncy:false
 	},
 	{
 		x:765,
-		ystart:300,
-		yend:340,
+		ystart:302,
+		yend:338,
 		thickness:15,
 		bouncy:false
 	},
 	{
 		x:185,
-		ystart:100,
-		yend:140,
+		ystart:102,
+		yend:138,
 		thickness:15,
 		bouncy:false
 	},
 	{
 		x:1080,
-		ystart:100,
-		yend:140,
+		ystart:102,
+		yend:138,
 		thickness:15,
 		bouncy:false
 	},
 	{
 		x:0,
-		ystart:100,
-		yend:140,
+		ystart:102,
+		yend:138,
 		thickness:15,
 		bouncy:false
 	},
 	{
 		x:1265,
-		ystart:100,
-		yend:140,
+		ystart:102,
+		yend:138,
 		thickness:15,
 		bouncy:false
 	},

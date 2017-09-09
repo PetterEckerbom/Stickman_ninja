@@ -11,13 +11,13 @@ var session = require("express-session")({
 });
 var mongoose = require('mongoose');
 var sharedsession = require("express-socket.io-session");
-let User = require('./models/user');
+var User = require('./models/user');
 var flash = require('connect-flash');
 var game_clock = require('./game_clock.js');
-var communication = require('./communication.js')
+var communication = require('./communication.js');
 
 //brings in exported functions from matchmaking such as tha matchmaking fuckion etc
-let matchmaking = require('./matchmaking_server.js');
+var matchmaking = require('./matchmaking_server.js');
 
 //makes anything in /public open for anyone to see
 app.use(express.static(path.join(__dirname, 'public')));
@@ -28,11 +28,11 @@ app.set('view engine', 'pug');
 
 //connect to database
 mongoose.connect('mongodb://localhost/stickman');
-let db =mongoose.connection;
+var db =mongoose.connection;
 
 //check connection
 db.once('open',function(){
-  console.log("connected to mongodb")
+  console.log("connected to mongodb");
 });
 
 //check db error
