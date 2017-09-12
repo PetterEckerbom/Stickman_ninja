@@ -78,14 +78,14 @@ io.on("connection", function(socket) {
     if(socket.handshake.session.user){
       matchmaking.find_ranked(socket, type);
     }else{
-      socket.emit('not_logged_in')
+      socket.emit('not_logged_in');
     }
 	});
   socket.on('match_making_casual',function(){
     if(socket.handshake.session.user){
       matchmaking.find_casual(socket);
     }else{
-      socket.emit('not_logged_in')
+      socket.emit('not_logged_in');
     }
 	});
   socket.on('match_making_friend',function(data){

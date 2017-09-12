@@ -31,9 +31,6 @@ exports.jump = function(socket){
       }
       matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y_speed = -11.5;
       gameclock.sync(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player], matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer]);
-
-      /*matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].socket.emit('you_jump');
-      matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].socket.emit('enemy_jump');*/
     }
   }
 };

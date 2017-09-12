@@ -72,15 +72,37 @@ var client_time = null;
 function increase_time(){
   server_time += 5;
 }*/
-onkeydown = function(e){
+var left = false;
+var right = false;
+var jump = true;
+onkeydown = onkeyup = function(e){
   if(e.keyCode == 68){
-    socket.emit('move', 1);
+    right = e.type == 'keydown';
+    move_change();
   }
   if(e.keyCode == 65){
-    socket.emit('move', -1);
+    left = e.type == 'keydown';
+    move_change();
+  }
+  if(e.keyCode == 32){
+    if(jump){
+     socket.emit('jump');
+    }
+    jump = e.type == 'keyup';
   }
 };
-onkeyup = function(e){
+function move_change(){
+  if(right && !left){
+    socket.emit('move', 1);
+  }else if(!right && left){
+    socket.emit('move', -1);
+  }else if(right && left){
+    socket.emit('move', 0);
+  }else if(!right && !left){
+    socket.emit('move', 0);
+  }
+}
+/*onkeyup = function(e){
   if(e.keyCode == 68 && players[0].dir == 1){
     socket.emit('move', 0);
   }
@@ -90,7 +112,7 @@ onkeyup = function(e){
   if(e.keyCode == 32){
     socket.emit('jump', 0);
   }
-};
+};*/
 
 socket.on('Change_direction_you', function(dir){
   players[0].dir = dir;

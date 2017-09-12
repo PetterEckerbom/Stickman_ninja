@@ -45,14 +45,14 @@ socket.on("code_taken", function(){
   alert('Sorry, someone already uses this code. Please pick another code');
 });
 socket.on("No_code",function(){
-  alert('There is no game with that ID, ask your friend again if he provided correct code')
-})
+  alert('There is no game with that ID, ask your friend again if he provided correct code');
+});
 socket.on("bad_code",function(){
-  alert('Invalid code! Your code must me 5 didgits long and cannot contain letters or special characters')
-})
+  alert('Invalid code! Your code must me 5 didgits long and cannot contain letters or special characters');
+});
 socket.on('not_logged_in',function(){
   location.reload();
-})
+});
 //when match() is called we emit to server that we wanna play
 function match(){
   if(document.getElementById("ranked").checked){
@@ -60,7 +60,7 @@ function match(){
   }else if(document.getElementById("casual").checked){
     socket.emit('match_making_casual');
   }else if(document.getElementById("friend").checked){
-    socket.emit('match_making_friend',{code:document.getElementById("code").value,new_match:document.getElementById("New_game").checked})
+    socket.emit('match_making_friend',{code:document.getElementById("code").value,new_match:document.getElementById("New_game").checked});
   }
 }
 
