@@ -31,9 +31,8 @@ function player(id, elo, name, socket){
 	this.id = id;
 	this.socket = socket;
 	this.name = name;
-	this.time = 0;
+	this.Ptime = {};
 	this.ping = 0;
-	this.pingID = 0;
 }
 //this one is for the "wrap" that the players are in and pretty much whole game
 function game_instance(player, type,id){
