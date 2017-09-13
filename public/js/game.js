@@ -40,6 +40,7 @@ var players = [
     enemy:false,
     facing:"right",
     animation: animations.idle,
+    animationlock:false,
   },
 enemy = {
     name:"",
@@ -55,7 +56,8 @@ enemy = {
     max_speed:12,
     state:"idle",
     facing:"left",
-    animation: animations.idle
+    animation: animations.idle,
+    animationlock:false,
   }
 ];
 //to make sure canvas doesnt get to big
@@ -90,6 +92,9 @@ onkeydown = onkeyup = function(e){
     }
     jump = e.type == 'keyup';
   }
+  if(e.keyCode == 75 && e.type == 'keyup'){
+    socket.emit('punch');
+  }
 };
 function move_change(){
   if(right && !left){
@@ -102,6 +107,26 @@ function move_change(){
     socket.emit('move', 0);
   }
 }
+
+socket.on("punch",function(player){
+  if(  players[player].facing =="left"){
+    players[player].x_speed = -5;
+  }else{
+    players[player].x_speed = 5;
+  }
+  players[player].dir = 0;
+  players[player].animationlock = true;
+  players[player].frame = 0;
+  if(player == 0){
+    animation_change_you(animations.punch);
+  }else if(player == 1){
+    animation_change_enemy(animations.punch);
+  }
+  setTimeout(move_change, 4000/7);
+});
+socket.on('hit',function(){
+  console.log("you got hit");
+});
 /*onkeyup = function(e){
   if(e.keyCode == 68 && players[0].dir == 1){
     socket.emit('move', 0);

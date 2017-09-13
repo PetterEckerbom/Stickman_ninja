@@ -113,6 +113,10 @@ socket.on('jump', function(){
   communication.jump(socket);
 });
 
+socket.on('punch', function(){
+  communication.punch(socket);
+});
+
 socket.on('back_ping',function(id){
   var gamecheck = matchmaking.findplayer(matchmaking.STARTED_GAMES,socket.id);
   var d = new Date();

@@ -7,9 +7,15 @@ function startanimation(){
 }
 function flipframes_enemy(){
   players[1].frame++;
+  if(players[1].animationlock && players[1].frame >= players[1].animation.maxframe){
+    players[1].animationlock = false;
+  }
 }
 function flipframes_you(){
   players[0].frame++;
+  if(players[0].animationlock && players[0].frame >= players[0].animation.maxframe){
+    players[0].animationlock = false;
+  }
 }
 function draw_players(){
   ctx.fillStyle="#0000ff";
@@ -49,19 +55,21 @@ function animation_change_enemy(animation){
 }
 
 function find_animation(player){
-  var animation_found;
-  if(player.y_speed != 0){
-    animation_found = animations.falling;
-  }else if(player.dir == 0){
-    animation_found = animations.idle;
-  }else if(player.dir != 0){
-    animation_found = animations.running;
-  }
+  if(!player.animationlock){
+    var animation_found;
+    if(player.y_speed != 0){
+      animation_found = animations.falling;
+    }else if(player.dir == 0){
+      animation_found = animations.idle;
+    }else if(player.dir != 0){
+      animation_found = animations.running;
+    }
 
 
-  if(players[0] == player){
-    animation_change_you(animation_found);
-  }else{
-    animation_change_enemy(animation_found);
+    if(players[0] == player){
+      animation_change_you(animation_found);
+    }else{
+      animation_change_enemy(animation_found);
+    }
   }
 }
