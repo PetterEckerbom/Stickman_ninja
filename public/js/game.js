@@ -109,11 +109,11 @@ function move_change(){
 }
 
 socket.on("punch",function(player){
-  if(  players[player].facing =="left"){
+  /*if(  players[player].facing =="left"){
     players[player].x_speed = -5;
   }else{
     players[player].x_speed = 5;
-  }
+  }*/
   players[player].dir = 0;
   players[player].animationlock = true;
   players[player].frame = 0;
