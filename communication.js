@@ -67,6 +67,7 @@ exports.punch = function(socket){
         hitcords = {x: matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].x + (120/3), y:matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y-(205/3)};
         dir = 1;
       }
+		matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].x_speed = 0;
         matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].dir = 0;
         if(games_check.NotPlayer == 0){
             setTimeout(check_hit, 2000/7, games_check.index, games_check.NotPlayer, hitcords,dir,1);

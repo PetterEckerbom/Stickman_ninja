@@ -115,6 +115,7 @@ socket.on("punch",function(player){
     players[player].x_speed = 5;
   }*/
   players[player].dir = 0;
+  players[player].x_speed = 0;
   players[player].animationlock = true;
   players[player].frame = 0;
   if(player == 0){
