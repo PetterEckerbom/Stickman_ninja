@@ -51,9 +51,9 @@ exports.ping = function(){
 exports.punch = function(socket){
   var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
   if(games_check != -1){
-      if(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y_speed == 0 && matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].controlE){
+      if(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].controlE){
         matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].controlE = false;
-        setTimeout(attack_ready, 4000/7, games_check.index, games_check.Player);
+        setTimeout(control_ready, 4000/10, games_check.index, games_check.Player);
         matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].socket.emit("punch", 0);
         matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].socket.emit("punch", 1);
         var hitcords;
@@ -70,24 +70,32 @@ exports.punch = function(socket){
 		matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].x_speed = 0;
         matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].dir = 0;
         if(games_check.NotPlayer == 0){
-            setTimeout(check_hit, 2000/7, games_check.index, games_check.NotPlayer, hitcords,dir,1);
+            setTimeout(check_hit, 2000/15, games_check.index, games_check.NotPlayer, hitcords,dir,1);
         }else{
-          setTimeout(check_hit, 2000/7, games_check.index, games_check.NotPlayer, hitcords,dir,0);
+          setTimeout(check_hit, 2000/15, games_check.index, games_check.NotPlayer, hitcords,dir,0);
         }
       }
     }
 };
 function attack_ready(game_instance, player){
-  matchmaking.STARTED_GAMES[game_instance].players[player].controlE = true;
+  matchmaking.STARTED_GAMES[game_instance].players[player].attackready = true;
+}
+function control_ready(game_instance, player){
+	matchmaking.STARTED_GAMES[game_instance].players[player].controlE = true;
 }
 function check_hit(game_instance, player, hitcords,dir,other){
   //console.log(hitcords.x > matchmaking.STARTED_GAMES[game_instance].players[player].x - (matchmaking.STARTED_GAMES[game_instance].players[player].state.hitbox_W/2) && hitcords.x < matchmaking.STARTED_GAMES[game_instance].players[player].x + (matchmaking.STARTED_GAMES[game_instance].players[player].state.hitbox_W/2));
-  if(hitcords.x > matchmaking.STARTED_GAMES[game_instance].players[player].x - (matchmaking.STARTED_GAMES[game_instance].players[player].state.hitbox_W) && hitcords.x < matchmaking.STARTED_GAMES[game_instance].players[player].x + (matchmaking.STARTED_GAMES[game_instance].players[player].state.hitbox_W)){
-    if(hitcords.y > matchmaking.STARTED_GAMES[game_instance].players[player].y - matchmaking.STARTED_GAMES[game_instance].players[player].state.hitbox_H && hitcords.y < matchmaking.STARTED_GAMES[game_instance].players[player].y){
-      matchmaking.STARTED_GAMES[game_instance].players[player].x_speed = dir*9;
-      matchmaking.STARTED_GAMES[game_instance].players[player].controlE = false;
-      setTimeout(attack_ready, 700, game_instance, player);
-      gameclock.sync(matchmaking.STARTED_GAMES[game_instance].players[player], matchmaking.STARTED_GAMES[game_instance].players[other]);
-    }
-  }
+	console.log(matchmaking.STARTED_GAMES[game_instance].players[other].attackready)
+	if(matchmaking.STARTED_GAMES[game_instance].players[other].attackready){
+	  if(hitcords.x > matchmaking.STARTED_GAMES[game_instance].players[player].x - (matchmaking.STARTED_GAMES[game_instance].players[player].state.hitbox_W) && hitcords.x < matchmaking.STARTED_GAMES[game_instance].players[player].x + (matchmaking.STARTED_GAMES[game_instance].players[player].state.hitbox_W)){
+		if(hitcords.y > matchmaking.STARTED_GAMES[game_instance].players[player].y - matchmaking.STARTED_GAMES[game_instance].players[player].state.hitbox_H && hitcords.y < matchmaking.STARTED_GAMES[game_instance].players[player].y){
+		  matchmaking.STARTED_GAMES[game_instance].players[player].x_speed = dir*9;
+		  matchmaking.STARTED_GAMES[game_instance].players[player].controlE = false;
+		  		matchmaking.STARTED_GAMES[game_instance].players[player].attackready = false;
+			setTimeout(control_ready, 4000/15, game_instance, player);
+			setTimeout(attack_ready, 4000/15, game_instance, player);
+		  gameclock.sync(matchmaking.STARTED_GAMES[game_instance].players[player], matchmaking.STARTED_GAMES[game_instance].players[other]);
+		}
+	  }
+	}
 }

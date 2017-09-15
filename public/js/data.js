@@ -130,5 +130,5 @@ var animations = {
 	idle: {frames:8, width:150, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"idle", fps:100, maxframe:0},
 	running: {frames:3, width:290, height:310, hitbox_W:180/3, hitbox_H:310/3, sprite:"running", fps:100, maxframe:0},
 	falling: {frames:3, width:200, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"falling", fps:1000/15, maxframe:0},
-	punch: {frames:4, width:260, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"punch", fps:1000/7, maxframe:4}
+	punch: {frames:4, width:260, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"punch", fps:1000/15, maxframe:4}
 };
