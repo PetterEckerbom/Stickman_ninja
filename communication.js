@@ -67,7 +67,9 @@ exports.punch = function(socket){
         hitcords = {x: matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].x + (120/3), y:matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y-(205/3)};
         dir = 1;
       }
-		matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].x_speed = 0;
+	  if(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y_speed == 0){
+		matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].x_speed = 0;  
+	  }
         matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].dir = 0;
         if(games_check.NotPlayer == 0){
             setTimeout(check_hit, 2000/15, games_check.index, games_check.NotPlayer, hitcords,dir,1);
@@ -85,7 +87,7 @@ function control_ready(game_instance, player){
 }
 function check_hit(game_instance, player, hitcords,dir,other){
   //console.log(hitcords.x > matchmaking.STARTED_GAMES[game_instance].players[player].x - (matchmaking.STARTED_GAMES[game_instance].players[player].state.hitbox_W/2) && hitcords.x < matchmaking.STARTED_GAMES[game_instance].players[player].x + (matchmaking.STARTED_GAMES[game_instance].players[player].state.hitbox_W/2));
-	console.log(matchmaking.STARTED_GAMES[game_instance].players[other].attackready)
+	//console.log(matchmaking.STARTED_GAMES[game_instance].players[other].attackready)
 	if(matchmaking.STARTED_GAMES[game_instance].players[other].attackready){
 	  if(hitcords.x > matchmaking.STARTED_GAMES[game_instance].players[player].x - (matchmaking.STARTED_GAMES[game_instance].players[player].state.hitbox_W) && hitcords.x < matchmaking.STARTED_GAMES[game_instance].players[player].x + (matchmaking.STARTED_GAMES[game_instance].players[player].state.hitbox_W)){
 		if(hitcords.y > matchmaking.STARTED_GAMES[game_instance].players[player].y - matchmaking.STARTED_GAMES[game_instance].players[player].state.hitbox_H && hitcords.y < matchmaking.STARTED_GAMES[game_instance].players[player].y){
