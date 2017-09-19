@@ -108,22 +108,23 @@ function move_change(){
   }
 }
 
-socket.on("punch",function(player){
+socket.on("punch",function(data){
   /*if(  players[player].facing =="left"){
     players[player].x_speed = -5;
   }else{
     players[player].x_speed = 5;
   }*/
-  players[player].dir = 0;
-  if(players[player].y_speed == 0){
-	  players[player].x_speed = 0;  
+  players[data.player].dir = 0;
+  if(players[data.player].y_speed == 0){
+	  players[data.player].x_speed = 0;
   }
-  players[player].animationlock = true;
-  players[player].frame = 0;
-  if(player == 0){
-    animation_change_you(animations.punch);
-  }else if(player == 1){
-    animation_change_enemy(animations.punch);
+  players[data.player].animationlock = true;
+  players[data.player].frame = 0;
+  console.log(data.type);
+  if(data.player == 0){
+    animation_change_you(animations['punch'+data.type]);
+  }else if(data.player == 1){
+    animation_change_enemy(animations['punch'+data.type]);
   }
   setTimeout(move_change, 4000/7);
 });
