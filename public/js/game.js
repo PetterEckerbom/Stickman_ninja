@@ -126,7 +126,7 @@ socket.on("punch",function(data){
   }else if(data.player == 1){
     animation_change_enemy(animations['punch'+data.type]);
   }
-  setTimeout(move_change, 4000/7);
+  setTimeout(move_change, 6000/7);
 });
 socket.on('hit',function(){
   console.log("you got hit");

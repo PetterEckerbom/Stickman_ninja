@@ -119,18 +119,19 @@ function check_hit(game_instance, player, hitcords,dir,other){
         matchmaking.STARTED_GAMES[game_instance].players[other].punch.punch2 = true;
         setTimeout(reset_punch, 2500, game_instance, other, "punch2");
         force = 10;
-        time = 4000;
+        time = 6000;
         type = "hit2";
       }else{
         matchmaking.STARTED_GAMES[game_instance].players[other].punch.punch1 = true;
         setTimeout(reset_punch, 2500, game_instance, other, "punch1");
         force = 9;
-        time = 4000;
+        time = 6000;
         type = "hit1";
       }
       matchmaking.STARTED_GAMES[game_instance].players[player].x_speed = dir*force;
 		  matchmaking.STARTED_GAMES[game_instance].players[player].controlE = false;
 		  matchmaking.STARTED_GAMES[game_instance].players[player].attackready = false;
+		  matchmaking.STARTED_GAMES[game_instance].players[player].dir = 0;
 			setTimeout(control_ready, time/15, game_instance, player);
 			setTimeout(attack_ready, time/15, game_instance, player);
 		  gameclock.sync(matchmaking.STARTED_GAMES[game_instance].players[player], matchmaking.STARTED_GAMES[game_instance].players[other]);
