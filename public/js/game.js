@@ -97,14 +97,18 @@ onkeydown = onkeyup = function(e){
   }
 };
 function move_change(){
+  var local_move;
   if(right && !left){
-    socket.emit('move', 1);
+    local_move = 1;
   }else if(!right && left){
-    socket.emit('move', -1);
+    local_move = -1;
   }else if(right && left){
-    socket.emit('move', 0);
+    local_move = 0;
   }else if(!right && !left){
-    socket.emit('move', 0);
+    local_move = 0;
+  }
+  if(local_move != players[0].dir){
+    socket.emit('move', local_move);
   }
 }
 
@@ -228,7 +232,8 @@ setInterval(function () {
   for(var y=0;y<walls.length;y++){
   ctx.fillRect(walls[y].x+xoffset,walls[y].ystart+yoffset,walls[y].thickness,walls[y].yend - walls[y].ystart);
   }
-    move_down();
+  move_change();
+  move_down();
   move_players();
   draw_players();
   find_animation(players[0]);

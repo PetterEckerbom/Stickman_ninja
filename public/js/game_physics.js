@@ -20,7 +20,6 @@ function move_players(){
     }
         if(players[i].dir != 0){
           if(players[i].x_speed < players[i].max_speed && players[i].x_speed > players[i].max_speed*-1){
-
             players[i].x_speed += players[i].dir * players[i].accerelation;
           }
         }
