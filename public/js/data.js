@@ -1,28 +1,28 @@
 //coordinates and data for platforms
 var platform = [
 	{
-		xstart: 50,
-		xend: 500,
+		xstart: 125,
+		xend: 425,
 		y:680,
 		thickness:40
 	},{
-		xstart: 780,
-		xend: 1230,
+		xstart: 855,
+		xend: 1155,
 		y:680,
 		thickness:40
 	},{
-		xstart: 340,
-		xend: 520,
+		xstart: 300,
+		xend: 440,
 		y:490,
 		thickness:20
 	},{
-		xstart: 760,
-		xend: 940,
+		xstart: 820,
+		xend: 960,
 		y:490,
 		thickness:20
 	},{
-		xstart: 500,
-		xend: 780,
+		xstart: 550,
+		xend: 730,
 		y:300,
 		thickness:40
 	},{
@@ -40,56 +40,63 @@ var platform = [
 
 var walls = [
 	{
-		x:20,
+		x:-75,
 		ystart:350,
-		yend:500,
+		yend:450,
 		thickness:15,
 		bouncy:true
 	},
 	{
-		x:1245,
+		x:1340,
 		ystart:350,
-		yend:500,
+		yend:450,
 		thickness:15,
 		bouncy:true
 	},
 	{
-		x:485,
+		x:625,
+		ystart:500,
+		yend:600,
+		thickness:15,
+		bouncy:false
+	},
+	{
+		x:410,
 		ystart:680,
 		yend:720,
 		thickness:15,
 		bouncy:false
 	},
 	{
-		x:50,
+		x:125,
 		ystart:680,
 		yend:720,
 		thickness:15,
 		bouncy:false
 	},
 	{
-		x:780,
+		x:855,
 		ystart:680,
 		yend:720,
 		thickness:15,
 		bouncy:false
 	},
 	{
-		x:1215,
+		x:1140,
 		ystart:680,
 		yend:720,
 		thickness:15,
 		bouncy:false
 	},
 	{
-		x:500,
+		x:550,
 		ystart:300,
 		yend:340,
 		thickness:15,
 		bouncy:false
 	},
 	{
-		x:765,
+		x:715,
 		ystart:300,
 		yend:340,
 		thickness:15,

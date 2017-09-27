@@ -97,27 +97,31 @@ onkeydown = onkeyup = function(e){
   }
 };
 function move_change(){
+  var local_move;
   if(right && !left){
-    socket.emit('move', 1);
+    local_move = 1;
   }else if(!right && left){
-    socket.emit('move', -1);
+    local_move = -1;
   }else if(right && left){
-    socket.emit('move', 0);
+    local_move = 0;
   }else if(!right && !left){
-    socket.emit('move', 0);
+    local_move = 0;
+  }
+  if(local_move != players[0].dir){
+    socket.emit('move', local_move);
   }
 }
 
 socket.on("punch",function(data){
-  /*if(  players[player].facing =="left"){
-    players[player].x_speed = -5;
-  }else{
-    players[player].x_speed = 5;
-  }*/
-  players[data.player].dir = 0;
   if(players[data.player].y_speed == 0){
-	  players[data.player].x_speed = 0;
+    players[data.player].x_speed = 0;
   }
+  if(players[data.player].facing =="left"){
+    players[data.player].x_speed = (2 * data.type + 2) * -1;
+  }else{
+    players[data.player].x_speed = 2 * data.type + 2;
+  }
+  players[data.player].dir = 0;
   players[data.player].animationlock = true;
   players[data.player].frame = 0;
   console.log(data.type);
@@ -126,7 +130,7 @@ socket.on("punch",function(data){
   }else if(data.player == 1){
     animation_change_enemy(animations['punch'+data.type]);
   }
-  setTimeout(move_change, 4000/7);
+  setTimeout(move_change, 6000/7);
 });
 socket.on('hit',function(){
   console.log("you got hit");
@@ -228,7 +232,8 @@ setInterval(function () {
   for(var y=0;y<walls.length;y++){
   ctx.fillRect(walls[y].x+xoffset,walls[y].ystart+yoffset,walls[y].thickness,walls[y].yend - walls[y].ystart);
   }
-    move_down();
+  move_change();
+  move_down();
   move_players();
   draw_players();
   find_animation(players[0]);

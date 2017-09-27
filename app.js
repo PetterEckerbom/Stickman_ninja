@@ -123,7 +123,6 @@ socket.on('back_ping',function(id){
   var n = d.getTime();
   if(gamecheck != -1){
     if(matchmaking.STARTED_GAMES[gamecheck.index].players[gamecheck.Player].Ptime[id]){
-      //console.log("Hey")
       matchmaking.STARTED_GAMES[gamecheck.index].players[gamecheck.Player].ping = (n - matchmaking.STARTED_GAMES[gamecheck.index].players[gamecheck.Player].Ptime[id])/2;
       matchmaking.STARTED_GAMES[gamecheck.index].players[gamecheck.Player].Ptime = {};
     }
