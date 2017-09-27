@@ -113,15 +113,15 @@ function move_change(){
 }
 
 socket.on("punch",function(data){
-  /*if(  players[player].facing =="left"){
-    players[player].x_speed = -5;
-  }else{
-    players[player].x_speed = 5;
-  }*/
-  players[data.player].dir = 0;
   if(players[data.player].y_speed == 0){
-	  players[data.player].x_speed = 0;
+    players[data.player].x_speed = 0;
   }
+  if(players[data.player].facing =="left"){
+    players[data.player].x_speed = (2 * data.type + 2) * -1;
+  }else{
+    players[data.player].x_speed = 2 * data.type + 2;
+  }
+  players[data.player].dir = 0;
   players[data.player].animationlock = true;
   players[data.player].frame = 0;
   console.log(data.type);
