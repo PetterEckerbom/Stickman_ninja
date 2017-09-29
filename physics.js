@@ -93,6 +93,10 @@ exports.move_down = function(){
 };
 
 function check_feet_collision(player){
+  var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);
+    if(player_collision(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player]) != "nothing" && matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y < matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y){
+      return matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y - matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_H;
+    }
   for(var i = 0; i < info.platforms.length; i++){
     if(player.x + (player.state.hitbox_W/2)  >= info.platforms[i].xstart && player.x - (player.state.hitbox_W/2) <= info.platforms[i].xend){
       if(player.y + player.y_speed>= info.platforms[i].y && player.y + player.y_speed <= info.platforms[i].y +  info.platforms[i].thickness){
@@ -100,10 +104,6 @@ function check_feet_collision(player){
       }
     }
   }
-  var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);
-    if(player_collision(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player]) != "nothing" && matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y < matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y){
-      return matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y - matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_H;
-    }
   return false;
 }
 

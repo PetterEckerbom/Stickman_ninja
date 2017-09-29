@@ -72,13 +72,6 @@ function move_down(){
 }
 
 function check_feet_collision(player){
-  for(var i = 0; i < platform.length; i++){
-    if(player.x + (player.animation.hitbox_W/2) >= platform[i].xstart && player.x - (player.animation.hitbox_W/2) <= platform[i].xend){
-      if(player.y + player.y_speed >= platform[i].y && player.y + player.y_speed <= platform[i].y +  platform[i].thickness){
-        return platform[i].y;
-      }
-    }
-  }
   if(player == players[0]){
     if(player_collision(players[0] ,players[1]) == false && players[0].y < players[1].y){
       return players[1].y - players[1].animation.hitbox_H;
@@ -86,6 +79,13 @@ function check_feet_collision(player){
   }else{
     if(player_collision(players[1] ,players[0]) == false && players[1].y < players[0].y){
       return players[0].y - players[0].animation.hitbox_H;
+    }
+  }
+  for(var i = 0; i < platform.length; i++){
+    if(player.x + (player.animation.hitbox_W/2) >= platform[i].xstart && player.x - (player.animation.hitbox_W/2) <= platform[i].xend){
+      if(player.y + player.y_speed >= platform[i].y && player.y + player.y_speed <= platform[i].y +  platform[i].thickness){
+        return platform[i].y;
+      }
     }
   }
   return false;
