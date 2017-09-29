@@ -27,7 +27,7 @@ var yoffset;
      if(window.innerWidth >= 1480 && window.innerHeight >= 820){
        document.getElementById("main").width = window.innerWidth;
        document.getElementById("main").height = window.innerHeight;
-       xoffset = (window.innerWidth - 1480)/2;
+       xoffset = (window.innerWidth - 1480)/2 +100;
        yoffset = (window.innerHeight - 820)/2;
        document.getElementById("main").style.maxWidth = "none";
        document.getElementById("main").style.maxHeight = "none";

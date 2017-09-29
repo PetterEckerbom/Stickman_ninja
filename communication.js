@@ -27,6 +27,8 @@ exports.jump = function(socket){
 
     if(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].jumpready){
       if(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y_speed != 0){
+        matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].socket.emit('flipping', 0);
+        matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].socket.emit('flipping', 1);
         matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].jumpready = false;
       }
       matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y_speed = -11.5;

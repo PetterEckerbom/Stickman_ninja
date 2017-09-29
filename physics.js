@@ -65,7 +65,7 @@ exports.move_down = function(){
         }
       }else{
         y_check = check_feet_collision(matchmaking.STARTED_GAMES[i].players[y]);
-  if(!y_check){
+  if(y_check === false){
        matchmaking.STARTED_GAMES[i].players[y].y+=matchmaking.STARTED_GAMES[i].players[y].y_speed;
       if(matchmaking.STARTED_GAMES[i].players[y].y_speed < 17){
           matchmaking.STARTED_GAMES[i].players[y].y_speed += matchmaking.STARTED_GAMES[i].players[y].gravity;
@@ -75,6 +75,18 @@ exports.move_down = function(){
         matchmaking.STARTED_GAMES[i].players[y].y_speed = 0;
         matchmaking.STARTED_GAMES[i].players[y].jumpready = true;
     }
+  }
+  if(matchmaking.STARTED_GAMES[i].players[y].y > 2000){
+    if(y == 0){
+      matchmaking.STARTED_GAMES[i].players[0].y = 100;
+      matchmaking.STARTED_GAMES[i].players[0].x = 100;
+      matchmaking.STARTED_GAMES[i].players[0].dir = 0;
+    }else{
+      matchmaking.STARTED_GAMES[i].players[1].y = 100;
+      matchmaking.STARTED_GAMES[i].players[1].x = 1180;
+      matchmaking.STARTED_GAMES[i].players[1].dir = 0;
+    }
+    gameclock.sync(matchmaking.STARTED_GAMES[i].players[0], matchmaking.STARTED_GAMES[i].players[1]);
   }
 }
 }
@@ -88,6 +100,10 @@ function check_feet_collision(player){
       }
     }
   }
+  var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);
+    if(player_collision(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player]) != "nothing" && matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y < matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y){
+      return matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y - matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_H;
+    }
   return false;
 }
 
@@ -105,6 +121,9 @@ function check_head_collision(player){
 }
 
 function check_x_move(player){
+  if(player_collision(player, 2) != "nothing" && player.x_speed != 0){
+    return "stop";
+  }
   for(var i = 0; i < info.walls.length; i++ ){
     if(player.x + (player.state.hitbox_W/2) + player.x_speed  >= info.walls[i].x && player.x - (player.state.hitbox_W/2) + player.x_speed  <= info.walls[i].x +info.walls[i].thickness ){
       if(player.y - player.state.hitbox_H <  info.walls[i].yend && player.y > info.walls[i].ystart){
@@ -120,5 +139,38 @@ function check_x_move(player){
       }
     }
     }
+  return "nothing";
+}
+/*exports.untangle = function(){
+  for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
+    if(player_collision(matchmaking.STARTED_GAMES[i].players[0]) != "nothing"){
+      if(matchmaking.STARTED_GAMES[i].players[0].y < matchmaking.STARTED_GAMES[i].players[0].y){
+        matchmaking.STARTED_GAMES[i].players[0].y = matchmaking.STARTED_GAMES[i].players[1].y - matchmaking.STARTED_GAMES[i].players[1].state.hitbox_H-3;
+        matchmaking.STARTED_GAMES[i].players[0].y_speed = 0;
+        matchmaking.STARTED_GAMES[i].players[0].jumpready = true;
+      }else{
+        matchmaking.STARTED_GAMES[i].players[1].y = matchmaking.STARTED_GAMES[i].players[0].y - matchmaking.STARTED_GAMES[i].players[0].state.hitbox_H-3;
+        matchmaking.STARTED_GAMES[i].players[1].y_speed = 0;
+        matchmaking.STARTED_GAMES[i].players[0].jumpready = true;
+      }
+    }
+  }
+};*/
+function player_collision(player, extra){
+  if(!extra){
+    extra = 0;
+  }
+  var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);
+  if(matchmaking.STARTED_GAMES[games_check.index]){
+    if(player.x + (player.state.hitbox_W/2) + player.x_speed >= matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].x - (matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_W)/2){
+      if(player.x - (player.state.hitbox_W/2) + player.x_speed <= matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].x + (matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_W)/2){
+        if(player.y - player.state.hitbox_H + player.y_speed <=  matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y){
+          if(player.y + player.y_speed >=  matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y - matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_H + extra){
+              return {playery_feet: matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y, playery_head: matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y - matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_H};
+          }
+        }
+      }
+    }
+  }
   return "nothing";
 }

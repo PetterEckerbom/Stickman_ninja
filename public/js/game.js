@@ -3,7 +3,7 @@ window.onload = function() {
   if(window.innerWidth >= 1480 && window.innerHeight >= 820){
     document.getElementById("main").width = window.innerWidth;
     document.getElementById("main").height = window.innerHeight;
-    xoffset = (window.innerWidth - 1480)/2;
+    xoffset = (window.innerWidth - 1480)/2 + 100;
     yoffset = (window.innerHeight - 820)/2;
     document.getElementById("main").style.maxWidth = "none";
     document.getElementById("main").style.maxHeight = "none";
@@ -41,6 +41,7 @@ var players = [
     facing:"right",
     animation: animations.idle,
     animationlock:false,
+    flipping: false
   },
 enemy = {
     name:"",
@@ -58,6 +59,7 @@ enemy = {
     facing:"left",
     animation: animations.idle,
     animationlock:false,
+    flipping: false
   }
 ];
 //to make sure canvas doesnt get to big
@@ -213,11 +215,8 @@ socket.on('sync', function(players_skinned){
   latency_comp(players_skinned.ping);
 });
 
-socket.on('you_jump',function(){
-  players[0].y_speed = -13;
-});
-socket.on('enemy_jump',function(){
-  players[1].y_speed = -13;
+socket.on('flipping', function(player){
+  players[player].flipping = true;
 });
 
 
@@ -238,6 +237,7 @@ setInterval(function () {
   draw_players();
   find_animation(players[0]);
   find_animation(players[1]);
+  console.log(players[0].y_speed);
   //Movement
 
 },1000/30);

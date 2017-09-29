@@ -57,7 +57,9 @@ function animation_change_enemy(animation){
 function find_animation(player){
   if(!player.animationlock){
     var animation_found;
-    if(player.y_speed > 0){
+    if(player.flipping){
+      animation_found = animations.flip;
+    }else if(player.y_speed > 0){
       animation_found = animations.falling;
     }else if(player.y_speed < 0){
       animation_found = animations.jump;
