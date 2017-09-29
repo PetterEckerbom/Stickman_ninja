@@ -164,7 +164,7 @@ function player_collision(player, extra){
   if(matchmaking.STARTED_GAMES[games_check.index]){
     if(player.x + (player.state.hitbox_W/2) + player.x_speed >= matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].x - (matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_W)/2){
       if(player.x - (player.state.hitbox_W/2) + player.x_speed <= matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].x + (matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_W)/2){
-        if(player.y - player.state.hitbox_H + player.y_speed <=  matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y){
+        if(player.y - player.state.hitbox_H + player.y_speed <=  matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y - extra){
           if(player.y + player.y_speed >=  matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y - matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_H + extra){
               return {playery_feet: matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y, playery_head: matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y - matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_H};
           }
