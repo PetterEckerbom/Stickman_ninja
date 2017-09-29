@@ -232,8 +232,8 @@ setInterval(function () {
   ctx.fillRect(walls[y].x+xoffset,walls[y].ystart+yoffset,walls[y].thickness,walls[y].yend - walls[y].ystart);
   }
   move_change();
-  move_down();
   move_players();
+  move_down();
   draw_players();
   find_animation(players[0]);
   find_animation(players[1]);
