@@ -147,7 +147,7 @@ function player_collision(player ,not, extra){
   }
   if(player.x + (player.animation.hitbox_W/2) + player.x_speed >= not.x - (not.animation.hitbox_W)/2){
     if(player.x - (player.animation.hitbox_W/2) + player.x_speed <= not.x + (not.animation.hitbox_W)/2){
-      if(player.y + player.y_speed - player.animation.hitbox_H <=  not.y){
+      if(player.y + player.y_speed - player.animation.hitbox_H <=  not.y - extra){
         if(player.y + player.y_speed >=  not.y - not.animation.hitbox_H + extra){
             return false;
         }
