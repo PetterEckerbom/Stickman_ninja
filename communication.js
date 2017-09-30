@@ -1,5 +1,6 @@
 var matchmaking = require('./matchmaking_server.js');
 var gameclock = require('./game_clock.js');
+var info = require('./information.js');
 
 exports.move_change = function(socket, dir){
   if(dir > 1 || dir < -1){
@@ -31,11 +32,24 @@ exports.jump = function(socket){
         matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].socket.emit('flipping', 1);
         matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].jumpready = false;
       }
-      matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y_speed = -11.5;
+      if(boostedjump(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player])){
+        matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y_speed = -12.5;
+      }else{
+        matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y_speed = -9;
+      }
       gameclock.sync(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player], matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer]);
     }
   }
 };
+
+function boostedjump(player){
+  for(var i = 0; i < info.jumppad.length; i++){
+    if(player.x + (player.state.hitbox_W/2) >= info.jumppad[i].x && player.x - (player.state.hitbox_W/2) <= info.jumppad[i].x + info.jumppad[i].width && player.y == info.jumppad[i].y){
+      return true;
+    }
+  }
+  return false;
+}
 
 exports.ping = function(){
   for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){

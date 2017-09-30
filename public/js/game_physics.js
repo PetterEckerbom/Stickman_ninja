@@ -2,14 +2,15 @@ function move_players(){
   for(var i = 0; i < 2; i++){
     var do_what = check_x_move(players[i]);
     if(do_what == "stop"){
+
       if(players[i].x_speed < 0){
-        players[i].x += 5;
+        players[i].x += 10;
       }else{
-        players[i].x -= 5;
+        players[i].x -= 10;
       }
       players[i].x_speed = 0;
     }else if(do_what == "bounce"){
-      players[i].x_speed = players[i].x_speed*-1*10;
+      players[i].x_speed = players[i].x_speed*-1*7;
       if(players[i].x_speed > 12){
         players[i].x_speed = 12;
       }else if(players[i].x_speed < -12){
@@ -45,10 +46,11 @@ function move_players(){
 }
 
 function move_down(){
+  var y_check;
     for(var i = 0; i < 2; i++){
       if(players[i].y_speed < 0){
-        var y_check = check_head_collision(players[i]);
-        if(!y_check){
+         y_check = check_head_collision(players[i]);
+        if(y_check === false){
           players[i].y+=players[i].y_speed;
           players[i].y_speed += players[i].gravity;
         }else{
@@ -56,7 +58,7 @@ function move_down(){
            players[i].y_speed = 1;
         }
       }else{
-    var y_check = check_feet_collision(players[i]);
+     y_check = check_feet_collision(players[i]);
     if(y_check === false){
        players[i].y+=players[i].y_speed;
       if(players[i].y_speed < 17){
@@ -73,11 +75,11 @@ function move_down(){
 
 function check_feet_collision(player){
   if(player == players[0]){
-    if(player_collision(players[0] ,players[1]) == false && players[0].y < players[1].y){
+    if(player_collision(players[0] ,players[1]) == false && players[0].y <= players[1].y){
       return players[1].y - players[1].animation.hitbox_H;
     }
   }else{
-    if(player_collision(players[1] ,players[0]) == false && players[1].y < players[0].y){
+    if(player_collision(players[1] ,players[0]) == false && players[1].y <= players[0].y){
       return players[0].y - players[0].animation.hitbox_H;
     }
   }
@@ -105,13 +107,12 @@ function check_head_collision(player){
 }
 
 function check_x_move(player){
-  //console.log(player.animation.hitbox_W)
   if(player == players[0]){
     not = players[1];
   }else{
     not = players[0];
   }
-  if(player_collision(player, not, 2) === false && player.x_speed != 0){
+  if(player_collision(player, not, 10) === false && player.x_speed != 0){
     return "stop";
   }
   for(var i = 0; i < walls.length; i++ ){
@@ -127,28 +128,15 @@ function check_x_move(player){
     }
   return "normal";
 }
-/*function untangle(){
-  if(player_collision(players[0] ,players[1]) == false){
-    if(players[0].y < players[1].y){
-      players[0].y = players[1].y - players[1].animation.hitbox_H-3;
-      players[0].y_speed = 0;
-      players[0].flipping = false;
-    }else{
-      players[1].y = players[0].y - players[0].animation.hitbox_H-3;
-      players[1].y_speed = 0;
-      players[1].flipping = false;
-    }
-  }
-}*/
 
 function player_collision(player ,not, extra){
   if(!extra){
     extra = 0;
   }
-  if(player.x + (player.animation.hitbox_W/2) + player.x_speed >= not.x - (not.animation.hitbox_W)/2){
-    if(player.x - (player.animation.hitbox_W/2) + player.x_speed <= not.x + (not.animation.hitbox_W)/2){
-      if(player.y + player.y_speed - player.animation.hitbox_H <=  not.y - extra){
-        if(player.y + player.y_speed >=  not.y - not.animation.hitbox_H + extra){
+  if(player.x + (player.animation.hitbox_W/2) + extra + player.x_speed >= not.x - (not.animation.hitbox_W)/2 - extra + not.x_speed){
+    if(player.x - (player.animation.hitbox_W/2) - extra + player.x_speed <= not.x + (not.animation.hitbox_W)/2 + extra + not.x_speed){
+      if(player.y + player.y_speed - player.animation.hitbox_H <=  not.y + not.y_speed - extra){
+        if(player.y + player.y_speed >=  not.y - not.animation.hitbox_H + not.y_speed + extra){
             return false;
         }
       }
@@ -160,6 +148,7 @@ function player_collision(player ,not, extra){
 function latency_comp(ping){
   while(ping > 100/3){
     move_players();
+    move_down();
     draw_players();
     ping -= (100/3);
   }

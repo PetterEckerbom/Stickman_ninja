@@ -131,6 +131,39 @@ var walls = [
 	},
 ];
 
+var jumppad =[
+	{
+		x:150,
+		y:680,
+		width:50
+	},
+	{
+		x:1080,
+		y:680,
+		width:50
+	},
+	{
+		x:410,
+		y:490,
+		width:30
+	},
+	{
+		x:820,
+		y:490,
+		width:30
+	},
+	{
+		x:550,
+		y:300,
+		width:20
+	},
+	{
+		x:710,
+		y:300,
+		width:20
+	},
+];
+
 var states = {
 	jumping: {hitbox_W:100/3, hitbox_H:300/3},
 	falling: {hitbox_W:100/3, hitbox_H:300/3},
@@ -141,3 +174,4 @@ var states = {
 exports.walls = walls;
 exports.states = states;
 exports.platforms = platform;
+exports.jumppad = jumppad;

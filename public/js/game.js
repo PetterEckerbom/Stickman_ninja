@@ -231,13 +231,16 @@ setInterval(function () {
   for(var y=0;y<walls.length;y++){
   ctx.fillRect(walls[y].x+xoffset,walls[y].ystart+yoffset,walls[y].thickness,walls[y].yend - walls[y].ystart);
   }
+  ctx.fillStyle="#0c00ff";
+  for(var x=0;x<jumppad.length;x++){
+  ctx.fillRect(jumppad[x].x+xoffset,jumppad[x].y+yoffset,jumppad[x].width,20);
+  }
   move_change();
   move_players();
   move_down();
   draw_players();
   find_animation(players[0]);
   find_animation(players[1]);
-  console.log(players[0].y_speed);
   //Movement
 
 },1000/30);

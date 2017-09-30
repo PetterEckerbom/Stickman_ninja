@@ -4,48 +4,49 @@ var gameclock = require('./game_clock.js');
 exports.move_players = function(){
   for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
     for(var y = 0; y < 2; y++){
-      var do_what = check_x_move(matchmaking.STARTED_GAMES[i].players[y]);
+      var player = matchmaking.STARTED_GAMES[i].players[y];
+      var do_what = check_x_move(player);
       if(do_what == "stop"){
-        if(matchmaking.STARTED_GAMES[i].players[y].x_speed < 0){
-          matchmaking.STARTED_GAMES[i].players[y].x += 5;
+        if(player.x_speed < 0){
+          player.x += 10;
         }else{
-          matchmaking.STARTED_GAMES[i].players[y].x -= 5;
+          player.x -= 10;
         }
-        matchmaking.STARTED_GAMES[i].players[y].x_speed = 0;
+        player.x_speed = 0;
       } else if(do_what == "bounce"){
-        matchmaking.STARTED_GAMES[i].players[y].x_speed = matchmaking.STARTED_GAMES[i].players[y].x_speed*-1*10;
-        if(matchmaking.STARTED_GAMES[i].players[y].x_speed > 12){
-          matchmaking.STARTED_GAMES[i].players[y].x_speed = 12;
-        }else if(matchmaking.STARTED_GAMES[i].players[y].x_speed < -12){
-          matchmaking.STARTED_GAMES[i].players[y].x_speed = -12;
+        player.x_speed = player.x_speed*-1*7;
+        if(player.x_speed > 12){
+          player.x_speed = 12;
+        }else if(player.x_speed < -12){
+          player.x_speed = -12;
         }
-        matchmaking.STARTED_GAMES[i].players[y].y_speed = -14;
-        matchmaking.STARTED_GAMES[i].players[y].dir = 0;
-        var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, matchmaking.STARTED_GAMES[i].players[y].socket.id);
+        player.y_speed = -12;
+        player.dir = 0;
+        var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);
         gameclock.sync(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player], matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer]);
       }
-        if(matchmaking.STARTED_GAMES[i].players[y].dir != 0){
-          if(matchmaking.STARTED_GAMES[i].players[y].x_speed < matchmaking.STARTED_GAMES[i].players[y].max_speed && matchmaking.STARTED_GAMES[i].players[y].x_speed > matchmaking.STARTED_GAMES[i].players[y].max_speed*-1){
-            matchmaking.STARTED_GAMES[i].players[y].x_speed += matchmaking.STARTED_GAMES[i].players[y].dir * matchmaking.STARTED_GAMES[i].players[y].accerelation;
+        if(player.dir != 0){
+          if(player.x_speed < player.max_speed && player.x_speed > player.max_speed*-1){
+            player.x_speed += player.dir * player.accerelation;
           }
         }
-        if(matchmaking.STARTED_GAMES[i].players[y].x_speed > 0){
-          if(matchmaking.STARTED_GAMES[i].players[y].y_speed == 0 ){
-            matchmaking.STARTED_GAMES[i].players[y].x_speed -= matchmaking.STARTED_GAMES[i].players[y].friction;
+        if(player.x_speed > 0){
+          if(player.y_speed == 0 ){
+            player.x_speed -= player.friction;
           }
-          matchmaking.STARTED_GAMES[i].players[y].x_speed -= (matchmaking.STARTED_GAMES[i].players[y].friction*1.5);
+          player.x_speed -= (player.friction*1.5);
         }
-        if(matchmaking.STARTED_GAMES[i].players[y].x_speed < 0){
-          if(matchmaking.STARTED_GAMES[i].players[y].y_speed == 0 ){
-            matchmaking.STARTED_GAMES[i].players[y].x_speed += matchmaking.STARTED_GAMES[i].players[y].friction;
+        if(player.x_speed < 0){
+          if(player.y_speed == 0 ){
+            player.x_speed += player.friction;
           }
-          matchmaking.STARTED_GAMES[i].players[y].x_speed += (matchmaking.STARTED_GAMES[i].players[y].friction*1.5);
+          player.x_speed += (player.friction*1.5);
         }
-        if(matchmaking.STARTED_GAMES[i].players[y].x_speed < 1 && matchmaking.STARTED_GAMES[i].players[y].x_speed> -1){
-          matchmaking.STARTED_GAMES[i].players[y].x_speed = 0;
-          matchmaking.STARTED_GAMES[i].players[y].x_speed = 3*matchmaking.STARTED_GAMES[i].players[y].dir ;
+        if(player.x_speed < 1 && player.x_speed> -1){
+          player.x_speed = 0;
+          player.x_speed = 3*player.dir ;
         }
-        matchmaking.STARTED_GAMES[i].players[y].x += matchmaking.STARTED_GAMES[i].players[y].x_speed;
+        player.x += player.x_speed;
       }
 }
   };
@@ -56,7 +57,7 @@ exports.move_down = function(){
     for(var y = 0; y < 2; y++){
       if(matchmaking.STARTED_GAMES[i].players[y].y_speed < 0){
         y_check = check_head_collision(matchmaking.STARTED_GAMES[i].players[y]);
-        if(!y_check){
+        if(y_check === false){
           matchmaking.STARTED_GAMES[i].players[y].y+=matchmaking.STARTED_GAMES[i].players[y].y_speed;
           matchmaking.STARTED_GAMES[i].players[y].y_speed += matchmaking.STARTED_GAMES[i].players[y].gravity;
         }else{
@@ -76,7 +77,7 @@ exports.move_down = function(){
         matchmaking.STARTED_GAMES[i].players[y].jumpready = true;
     }
   }
-  if(matchmaking.STARTED_GAMES[i].players[y].y > 2000){
+  if(matchmaking.STARTED_GAMES[i].players[y].y > 1500){
     if(y == 0){
       matchmaking.STARTED_GAMES[i].players[0].y = 100;
       matchmaking.STARTED_GAMES[i].players[0].x = 100;
@@ -94,7 +95,7 @@ exports.move_down = function(){
 
 function check_feet_collision(player){
   var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);
-    if(player_collision(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player]) != "nothing" && matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y < matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y){
+    if(player_collision(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player]) != "nothing" && matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].y <= matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y){
       return matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y - matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_H;
     }
   for(var i = 0; i < info.platforms.length; i++){
@@ -121,7 +122,7 @@ function check_head_collision(player){
 }
 
 function check_x_move(player){
-  if(player_collision(player, 2) != "nothing" && player.x_speed != 0){
+  if(player_collision(player, 10) != "nothing" && player.x_speed != 0){
     return "stop";
   }
   for(var i = 0; i < info.walls.length; i++ ){
@@ -130,8 +131,6 @@ function check_x_move(player){
         if(info.walls[i].bouncy){
           var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);
           gameclock.sync(matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player], matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer]);
-        /*  matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player].socket.emit('you_bounce');
-          matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].socket.emit('enemy_bounce');*/
           return "bounce";
         }else{
           return "stop";
@@ -141,31 +140,17 @@ function check_x_move(player){
     }
   return "nothing";
 }
-/*exports.untangle = function(){
-  for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
-    if(player_collision(matchmaking.STARTED_GAMES[i].players[0]) != "nothing"){
-      if(matchmaking.STARTED_GAMES[i].players[0].y < matchmaking.STARTED_GAMES[i].players[0].y){
-        matchmaking.STARTED_GAMES[i].players[0].y = matchmaking.STARTED_GAMES[i].players[1].y - matchmaking.STARTED_GAMES[i].players[1].state.hitbox_H-3;
-        matchmaking.STARTED_GAMES[i].players[0].y_speed = 0;
-        matchmaking.STARTED_GAMES[i].players[0].jumpready = true;
-      }else{
-        matchmaking.STARTED_GAMES[i].players[1].y = matchmaking.STARTED_GAMES[i].players[0].y - matchmaking.STARTED_GAMES[i].players[0].state.hitbox_H-3;
-        matchmaking.STARTED_GAMES[i].players[1].y_speed = 0;
-        matchmaking.STARTED_GAMES[i].players[0].jumpready = true;
-      }
-    }
-  }
-};*/
+
 function player_collision(player, extra){
   if(!extra){
     extra = 0;
   }
   var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);
   if(matchmaking.STARTED_GAMES[games_check.index]){
-    if(player.x + (player.state.hitbox_W/2) + player.x_speed >= matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].x - (matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_W)/2){
-      if(player.x - (player.state.hitbox_W/2) + player.x_speed <= matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].x + (matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_W)/2){
-        if(player.y - player.state.hitbox_H + player.y_speed <=  matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y - extra){
-          if(player.y + player.y_speed >=  matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y - matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_H + extra){
+    if(player.x + (player.state.hitbox_W/2) + extra + player.x_speed >= matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].x - (matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_W)/2 - extra + matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].x_speed){
+      if(player.x - (player.state.hitbox_W/2) - extra + player.x_speed <= matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].x + (matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_W)/2 + extra + matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].x_speed){
+        if(player.y - player.state.hitbox_H + player.y_speed <=  matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y + matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y_speed - extra){
+          if(player.y + player.y_speed >=  matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y - matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_H + matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y_speed + extra){
               return {playery_feet: matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y, playery_head: matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].y - matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer].state.hitbox_H};
           }
         }

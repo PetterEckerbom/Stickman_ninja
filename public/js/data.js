@@ -132,12 +132,45 @@ var walls = [
 	},
 ];
 
+var jumppad =[
+	{
+		x:150,
+		y:680,
+		width:50
+	},
+	{
+		x:1080,
+		y:680,
+		width:50
+	},
+	{
+		x:410,
+		y:490,
+		width:30
+	},
+	{
+		x:820,
+		y:490,
+		width:30
+	},
+	{
+		x:550,
+		y:300,
+		width:20
+	},
+	{
+		x:710,
+		y:300,
+		width:20
+	},
+];
+
 
 var animations = {
 	idle: {frames:8, width:150, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"idle", fps:100, maxframe:0},
 	running: {frames:3, width:290, height:310, hitbox_W:180/3, hitbox_H:310/3, sprite:"running", fps:100, maxframe:0},
 	falling: {frames:3, width:200, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"falling", fps:1000/15, maxframe:0},
-	jump: {frames:4, width:190, height:305, hitbox_W:100/3, hitbox_H:300/3, sprite:"jump", fps:1000/15, maxframe:0},
+	jump: {frames:4, width:250, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"jump", fps:1000/15, maxframe:0},
 	flip: {frames:4, width:250, height:250, hitbox_W:100/3, hitbox_H:300/3, sprite:"flip", fps:1000/15, maxframe:0},
 	punch1: {frames:4, width:310, height:325, hitbox_W:100/3, hitbox_H:300/3, sprite:"punch", fps:1000/15, maxframe:4},
 	punch2: {frames:10, width:350, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"punch2", fps:1000/10, maxframe:10},
