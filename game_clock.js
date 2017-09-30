@@ -17,7 +17,16 @@ setInterval(function(){
 },7000);
 setInterval(function(){
   //Ping client every 50ms
-  communication.ping();
+    for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
+      var d = new Date();
+      var time = d.getTime();
+      var id = Math.random();
+      var id2 = Math.random();
+      matchmaking.STARTED_GAMES[i].players[0].Ptime[id] = time;
+      matchmaking.STARTED_GAMES[i].players[1].Ptime[id2] = time;
+      matchmaking.STARTED_GAMES[i].players[0].socket.emit('ping', {id:id,ping:matchmaking.STARTED_GAMES[i].players[0].ping});
+      matchmaking.STARTED_GAMES[i].players[1].socket.emit('ping', {id:id2,ping:matchmaking.STARTED_GAMES[i].players[1].ping});
+    }
 },50);
 
 var sync = function (player1, player2){

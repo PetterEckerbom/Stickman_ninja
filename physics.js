@@ -1,3 +1,9 @@
+/*
+This is the pysics engien, everything related to movement is in here. very simular code is also found in the client
+in the file game.js since the client does the axact same thing as the server but idependently. that code is not as
+well commeneted as this code is howerver so if someting cant be understood please read here instead
+*/
+
 var matchmaking = require('./matchmaking_server.js');
 var info = require('./information.js');
 var gameclock = require('./game_clock.js');

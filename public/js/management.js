@@ -22,7 +22,6 @@ socket.on("Game_start",function(name){
 });
 var xoffset;
 var yoffset;
-/*document.getElementById("main").style.maxHeight = window.innerHeight + "px";*/
    onresize = function(){
      if(window.innerWidth >= 1480 && window.innerHeight >= 820){
        document.getElementById("main").width = window.innerWidth;
@@ -77,4 +76,5 @@ function friendsel(){
 //When socket says opponent disconnected we simply tell the user what happended. This will be updated
 socket.on("Opponent_DC",function(){
   alert("Your Opponent ran like a chicken! You won the game");
+  location.reload();
 });

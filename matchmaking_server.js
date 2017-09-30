@@ -1,7 +1,14 @@
+/*
+This file contains everyhting related to creating matches and putting to searching
+users together into a game. There are 3 duffrent types of games, ranked, casual and friend game.
+ranked takes elo into account when matching players and wehn a game is won takes away elo from
+loser and gives to winner, casul workes same way but just picks 2 people at random and doesnt
+touch a players elo. Friend game matches two players up based on a code they send, this also
+dont touch elo.
+*/
+
 //takes in arrays and stuff from app.js
-let main = require('./app.js');
-let info = require('./information.js');
-let game = require('./game_clock.js');
+var info = require('./information.js');
 var gameclock = require('./game_clock.js');
 
 var RankedQueue = [];

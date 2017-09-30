@@ -15,6 +15,8 @@ var User = require('./models/user');
 var flash = require('connect-flash');
 var game_clock = require('./game_clock.js');
 var communication = require('./communication.js');
+var punch = require('./punch.js');
+var playeractions = require('./playeractions.js');
 
 //brings in exported functions from matchmaking such as tha matchmaking fuckion etc
 var matchmaking = require('./matchmaking_server.js');
@@ -66,7 +68,7 @@ var SOCKETS = {};
 exports.SOCKETS = SOCKETS;
 
 //Allows us to edit and acces session infromation from socket.
-var io = require("socket.io")(serv)
+var io = require("socket.io")(serv);
 io.use(sharedsession(session));
 io.on("connection", function(socket) {
   //gives ID to socket and saves it in SOCKETS object. Useful to manage sockets noy in game
@@ -81,6 +83,7 @@ io.on("connection", function(socket) {
       socket.emit('not_logged_in');
     }
 	});
+  //CAlls for a casual match to be created works simular to ranked but stored in other array and doesnt care about elo
   socket.on('match_making_casual',function(){
     if(socket.handshake.session.user){
       matchmaking.find_casual(socket);
@@ -88,6 +91,7 @@ io.on("connection", function(socket) {
       socket.emit('not_logged_in');
     }
 	});
+  //Asks for a match to be created or found, stores code in the socket object and calls apropriate function.
   socket.on('match_making_friend',function(data){
     if(data.code.length != 5 || data.code*1 % 1 != 0){
       socket.emit('bad_code');
@@ -104,19 +108,22 @@ io.on("connection", function(socket) {
       }
 	});
 
-
+//Reroutes movement request to to playeractions.js
 socket.on('move', function(data){
-  communication.move_change(socket, data);
+  playeractions.move_change(socket, data);
 });
 
+//Reroutes jump request to to playeractions.js
 socket.on('jump', function(){
-  communication.jump(socket);
+  playeractions.jump(socket);
 });
 
+//Reroutes punch request to to punch.js
 socket.on('punch', function(){
-  communication.punch(socket);
+  punch.punch(socket);
 });
 
+//Takes ping id and chcks when that id was sent, then calculates latency and stores in the player object.
 socket.on('back_ping',function(id){
   var gamecheck = matchmaking.findplayer(matchmaking.STARTED_GAMES,socket.id);
   var d = new Date();
@@ -129,6 +136,7 @@ socket.on('back_ping',function(id){
   }
 });
 
+//Reroutes diconnects to matchmaking.js
 socket.on("disconnect",function(){
   matchmaking.disconnect(socket);
 });

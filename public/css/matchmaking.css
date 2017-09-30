@@ -9,7 +9,6 @@ body{
     width:100%;
     Height:100%;
     background: blue;
-    display: none;
   }
   /*Wrap around form to keep proprtions once diffrent options appear/disappear*/
   #wrap{

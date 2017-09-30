@@ -1,4 +1,9 @@
-//coordinates and data for platforms
+/*
+This Document contains static data that is needed to play game, this is things such as
+codinates for diffrent obsticles and platforms but also hitboxes for diffrent animations of players and such.
+A very simular copy of this document can be found in the server in information.js this is because the sever
+client needs the exact same data in order to stay synced
+*/
 var platform = [
 	//Left big bottom platform
 	{
