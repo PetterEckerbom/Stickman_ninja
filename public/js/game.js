@@ -134,9 +134,6 @@ socket.on("punch",function(data){
   }
   setTimeout(move_change, 6000/7);
 });
-socket.on('hit',function(){
-  console.log("you got hit");
-});
 /*onkeyup = function(e){
   if(e.keyCode == 68 && players[0].dir == 1){
     socket.emit('move', 0);

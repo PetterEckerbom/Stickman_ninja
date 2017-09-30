@@ -205,6 +205,7 @@ exports.disconnect = function(socket){
 	console.log("Running games "+STARTED_GAMES.length);
 };
 
+//this function find the state a player is in, for example his hitbox is found in state
 exports.setstate = function(){
 	for(var i = 0; i < STARTED_GAMES.length; i++){
 		for(var y = 0; y < 2; y++){
