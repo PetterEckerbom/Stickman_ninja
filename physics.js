@@ -96,9 +96,12 @@ exports.move_down = function(){
        }
     }else{
       //if he makes contact with ground we set his y cord to ground and sets speed to 0, also makes sure he can jump again
-       player.y=y_check;
+       player.y=y_check.y;
         player.y_speed = 0;
         player.jumpready = true;
+        if(y_check.sync){
+          gameclock.sync(matchmaking.STARTED_GAMES[i].players[0], matchmaking.STARTED_GAMES[i].players[1]);
+        }
     }
   }
   if(player.y > 1500){
@@ -122,16 +125,19 @@ exports.move_down = function(){
 function check_feet_collision(player){
   var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);
   var thisplayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player];
-  var otherplayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player];
+  var otherplayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
   //Checks if players touch other player, if he does and is above other player he is sent ontop of other player
     if(player_collision(thisplayer) != "nothing" && thisplayer.y <= otherplayer.y){
-      return otherplayer.y - otherplayer.state.hitbox_H;
+      if(thisplayer.y <= otherplayer.y){
+        return {y:otherplayer.y - otherplayer.state.hitbox_H, sync:true};
+      }
+      return {y:otherplayer.y - otherplayer.state.hitbox_H, sync:false};
     }
     //if no other player is tocued we check if he touch any platform, if he does he is sent to stand on platform
   for(var i = 0; i < info.platforms.length; i++){
     if(player.x + (player.state.hitbox_W/2)  >= info.platforms[i].xstart && player.x - (player.state.hitbox_W/2) <= info.platforms[i].xend){
       if(player.y + player.y_speed>= info.platforms[i].y && player.y + player.y_speed <= info.platforms[i].y +  info.platforms[i].thickness){
-        return info.platforms[i].y;
+        return {y:info.platforms[i].y, sync:false};
       }
     }
   }

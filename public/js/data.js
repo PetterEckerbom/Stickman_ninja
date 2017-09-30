@@ -202,7 +202,14 @@ var jumppad =[
 	},
 ];
 
-
+/*
+All animations. Frames is how many frames in animation,
+width and height is width and height of each frame, this is later devided by 3 when its drawn.
+hitbox_w and hitbox_H is width and height of the hotbox for the charcter, this is used by pysicsengien.
+Sprite is the sprite identification string. A sprite can be named BLUE_idle_left and idle would be the
+sprite idenfication string for example. FPS is how often frames are changed in animation, value is in ms.
+maxframe is for animations that end after a set amount of frames, maxframe is that number. maxframe = 0 means forever.
+*/
 var animations = {
 	idle: {frames:8, width:150, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"idle", fps:100, maxframe:0},
 	running: {frames:3, width:290, height:310, hitbox_W:180/3, hitbox_H:310/3, sprite:"running", fps:100, maxframe:0},
@@ -213,3 +220,44 @@ var animations = {
 	punch2: {frames:10, width:350, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"punch2", fps:1000/10, maxframe:10},
 	punch3: {frames:22, width:410, height:305, hitbox_W:100/3, hitbox_H:300/3, sprite:"punch3", fps:1000/20, maxframe:22}
 };
+
+//Below are the two player who are in every game. You as in the owner of client and enemy as in the other client in game.
+var players = [
+  you = {
+    name:"",
+    x:100,
+    y:100,
+    frame:1,
+    x_speed:0,
+    y_speed:0,
+    dir:0,
+    friction: 0.2,
+    accerelation:0.6,
+    gravity: 0.4,
+    max_speed:12,
+    state:"idle",
+    enemy:false,
+    facing:"right",
+    animation: animations.idle,
+    animationlock:false,
+    flipping: false
+  },
+enemy = {
+    name:"",
+    x:1180,
+    y:100,
+    frame:1,
+    x_speed:0,
+    y_speed:0,
+    dir:0,
+    friction: 0.2,
+    accerelation:0.6,
+    gravity: 0.4,
+    max_speed:12,
+    state:"idle",
+    facing:"left",
+    animation: animations.idle,
+    animationlock:false,
+    flipping: false
+  }
+];

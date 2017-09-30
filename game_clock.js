@@ -1,6 +1,5 @@
 var matchmaking = require('./matchmaking_server.js');
 var physics = require('./physics.js');
-var communication = require('./communication.js');
 
 setInterval(function(){
   //Runs the main functions every 33.333...ms
@@ -14,6 +13,7 @@ setInterval(function(){
   for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
     sync(matchmaking.STARTED_GAMES[i].players[0], matchmaking.STARTED_GAMES[i].players[1]);
   }
+  console.log("game synced")
 },7000);
 setInterval(function(){
   //Ping client every 50ms

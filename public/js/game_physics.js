@@ -1,3 +1,9 @@
+/*
+This file is very simular to physics.js in the server as they are meant to server the same pourpose.
+This is a little skinned down but any unclearities should be explained in there. There ont be as many comments
+in this one.
+*/
+//this function is the same thing as the one in physics.js
 function move_players(){
   for(var i = 0; i < 2; i++){
     var do_what = check_x_move(players[i]);
@@ -45,6 +51,7 @@ function move_players(){
       }
 }
 
+//this function is also the same.
 function move_down(){
   var y_check;
     for(var i = 0; i < 2; i++){
@@ -73,7 +80,9 @@ function move_down(){
 }
 }
 
+//this function workes the same way as the one in physics.js in the server
 function check_feet_collision(player){
+  //it first check what player it is as there can only be 2
   if(player == players[0]){
     if(player_collision(players[0] ,players[1]) == false && players[0].y <= players[1].y){
       return players[1].y - players[1].animation.hitbox_H;
@@ -93,6 +102,7 @@ function check_feet_collision(player){
   return false;
 }
 
+//same thing here!
 function check_head_collision(player){
   for(var i = 0; i < platform.length; i++){
     if(platform[i].thickness > 30){
@@ -106,6 +116,7 @@ function check_head_collision(player){
   return false;
 }
 
+//very simular to physics.js but ofcourse it also send the player who is not playing to player_collision.
 function check_x_move(player){
   if(player == players[0]){
     not = players[1];
@@ -129,6 +140,8 @@ function check_x_move(player){
   return "normal";
 }
 
+//same as in pysics.js but it takes in both players instead of searching for them.
+//there are only 2 players on the client  and that is why this is a simpler solution here.
 function player_collision(player ,not, extra){
   if(!extra){
     extra = 0;
@@ -145,11 +158,11 @@ function player_collision(player ,not, extra){
   return true;
 }
 
+//this function runs a loop for as many time as the server has probably done it with the packet sent//this is used to get a more accurate sync on devices with high latency aka above 33ms
 function latency_comp(ping){
   while(ping > 100/3){
     move_players();
     move_down();
-    draw_players();
     ping -= (100/3);
   }
 }

@@ -14,7 +14,6 @@ var sharedsession = require("express-socket.io-session");
 var User = require('./models/user');
 var flash = require('connect-flash');
 var game_clock = require('./game_clock.js');
-var communication = require('./communication.js');
 var punch = require('./punch.js');
 var playeractions = require('./playeractions.js');
 
