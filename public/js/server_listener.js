@@ -50,3 +50,16 @@ socket.on("punch",function(data){
 socket.on('flipping', function(player){
   players[player].flipping = true;
 });
+
+socket.on('touchdown',function(player){
+  players[player].y_speed = 0;
+  players[player].x_speed = 0;
+  players[player].gravity = 4;
+  players[player].dir = 0;
+  players[player].touchdown = true;
+});
+socket.on('end_touchdown',function(player){
+  players[player].gravity = 0.4;
+  players[player].touchdown = false;
+  move_change();
+});

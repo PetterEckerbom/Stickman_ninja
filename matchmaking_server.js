@@ -42,6 +42,7 @@ function player(id, elo, name, socket){
 	this.ping = 0;
 	this.controlE = true;
 	this.attackready = true;
+	this.touching_down = false;
 	this.punch = {punch1: false, punch2: false};
 }
 //this one is for the "wrap" that the players are in and pretty much whole game

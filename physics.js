@@ -7,6 +7,7 @@ well commeneted as this code is howerver so if someting cant be understood pleas
 var matchmaking = require('./matchmaking_server.js');
 var info = require('./information.js');
 var gameclock = require('./game_clock.js');
+var punch = require('./punch.js');
 exports.move_players = function(){
   for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
     for(var y = 0; y < 2; y++){
@@ -96,6 +97,9 @@ exports.move_down = function(){
        }
     }else{
       //if he makes contact with ground we set his y cord to ground and sets speed to 0, also makes sure he can jump again
+      if(player.touching_down){
+        punch.end_touchdown(player);
+      }
        player.y=y_check.y;
         player.y_speed = 0;
         player.jumpready = true;

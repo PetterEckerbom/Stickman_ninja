@@ -9,6 +9,10 @@ exports.punch = function(socket){
   if(games_check != -1){
     var player = matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player];
     var OtherPlayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
+    if(player.y_speed != 0){
+      touchdown(player,OtherPlayer);
+      return;
+    }
     //If player has control over character aswell as not having punch on cooldown we send it through.
       if(player.controlE && player.attackready){
         //We disable control of character for 0.6s
@@ -19,12 +23,12 @@ exports.punch = function(socket){
           type = 3;
           player.socket.emit("punch", {player:0, type:3});
           OtherPlayer.socket.emit("punch", {player:1, type:3});
-          time = 7000/10;
+          time = 6000/10;
         }else if(player.punch.punch1){
           type = 2;
           player.socket.emit("punch", {player:0, type:2});
           OtherPlayer.socket.emit("punch", {player:1, type:2});
-          time = 7000/10;
+          time = 6000/10;
         }else{
           type = 1;
           player.socket.emit("punch", {player:0, type:1});
@@ -33,10 +37,7 @@ exports.punch = function(socket){
         }
 
         var dir;
-        if(player.y_speed == 0){
-          //if he is standing on ground we stop his movement for the punch
         player.x_speed = 0;
-        }
         //We sents his speed depending on punch typer and facing direction, we also define what direction the punch is in
         if(player.facing == "left"){
           player.x_speed = (2 * type + 2) * -1;
@@ -147,3 +148,24 @@ function get_punch_cords(game, player, punchtype){
   }
   return hitcords;
 }
+
+function touchdown(player,player2){
+  player.y_speed = 0;
+  player.x_speed = 0;
+  player.gravity = 4;
+  player.controlE = false;
+  player.dir = 0;
+  player.touching_down = true;
+  player.socket.emit("touchdown",0);
+  player2.socket.emit("touchdown",1);
+}
+
+exports.end_touchdown = function(player){
+  var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);
+  var OtherPlayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
+  player.gravity = 0.4;
+  player.controlE = true;
+  player.socket.emit("end_touchdown",0);
+  OtherPlayer.socket.emit("end_touchdown",1);
+  //Will call expolsion function here;
+};
