@@ -10,10 +10,6 @@ exports.punch = function(socket){
   if(games_check != -1){
     var player = matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player];
     var OtherPlayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
-    if(player.y_speed != 0){
-      touchdown(player,OtherPlayer);
-      return;
-    }
     //If player has control over character aswell as not having punch on cooldown we send it through.
       if(player.controlE && player.attackready){
         //We disable control of character for 0.6s
@@ -38,7 +34,9 @@ exports.punch = function(socket){
         }
 
         var dir;
-        player.x_speed = 0;
+        if(player.y_speed == 0){
+          player.x_speed = 0;
+        }
         //We sents his speed depending on punch typer and facing direction, we also define what direction the punch is in
         if(player.facing == "left"){
           player.x_speed = (2 * type + 2) * -1;
@@ -149,24 +147,3 @@ function get_punch_cords(game, player, punchtype){
   }
   return hitcords;
 }
-
-function touchdown(player,player2){
-  player.y_speed = 0;
-  player.x_speed = 0;
-  player.gravity = 4;
-  player.controlE = false;
-  player.dir = 0;
-  player.touching_down = true;
-  player.socket.emit("touchdown",0);
-  player2.socket.emit("touchdown",1);
-}
-
-exports.end_touchdown = function(player){
-  var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);
-  var OtherPlayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
-  player.gravity = 0.4;
-  player.controlE = true;
-  player.touching_down = false;
-  player.socket.emit("end_touchdown",0);
-  OtherPlayer.socket.emit("end_touchdown",1);
-};
