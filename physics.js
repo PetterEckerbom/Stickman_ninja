@@ -8,6 +8,7 @@ var matchmaking = require('./matchmaking_server.js');
 var info = require('./information.js');
 var gameclock = require('./game_clock.js');
 var punch = require('./punch.js');
+var physics = require('./physics.js');
 exports.move_players = function(){
   for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
     for(var y = 0; y < 2; y++){
@@ -98,6 +99,9 @@ exports.move_down = function(){
     }else{
       //if he makes contact with ground we set his y cord to ground and sets speed to 0, also makes sure he can jump again
       if(player.touching_down){
+        var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);
+        var OtherPlayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
+        physics.expolsion(player.x, player.y, player.y_speed, [OtherPlayer]);
         punch.end_touchdown(player);
       }
        player.y=y_check.y;
@@ -206,4 +210,21 @@ function player_collision(player, extra){
     }
   }
   return "nothing";
+}
+
+exports.expolsion = function(x,y,force,players){
+  for(var i = 0; i < players.length; i++){
+    var playerY = players[i].y+(players[i].state.hitbox_H/2)
+    var angle = Math.atan2(y-playerY, x - players[i].x);
+    var dist = (Math.sqrt(Math.pow(y-playerY,2) + Math.pow(x - players[i].x,2)) / 85);
+    force = force/dist;
+    angle = angle;
+    console.log(Math.sin(angle)*force);
+    console.log(Math.cos(angle)*force);
+    players[i].y_speed = (-1) * Math.sin(angle)*force;
+    players[i].x_speed = (-1) * Math.cos(angle)*force;
+    var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, players[i].socket.id);
+    var other_player = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
+    gameclock.sync(players[i], other_player);
+  }
 }

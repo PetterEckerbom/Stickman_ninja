@@ -1,6 +1,7 @@
 //This file handels everything punch related, this is not simple enought to go in playeractions.js altho it is a player action
 var matchmaking = require('./matchmaking_server.js');
 var gameclock = require('./game_clock.js');
+var physics = require('./physics.js');
 
 exports.punch = function(socket){
   var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
@@ -165,7 +166,7 @@ exports.end_touchdown = function(player){
   var OtherPlayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
   player.gravity = 0.4;
   player.controlE = true;
+  player.touching_down = false;
   player.socket.emit("end_touchdown",0);
   OtherPlayer.socket.emit("end_touchdown",1);
-  //Will call expolsion function here;
 };
