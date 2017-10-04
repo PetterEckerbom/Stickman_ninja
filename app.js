@@ -128,9 +128,10 @@ socket.on('back_ping',function(id){
   var d = new Date();
   var n = d.getTime();
   if(gamecheck != -1){
-    if(matchmaking.STARTED_GAMES[gamecheck.index].players[gamecheck.Player].Ptime[id]){
-      matchmaking.STARTED_GAMES[gamecheck.index].players[gamecheck.Player].ping = (n - matchmaking.STARTED_GAMES[gamecheck.index].players[gamecheck.Player].Ptime[id])/2;
-      matchmaking.STARTED_GAMES[gamecheck.index].players[gamecheck.Player].Ptime = {};
+    var player = matchmaking.STARTED_GAMES[gamecheck.index].players[gamecheck.Player]
+    if(player.Ptime[id]){
+      player.ping = (n - player.Ptime[id])/2;
+      player.Ptime = {};
     }
   }
 });
