@@ -147,3 +147,77 @@ function get_punch_cords(game, player, punchtype){
   }
   return hitcords;
 }
+
+exports.punch_down = function(socket){
+  var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
+  if(games_check != -1){
+    var player = matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player];
+    var OtherPlayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
+    //If player has control over character aswell as not having punch on cooldown we send it through.
+      if(player.controlE && player.attackready){
+        //We disable control of character for 0.6s
+        player.controlE = false;
+        setTimeout(control_ready, 600, games_check.index, games_check.Player);
+        //We set player movement direction to 0 as to avoid the pysics.js move_players() to move him.
+        player.dir = 0;
+        //We call hitfunction after the time it takes for punch to hit, we send through direction and both player postition in array.
+        if(games_check.NotPlayer == 0){
+            setTimeout(check_down_punch, 100, games_check.index, games_check.NotPlayer, 1);
+        }else{
+          setTimeout(check_down_punch, 100, games_check.index, games_check.NotPlayer, 0);
+        }
+      }
+    }
+};
+
+function check_down_punch(game_instance, player, other){
+  var hit_player = matchmaking.STARTED_GAMES[game_instance].players[player];
+  var hitting_player = matchmaking.STARTED_GAMES[game_instance].players[other];
+  var hit_x = hitting_player.x;
+  var hit_y = hitting_player.y + 50;
+  if(hitting_player.attackready){
+    if(hit_x > hit_player.x - (hit_player.state.hitbox_W/2) && hit_x < hit_player.x + (hit_player.state.hitbox_W/2)){
+      if(hit_y > hit_player.y - hit_player.state.hitbox_H && hit_y < hit_player.y){
+        hit_player.y_speed = 14;
+        gameclock.sync(hit_player, hitting_player);
+      }
+    }
+  }
+}
+
+exports.kick_UP = function(socket){
+  var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
+  if(games_check != -1){
+    var player = matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player];
+    var OtherPlayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
+    //If player has control over character aswell as not having punch on cooldown we send it through.
+      if(player.controlE && player.attackready){
+        //We disable control of character for 0.6s
+        player.controlE = false;
+        setTimeout(control_ready, 600, games_check.index, games_check.Player);
+        //We set player movement direction to 0 as to avoid the pysics.js move_players() to move him.
+        player.dir = 0;
+        //We call hitfunction after the time it takes for punch to hit, we send through direction and both player postition in array.
+        if(games_check.NotPlayer == 0){
+            setTimeout(check_up_kick, 500, games_check.index, games_check.NotPlayer, 1);
+        }else{
+          setTimeout(check_up_kick, 500, games_check.index, games_check.NotPlayer, 0);
+        }
+      }
+    }
+};
+
+function check_up_kick(game_instance, player, other){
+  var hit_player = matchmaking.STARTED_GAMES[game_instance].players[player];
+  var hitting_player = matchmaking.STARTED_GAMES[game_instance].players[other];
+  var hit_x = hitting_player.x;
+  var hit_y = hitting_player.y - hitting_player.state.hitbox_H - 10;
+  if(hitting_player.attackready){
+    if(hit_x > hit_player.x - (hit_player.state.hitbox_W/2) && hit_x < hit_player.x + (hit_player.state.hitbox_W/2)){
+      if(hit_y > hit_player.y - hit_player.state.hitbox_H && hit_y < hit_player.y){
+        hit_player.y_speed = -13;
+        gameclock.sync(hit_player, hitting_player);
+      }
+    }
+  }
+}
