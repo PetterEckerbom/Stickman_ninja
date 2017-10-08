@@ -1,6 +1,7 @@
 setInterval(function () {
   move_change();
   move_players();
+  camera_move();
   move_down();
   test_zoom();
   draw_map();
@@ -19,6 +20,23 @@ socket.on('ping',function(data){
     socket.emit('back_ping', data.id);
   }
 });
+ function camera_move(){
+   if(Math.abs(camerax - players[0].x) < 4 || Math.abs(camerax - players[0].x) > 500){
+     camerax = players[0].x;
+   }else if(camerax < players[0].x){
+     camerax+= 7;
+   }else if(camerax > players[0].x){
+     camerax-= 7;
+   }
+
+   if(Math.abs(cameray - players[0].y) < 4 || Math.abs(cameray - players[0].y) > 500){
+     cameray = players[0].y;
+   }else if(cameray < players[0].y){
+     cameray+= 7;
+   }else if(cameray > players[0].y){
+     cameray-= 7;
+   }
+ }
 
 //takes all values the server provides and applies them to client players.
 //Hopefully they should already match pretty well ub order to avoid rubberbanding
@@ -42,6 +60,6 @@ socket.on('sync', function(players_skinned){
 
 function test_zoom(){
   c.style.backgroundPosition = -1*players[0].x + "px " + -1*players[0].y + "px";
-  xoffset = -1*players[0].x + (c.clientWidth/2)/1.2;
-  yoffset = -1*players[0].y + (c.clientHeight/2)/1.2;
+  xoffset = -1*camerax + (c.clientWidth/2)/1.2;
+  yoffset = -1*cameray + (c.clientHeight/2)/1.2;
 }
