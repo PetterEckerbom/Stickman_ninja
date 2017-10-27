@@ -241,8 +241,7 @@ var players = [
     facing:"right",
     animation: animations.idle,
     animationlock:false,
-    flipping: false,
-		mov: {}
+    flipping: false
   },
 enemy = {
     name:"",
@@ -260,7 +259,6 @@ enemy = {
     facing:"left",
     animation: animations.idle,
     animationlock:false,
-    flipping: false,
-		mov: {}
+    flipping: false
   }
 ];
