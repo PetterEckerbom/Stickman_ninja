@@ -1,22 +1,11 @@
 setInterval(function () {
-  ctx.clearRect(0, 0, c.width, c.height);
-  //Temp way of drawing map elements
-  ctx.fillStyle="#ff0026";
-  for(var i=0;i<platform.length;i++){
-  ctx.fillRect(platform[i].xstart+xoffset,platform[i].y+yoffset,(platform[i].xend - platform[i].xstart),platform[i].thickness);
-  }
-  ctx.fillStyle="#00f735";
-  for(var y=0;y<walls.length;y++){
-  ctx.fillRect(walls[y].x+xoffset,walls[y].ystart+yoffset,walls[y].thickness,walls[y].yend - walls[y].ystart);
-  }
-  ctx.fillStyle="#0c00ff";
-  for(var x=0;x<jumppad.length;x++){
-  ctx.fillRect(jumppad[x].x+xoffset,jumppad[x].y+yoffset,jumppad[x].width,20);
-  }
-  //calls functions that should be updated every tick and fuctions that may change outcome of the other function calls
   move_change();
   move_players();
+  camera_move();
   move_down();
+  test_zoom();
+  draw_map();
+  //calls functions that should be updated every tick and fuctions that may change outcome of the other function calls
   draw_players();
   find_animation(players[0]);
   find_animation(players[1]);
@@ -31,6 +20,23 @@ socket.on('ping',function(data){
     socket.emit('back_ping', data.id);
   }
 });
+ function camera_move(){
+   if(Math.abs(camerax - players[0].x) < 4 || Math.abs(camerax - players[0].x) > 500){
+     camerax = players[0].x;
+   }else if(camerax < players[0].x){
+     camerax+= 7;
+   }else if(camerax > players[0].x){
+     camerax-= 7;
+   }
+
+   if(Math.abs(cameray - players[0].y) < 4 || Math.abs(cameray - players[0].y) > 500){
+     cameray = players[0].y;
+   }else if(cameray < players[0].y){
+     cameray+= 7;
+   }else if(cameray > players[0].y){
+     cameray-= 7;
+   }
+ }
 
 //takes all values the server provides and applies them to client players.
 //Hopefully they should already match pretty well ub order to avoid rubberbanding
@@ -51,3 +57,9 @@ socket.on('sync', function(players_skinned){
   //calls the latency compencation function with the latency so it can predict what the server did with the time it took for packet to travel.
   latency_comp(players_skinned.ping);
 });
+
+function test_zoom(){
+  c.style.backgroundPosition = -1*players[0].x + "px " + -1*players[0].y + "px";
+  xoffset = -1*camerax + (c.clientWidth/2)/1.2;
+  yoffset = -1*cameray + (c.clientHeight/2)/1.2;
+}

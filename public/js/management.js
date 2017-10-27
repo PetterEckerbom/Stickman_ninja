@@ -1,12 +1,15 @@
 //establishes connection with server.
 var socket = io();
 //sets up drawing varibles
+var camerax = 0;
+var cameray = 0;
 var c=document.getElementById("main");
 var ctx=c.getContext("2d");
 //global varibles for storing the offset the game has from edges on hight resolution displays.
 var xoffset;
 var yoffset;
 window.onload = function() {
+  setTimeout(function(){ctx.scale(1.2,1.2); camerax = players[0].x;  camerax = players[0].y;},10);
 //checks if high or low resolution display
   if(window.innerWidth >= 1480 && window.innerHeight >= 820){
     //if high resolution we fill screen with canvas and calculate ofsset to make picture centred.
