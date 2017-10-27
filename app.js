@@ -118,12 +118,8 @@ socket.on('jump', function(){
 });
 
 //Reroutes punch request to to punch.js
-socket.on('punch', function(down){
-  if(down){
-    punch.punch_down(socket);
-  }else{
-    punch.punch(socket);
-  }
+socket.on('punch', function(){
+  punch.punch(socket);
 });
 
 //Takes ping id and chcks when that id was sent, then calculates latency and stores in the player object.
@@ -132,15 +128,12 @@ socket.on('back_ping',function(id){
   var d = new Date();
   var n = d.getTime();
   if(gamecheck != -1){
-    var player = matchmaking.STARTED_GAMES[gamecheck.index].players[gamecheck.Player];
+    var player = matchmaking.STARTED_GAMES[gamecheck.index].players[gamecheck.Player]
     if(player.Ptime[id]){
       player.ping = (n - player.Ptime[id])/2;
       player.Ptime = {};
     }
   }
-});
-socket.on('kick', function(){
-  punch.kick_UP(socket);
 });
 
 //Reroutes diconnects to matchmaking.js

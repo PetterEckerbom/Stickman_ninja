@@ -7,7 +7,6 @@ var ctx=c.getContext("2d");
 var xoffset;
 var yoffset;
 window.onload = function() {
-  setTimeout(function(){ctx.scale(1.2,1.2)},10);
 //checks if high or low resolution display
   if(window.innerWidth >= 1480 && window.innerHeight >= 820){
     //if high resolution we fill screen with canvas and calculate ofsset to make picture centred.

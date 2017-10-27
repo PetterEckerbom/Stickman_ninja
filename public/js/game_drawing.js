@@ -22,22 +22,6 @@ function flipframes_you(){
     players[0].animationlock = false;
   }
 }
-function draw_map(){
-  ctx.clearRect(0, 0, c.width, c.height);
-  //Temp way of drawing map elements
-  ctx.fillStyle="#ff0026";
-  for(var i=0;i<platform.length;i++){
-  ctx.fillRect(platform[i].xstart+xoffset,platform[i].y+yoffset,(platform[i].xend - platform[i].xstart),platform[i].thickness);
-  }
-  ctx.fillStyle="#00f735";
-  for(var y=0;y<walls.length;y++){
-  ctx.fillRect(walls[y].x+xoffset,walls[y].ystart+yoffset,walls[y].thickness,walls[y].yend - walls[y].ystart);
-  }
-  ctx.fillStyle="#0c00ff";
-  for(var x=0;x<jumppad.length;x++){
-  ctx.fillRect(jumppad[x].x+xoffset,jumppad[x].y+yoffset,jumppad[x].width,20);
-  }
-}
 function draw_players(){
   //sets fillstyle to blue to draw client name.
   ctx.fillStyle="#0000ff";
