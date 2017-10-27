@@ -50,3 +50,10 @@ socket.on("punch",function(data){
 socket.on('flipping', function(player){
   players[player].flipping = true;
 });
+socket.on('death_count', function(player){
+  if(player == 0){
+    document.getElementById('YDeath').innerHTML = document.getElementById('YDeath').innerHTML*1 + 1;
+  }else{
+    document.getElementById('ODeath').innerHTML = document.getElementById('ODeath').innerHTML*1 + 1;
+  }
+});

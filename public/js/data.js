@@ -219,7 +219,7 @@ var animations = {
 	punch1: {frames:4, width:310, height:325, hitbox_W:100/3, hitbox_H:300/3, sprite:"punch", fps:1000/15, maxframe:4},
 	punch2: {frames:10, width:350, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"punch2", fps:1000/10, maxframe:10},
 	punch3: {frames:15, width:375, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"punch3", fps:1000/20, maxframe:15},
-	touchdown: {frames:1, width:250, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"speeddown", fps:1000, maxframe:0}
+	touchdown: {frames:1, width:250, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"speeddown", fps:1000, maxframe:0},
 };
 
 //Below are the two player who are in every game. You as in the owner of client and enemy as in the other client in game.

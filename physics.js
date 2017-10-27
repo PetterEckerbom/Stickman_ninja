@@ -108,6 +108,10 @@ exports.move_down = function(){
   }
   if(player.y > 1500){
     //respawn for diffrent players
+    var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);
+    var otherplayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
+    player.socket.emit('death_count', 0);
+    otherplayer.socket.emit('death_count', 1);
     if(y == 0){
       matchmaking.STARTED_GAMES[i].players[0].y = 100;
       matchmaking.STARTED_GAMES[i].players[0].x = 100;
