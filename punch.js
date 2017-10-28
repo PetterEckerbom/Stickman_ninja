@@ -121,8 +121,8 @@ function check_hit(game_instance, player, dir, other, Ptype){
         //We sync clients with server  in order for it to have accurated hit calculateions
   		  gameclock.sync(hit_player, hitting_player);
         //We let players know a player got hit so they can apply animations and shit.
-        hit_player.socket.emit(type,"you");
-        hitting_player.socket.emit(type,"enemy");
+        hit_player.socket.emit(type, {player:0,dir:dir});
+        hitting_player.socket.emit(type, {player:1,dir:dir});
   		}
   	  }
   	}
@@ -192,6 +192,8 @@ exports.kick_UP = function(socket){
     var OtherPlayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
     //If player has control over character aswell as not having punch on cooldown we send it through.
       if(player.controlE && player.attackready){
+        player.socket.emit('puch_up',0);
+        OtherPlayer.socket.emit('puch_up',1);
         //We disable control of character for 0.6s
         player.controlE = false;
         setTimeout(control_ready, 600, games_check.index, games_check.Player);
@@ -199,9 +201,9 @@ exports.kick_UP = function(socket){
         player.dir = 0;
         //We call hitfunction after the time it takes for punch to hit, we send through direction and both player postition in array.
         if(games_check.NotPlayer == 0){
-            setTimeout(check_up_kick, 500, games_check.index, games_check.NotPlayer, 1);
+            setTimeout(check_up_kick, 300, games_check.index, games_check.NotPlayer, 1);
         }else{
-          setTimeout(check_up_kick, 500, games_check.index, games_check.NotPlayer, 0);
+          setTimeout(check_up_kick, 300, games_check.index, games_check.NotPlayer, 0);
         }
       }
     }

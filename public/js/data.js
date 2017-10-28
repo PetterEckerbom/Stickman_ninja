@@ -219,6 +219,8 @@ var animations = {
 	punch1: {frames:4, width:310, height:325, hitbox_W:100/3, hitbox_H:300/3, sprite:"punch", fps:1000/15, maxframe:4},
 	punch2: {frames:10, width:350, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"punch2", fps:1000/10, maxframe:10},
 	punch3: {frames:15, width:375, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"punch3", fps:1000/20, maxframe:15},
+	punch_up: {frames:7, width:150, height:350, hitbox_W:100/3, hitbox_H:300/3, sprite:"punchup", fps:1000/15, maxframe:7},
+	hardknockback: {frames:3, width:400, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"hardknockback", fps:1000/10, maxframe:9},
 	touchdown: {frames:1, width:250, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"speeddown", fps:1000, maxframe:0},
 };
 

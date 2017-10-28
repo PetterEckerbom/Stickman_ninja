@@ -46,6 +46,37 @@ socket.on("punch",function(data){
   setTimeout(move_change, 6000/7);
 });
 
+socket.on('puch_up', function(player){
+  players[player].dir = 0;
+  players[player].animationlock = true;
+  players[player].frame = 0;
+  if(player == 0){
+    animation_change_you(animations.punch_up);
+  }else if(data.player == 1){
+    animation_change_enemy(animations.punch_up);
+  }
+});
+
+socket.on('hit3', function(data){
+  players[data.player].dir = 0;
+  players[data.player].animationlock = true;
+  players[data.player].frame = 0;
+  if(data.dir == -1){
+    players[data.player].facing = "right";
+  }else{
+    players[data.player].facing = "left";
+  }
+  if(data.player == 0){
+    animation_change_you(animations.hardknockback);
+  }else if(data.player == 1){
+    animation_change_enemy(animations.hardknockback);
+  }
+});
+
+socket.on('new_box',function(data){
+  console.log(data);
+  boxes.push(data);
+});
 //this is to apply a the flipping animation when the other jump comes through.
 socket.on('flipping', function(player){
   players[player].flipping = true;

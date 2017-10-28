@@ -1,3 +1,4 @@
+var boxes = [];
 //establishes connection with server.
 var socket = io();
 //sets up drawing varibles

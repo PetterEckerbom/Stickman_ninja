@@ -16,6 +16,7 @@ var flash = require('connect-flash');
 var game_clock = require('./game_clock.js');
 var punch = require('./punch.js');
 var playeractions = require('./playeractions.js');
+var boxes = require('./boxes.js');
 
 //brings in exported functions from matchmaking such as tha matchmaking fuckion etc
 var matchmaking = require('./matchmaking_server.js');
@@ -142,7 +143,10 @@ socket.on('back_ping',function(id){
 socket.on('kick', function(){
   punch.kick_UP(socket);
 });
-
+socket.on('new_box',function(type){
+  var game = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
+  boxes.create_box(type, game.index);
+});
 //Reroutes diconnects to matchmaking.js
 socket.on("disconnect",function(){
   matchmaking.disconnect(socket);

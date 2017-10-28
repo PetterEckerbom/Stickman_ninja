@@ -1,13 +1,14 @@
 setInterval(function () {
   ctx.clearRect(0, 0, c.width, c.height);
-  draw_map()
+  draw_map();
   //calls functions that should be updated every tick and fuctions that may change outcome of the other function calls
   move_change();
   move_players();
   move_down();
   draw_players();
+  draw_boxes();
   find_animation(players[0]);
-  find_animation(players[1]);ss
+  find_animation(players[1]);
   //Movement
 
 },1000/30);

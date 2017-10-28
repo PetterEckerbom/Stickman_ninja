@@ -64,6 +64,19 @@ function draw_players(){
    }
 }
 
+function draw_boxes(){
+  for(var i = 0; i < boxes.length; i++){
+    if(boxes[i].type == "yours"){
+      ctx.fillStyle="#6842f4";
+    }else if(boxes[i].type == "enemys"){
+      ctx.fillStyle="#f74254";
+    }else{
+      ctx.fillStyle="#913c00";
+    }
+    ctx.fillRect(boxes[i].cords.x+xoffset-25,boxes[i].cords.y+yoffset-50,50,50);
+  }
+}
+
 //these functions take in an animation, sets the framerate to the correct speed and resets all frames in order to apply the correct animation.
 function animation_change_you(animation){
   if(players[0].animation != animation && !players[0].animation_block ){
