@@ -77,6 +77,20 @@ socket.on('new_box',function(data){
   console.log(data);
   boxes.push(data);
 });
+
+socket.on('new_item', function(item){
+  console.log("something happened")
+  console.log(item.name + " " + item.charges);
+});
+socket.on('remove_box',function(box){
+  console.log(box)
+  for(var i = 0; i < boxes.length; i++){
+    if(boxes[i].cords.x == box.x && boxes[i].cords.y == box.y){
+      boxes.splice(i, 1);
+      return;
+    }
+  }
+});
 //this is to apply a the flipping animation when the other jump comes through.
 socket.on('flipping', function(player){
   players[player].flipping = true;

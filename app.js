@@ -147,6 +147,10 @@ socket.on('new_box',function(type){
   var game = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
   boxes.create_box(type, game.index);
 });
+
+socket.on('open_box',function(){
+  boxes.open_box(socket);
+});
 //Reroutes diconnects to matchmaking.js
 socket.on("disconnect",function(){
   matchmaking.disconnect(socket);

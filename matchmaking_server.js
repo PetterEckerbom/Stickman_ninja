@@ -53,6 +53,7 @@ function game_instance(player, type,id){
   this.player1ID = id;
   this.player2ID = null;
 	this.boxes = [];
+	this.shurikens = [];
 }
 
 exports.find_ranked = function(socket, type){

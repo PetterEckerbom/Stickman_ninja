@@ -224,3 +224,11 @@ exports.expolsion = function(x,y,force,players){
     gameclock.sync(players[i], other_player);
   }
 }
+
+exports.move_shuriken = function(){
+  for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
+    for(var y = 0; y < matchmaking.STARTED_GAMES.shurikens.length; y++){
+      var shurikens =  matchmaking.STARTED_GAMES[i].shurikens[y];
+    }
+  }
+}
