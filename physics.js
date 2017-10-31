@@ -225,10 +225,59 @@ exports.expolsion = function(x,y,force,players){
   }
 }
 
-exports.move_shuriken = function(){
-  for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
-    for(var y = 0; y < matchmaking.STARTED_GAMES.shurikens.length; y++){
-      var shurikens =  matchmaking.STARTED_GAMES[i].shurikens[y];
+exports.move_point = function(point, friction, gravity, walls_stop, platform_stop){
+  var hit_smt =false;
+  if(walls_stop){
+    if(x_collision(point)){
+      if(Math.abs(point.x_speed) > 1){
+        point.x += point.x_speed;
+        point.x_speed -= (point.x_speed/Math.abs(point.x_speed))*friction;
+      }
+    }else{
+      hit_smt = true;
+    }
+  }else{
+    if(Math.abs(point.x_speed) > 1){
+      point.x += point.x_speed;
+      point.x_speed -= (point.x_speed/Math.abs(point.x_speed))*(-1)*friction;
     }
   }
+
+  if(platform_stop){
+    if(y_collision(point)){
+      point.y += point.y_speed;
+      point.y_speed += gravity;
+    }else{
+      hit_smt = true;
+    }
+  }else{
+    point.y += point.y_speed;
+    point.y_speed += gravity;
+  }
+//console.log("x:"+point.x + " y: "+ point.y /*+ " x_speed: " +point.x_speed + " y_speed: " +point.y_speed*/);
+  return hit_smt;
+};
+
+function x_collision(point){
+  for(var i = 0; i < info.walls.length; i++){
+    if(point.x + point.x_speed >= info.walls[i].x && point.x + point.x_speed <= info.walls[i].x + info.walls[i].thickness){
+      if(point.y >= info.walls[i].ystart && point.y <= info.walls[i].yend){
+        console.log("Hit a wall");
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function y_collision(point){
+  for(var i = 0; i < info.platforms.length; i++){
+    if(point.x >= info.platforms[i].xstart && point.x<= info.platforms[i].xend){
+      if(point.y + point.y_speed >= info.platforms[i].y && point.y + point.y_speed <= info.platforms[i].y + info.platforms[i].thickness ){
+        //console.log("Hit a platfotm");
+        return false;
+      }
+    }
+  }
+  return true;
 }

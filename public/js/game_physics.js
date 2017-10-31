@@ -158,6 +158,60 @@ function player_collision(player ,not, extra){
   return true;
 }
 
+function move_point(point, friction, gravity, walls_stop, platform_stop){
+  var hit_smt =false;
+  if(walls_stop){
+    if(x_collision(point)){
+      if(Math.abs(point.x_speed) > 1){
+        point.x += point.x_speed;
+        point.x_speed -= (point.x_speed/Math.abs(point.x_speed))*friction;
+      }
+    }else{
+      hit_smt = true;
+    }
+  }else{
+    if(Math.abs(point.x_speed) > 1){
+      point.x += point.x_speed;
+      point.x_speed -= (point.x_speed/Math.abs(point.x_speed))*(-1)*friction;
+    }
+  }
+
+  if(platform_stop){
+    if(y_collision(point)){
+      point.y += point.y_speed;
+      point.y_speed += gravity;
+    }else{
+      hit_smt = true;
+    }
+  }else{
+    point.y += point.y_speed;
+    point.y_speed += gravity;
+  }
+  return hit_smt;
+};
+
+function x_collision(point){
+  for(var i = 0; i < walls.length; i++){
+    if(point.x + point.x_speed >= walls[i].x && point.x + point.x_speed <= walls[i].x + walls[i].thickness){
+      if(point.y >= walls[i].ystart && point.y <= walls[i].yend){
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function y_collision(point){
+  for(var i = 0; i < platform.length; i++){
+    if(point.x >= platform[i].xstart && point.x<= platform[i].xend){
+      if(point.y + point.y_speed >= platform[i].y && point.y + point.y_speed <= platform[i].y + platform[i].thickness ){
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
 //this function runs a loop for as many time as the server has probably done it with the packet sent//this is used to get a more accurate sync on devices with high latency aka above 33ms
 function latency_comp(ping){
   while(ping > 100/3){

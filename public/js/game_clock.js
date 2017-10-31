@@ -9,9 +9,18 @@ setInterval(function () {
   draw_boxes();
   find_animation(players[0]);
   find_animation(players[1]);
+  move_shuriken();
+  draw_shurikens();
   //Movement
 
 },1000/30);
+
+function move_shuriken(){
+  for(var i = 0; i < shurikens.length; i++){
+    move_point(shurikens[i], 0.2, 0.45, true, true);
+    //console.log(shurikens[i].x+ " Y: "+ shurikens[i].y);
+  }
+}
 
 //take in a ping, display last ping result and ping back to server with the latest ping. this is so server can calculate latency
 socket.on('ping',function(data){

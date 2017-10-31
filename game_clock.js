@@ -6,7 +6,27 @@ setInterval(function(){
     matchmaking.setstate();
     physics.move_players();
     physics.move_down();
+    move_shuriken()
 },1000/30);
+
+function move_shuriken(){
+  var deleteL = [];
+    for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
+      for(var y = 0; y < matchmaking.STARTED_GAMES[i].shurikens.length; y++){
+        if(physics.move_point(matchmaking.STARTED_GAMES[i].shurikens[y], 0.2, 0.45, true, true)){
+          deleteL.push({game: i, shuriken: y});
+        }
+        if(matchmaking.STARTED_GAMES[i].shurikens[y].y > 1000 || matchmaking.STARTED_GAMES[i].shurikens[y].x < -300 || matchmaking.STARTED_GAMES[i].shurikens[y].x > 1455){
+          deleteL.push({game: i, shuriken: y});
+        }
+      }
+    }
+    for(var i = 0; i < deleteL.length; i++){
+      matchmaking.STARTED_GAMES[deleteL[i].game].players[0].socket.emit('delete_shuriken', matchmaking.STARTED_GAMES[deleteL[i].game].shurikens[deleteL[i].shuriken].id);
+      matchmaking.STARTED_GAMES[deleteL[i].game].players[1].socket.emit('delete_shuriken', matchmaking.STARTED_GAMES[deleteL[i].game].shurikens[deleteL[i].shuriken].id);
+      matchmaking.STARTED_GAMES[deleteL[i].game].shurikens.splice(deleteL[i].shuriken, 1);
+    }
+}
 
 setInterval(function(){
   //Every 7 seconds we sync up server and client, TO many sync makes for choppy player experience, to few syncs makes for inacurate calculations

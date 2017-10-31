@@ -77,6 +77,17 @@ function draw_boxes(){
   }
 }
 
+function draw_shurikens(){
+  for(var i = 0; i < shurikens.length; i++){
+    if(shurikens[i].owner == "your"){
+      ctx.fillStyle="#6842f4";
+    }else if(shurikens[i].owner == "enemy"){
+      ctx.fillStyle="#f74254";
+    }
+    ctx.fillRect(shurikens[i].x+xoffset-10,shurikens[i].y+yoffset-10,20,20);
+  }
+}
+
 //these functions take in an animation, sets the framerate to the correct speed and resets all frames in order to apply the correct animation.
 function animation_change_you(animation){
   if(players[0].animation != animation && !players[0].animation_block ){

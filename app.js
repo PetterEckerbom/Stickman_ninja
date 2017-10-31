@@ -17,6 +17,7 @@ var game_clock = require('./game_clock.js');
 var punch = require('./punch.js');
 var playeractions = require('./playeractions.js');
 var boxes = require('./boxes.js');
+var items = require('./items.js');
 
 //brings in exported functions from matchmaking such as tha matchmaking fuckion etc
 var matchmaking = require('./matchmaking_server.js');
@@ -151,6 +152,10 @@ socket.on('new_box',function(type){
 socket.on('open_box',function(){
   boxes.open_box(socket);
 });
+
+socket.on('throw', function(force){
+  items["shuriken"](socket, force);
+})
 //Reroutes diconnects to matchmaking.js
 socket.on("disconnect",function(){
   matchmaking.disconnect(socket);
