@@ -48,9 +48,11 @@ exports.open_box = function(socket){
 
 function get_random_item(){
   var random =  Math.random();
-  if(random < 0.5){
+  if(random < (1/3)){
     return {name: "shuriken", charges: Math.floor(Math.random()*4)+1};
+  }else if(random< (2/3)){
+    return {name: "bomb", charges: Math.floor(Math.random()*2)+1};
   }else{
-    return {name: "banana", charges: Math.floor(Math.random()*8)+1};
+    return {name: "wings", charges: 0};
   }
 }

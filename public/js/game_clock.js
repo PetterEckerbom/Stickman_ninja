@@ -11,6 +11,8 @@ setInterval(function () {
   find_animation(players[1]);
   move_shuriken();
   draw_shurikens();
+  move_bomb();
+  draw_bombs();
   //Movement
 
 },1000/30);
@@ -19,6 +21,11 @@ function move_shuriken(){
   for(var i = 0; i < shurikens.length; i++){
     move_point(shurikens[i], 0.2, 0.45, true, true);
     //console.log(shurikens[i].x+ " Y: "+ shurikens[i].y);
+  }
+}
+function move_bomb(){
+  for(var i = 0; i < bombs.length; i++){
+    move_point(bombs[i], 0.5, 0.45, true, true);
   }
 }
 

@@ -1,5 +1,6 @@
 var boxes = [];
 var shurikens = [];
+var bombs = [];
 //establishes connection with server.
 var socket = io();
 //sets up drawing varibles

@@ -6,8 +6,20 @@ setInterval(function(){
     matchmaking.setstate();
     physics.move_players();
     physics.move_down();
-    move_shuriken()
+    move_shuriken();
+    move_bomb();
+    wingcheck();
 },1000/30);
+
+function wingcheck(){
+  for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
+    for(var y = 0; y < matchmaking.STARTED_GAMES[i].players.length; y++){
+      if(matchmaking.STARTED_GAMES[i].players[y].wings && matchmaking.STARTED_GAMES[i].players[y].y > -200){
+        matchmaking.STARTED_GAMES[i].players[y].jumpready = true;
+      }
+    }
+  }
+}
 
 function move_shuriken(){
   var deleteL = [];
@@ -27,6 +39,13 @@ function move_shuriken(){
       matchmaking.STARTED_GAMES[deleteL[i].game].shurikens.splice(deleteL[i].shuriken, 1);
     }
 }
+function move_bomb(){
+    for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
+      for(var y = 0; y < matchmaking.STARTED_GAMES[i].bombs.length; y++){
+        physics.move_point(matchmaking.STARTED_GAMES[i].bombs[y], 0.5, 0.40, true, true)
+      }
+    }
+  }
 
 setInterval(function(){
   //Every 7 seconds we sync up server and client, TO many sync makes for choppy player experience, to few syncs makes for inacurate calculations

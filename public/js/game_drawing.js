@@ -87,6 +87,12 @@ function draw_shurikens(){
     ctx.fillRect(shurikens[i].x+xoffset-10,shurikens[i].y+yoffset-10,20,20);
   }
 }
+function draw_bombs(){
+  for(var i = 0; i < bombs.length; i++){
+    ctx.fillStyle="#000000";
+    ctx.fillRect(bombs[i].x+xoffset-15,bombs[i].y+yoffset-15,30,30);
+  }
+}
 
 //these functions take in an animation, sets the framerate to the correct speed and resets all frames in order to apply the correct animation.
 function animation_change_you(animation){

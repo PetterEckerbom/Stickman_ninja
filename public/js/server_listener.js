@@ -95,7 +95,7 @@ socket.on('new_shuriken',function(data){
   var shuriken = data.info;
   shuriken.owner = data.type
   shurikens.push(shuriken);
-})
+});
 socket.on('delete_shuriken',function(id){
   for(var i = 0; i < shurikens.length; i++){
     if(shurikens[i].id == id){
@@ -103,7 +103,21 @@ socket.on('delete_shuriken',function(id){
       return;
     }
   }
+});
+
+socket.on('new_bomb',function(data){
+  var bomb = data.info;
+  bomb.owner = data.type
+  bombs.push(bomb);
+  setTimeout(delete_bomb, 1000, bomb.id);
 })
+function delete_bomb(id){
+  for(var i = 0; i < bombs.length; i++){
+    if(bombs[i].id == id){
+      bombs.splice(i, 1);
+    }
+  }
+}
 //this is to apply a the flipping animation when the other jump comes through.
 socket.on('flipping', function(player){
   players[player].flipping = true;

@@ -156,6 +156,22 @@ socket.on('open_box',function(){
 socket.on('throw', function(force){
   items["shuriken"](socket, force);
 })
+socket.on('throw_bomb', function(force){
+  items["bomb"](socket, force);
+});
+socket.on('activate_wings', function(){
+  items["wings"](socket);
+});
+
+socket.on('use_item', function(info){
+  var game_index = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
+  if(game_index != -1){
+    var player = matchmaking.STARTED_GAMES[game_index.index].players[game_index.Player];
+    if(player.item != "nothing"){
+      items[player.item](socket, info);
+    }
+}
+});
 //Reroutes diconnects to matchmaking.js
 socket.on("disconnect",function(){
   matchmaking.disconnect(socket);

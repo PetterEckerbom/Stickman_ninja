@@ -212,13 +212,19 @@ function player_collision(player, extra){
 
 exports.expolsion = function(x,y,force,players){
   for(var i = 0; i < players.length; i++){
-    var playerY = players[i].y+(players[i].state.hitbox_H/2)
+    var playerY = players[i].y-(players[i].state.hitbox_H/2);
     var angle = Math.atan2(y-playerY, x - players[i].x);
-    var dist = (Math.sqrt(Math.pow(y-playerY,2) + Math.pow(x - players[i].x,2)) / 40);
+    var dist = (Math.sqrt(Math.pow(y-playerY,2) + Math.pow(x - players[i].x,2))/70);
     force = force/dist;
     angle = angle;
-    players[i].y_speed += (-1) * Math.sin(angle)*force;
-    players[i].x_speed += (-1) * Math.cos(angle)*force;
+    if(force > 20){
+      force = 20;
+    }
+    if((Math.sqrt(Math.pow(y-playerY,2) + Math.pow(x - players[i].x,2))) > 300){
+      force = 0;
+    }
+    players[i].y_speed += (-1)*Math.sin(angle)*force;
+    players[i].x_speed += (-1)*Math.cos(angle)*force;
     var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, players[i].socket.id);
     var other_player = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
     gameclock.sync(players[i], other_player);
@@ -254,7 +260,6 @@ exports.move_point = function(point, friction, gravity, walls_stop, platform_sto
     point.y += point.y_speed;
     point.y_speed += gravity;
   }
-//console.log("x:"+point.x + " y: "+ point.y /*+ " x_speed: " +point.x_speed + " y_speed: " +point.y_speed*/);
   return hit_smt;
 };
 
