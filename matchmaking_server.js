@@ -47,6 +47,7 @@ function player(id, elo, name, socket){
 	this.item = "nothing";
 	this.charges = 0;
 	this.wings = false;
+	this.iceballhits = 0;
 }
 //this one is for the "wrap" that the players are in and pretty much whole game
 function game_instance(player, type,id){
@@ -57,6 +58,7 @@ function game_instance(player, type,id){
 	this.boxes = [];
 	this.shurikens = [];
 	this.bombs = [];
+	this.iceballs = [];
 }
 
 exports.find_ranked = function(socket, type){

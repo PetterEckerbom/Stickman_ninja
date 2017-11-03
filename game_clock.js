@@ -1,5 +1,6 @@
 var matchmaking = require('./matchmaking_server.js');
 var physics = require('./physics.js');
+var items = require('./items.js');
 
 setInterval(function(){
   //Runs the main functions every 33.333...ms
@@ -8,7 +9,9 @@ setInterval(function(){
     physics.move_down();
     move_shuriken();
     move_bomb();
+    move_iceball();
     wingcheck();
+
 },1000/30);
 
 function wingcheck(){
@@ -45,6 +48,43 @@ function move_bomb(){
         physics.move_point(matchmaking.STARTED_GAMES[i].bombs[y], 0.5, 0.40, true, true)
       }
     }
+  }
+
+  function move_iceball(){
+    var deleteL = [];
+      for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
+        for(var y = 0; y < matchmaking.STARTED_GAMES[i].iceballs.length; y++){
+          var player = matchmaking.STARTED_GAMES[i].players[0];
+          var other = matchmaking.STARTED_GAMES[i].players[1];
+          if(matchmaking.STARTED_GAMES[i].iceballs[y].owner === 0){
+            player = matchmaking.STARTED_GAMES[i].players[1];
+            other = matchmaking.STARTED_GAMES[i].players[0];
+          }
+          physics.move_point(matchmaking.STARTED_GAMES[i].iceballs[y], 0, 0, false, false);
+          if(matchmaking.STARTED_GAMES[i].iceballs[y].x < -300 || matchmaking.STARTED_GAMES[i].iceballs[y].x > 1455){
+            deleteL.push({game: i, iceball: y});
+          }
+          var iceball = matchmaking.STARTED_GAMES[i].iceballs[y];
+          var array = matchmaking.STARTED_GAMES[i].iceballs;
+          if(items.iceball_hit(iceball, player, other, array)){
+            player.x_speed = 0;
+            player.max_speed = 6;
+            player.accerelation = 0.3;
+            player.iceballhits++;
+            player.socket.emit("delete_iceball", iceball.id);
+            other.socket.emit("delete_iceball", iceball.id);
+            player.socket.emit("slowed", 0);
+            other.socket.emit("slowed", 1);
+            setTimeout(items.reset_speed, 8000, player);
+            array.splice(array.indexOf(iceball), 1);
+          };
+        }
+      }
+      for(var i = 0; i < deleteL.length; i++){
+        matchmaking.STARTED_GAMES[deleteL[i].game].players[0].socket.emit('delete_iceball', matchmaking.STARTED_GAMES[deleteL[i].game].iceballs[deleteL[i].iceball].id);
+        matchmaking.STARTED_GAMES[deleteL[i].game].players[1].socket.emit('delete_iceball', matchmaking.STARTED_GAMES[deleteL[i].game].iceballs[deleteL[i].iceball].id);
+        matchmaking.STARTED_GAMES[deleteL[i].game].iceballs.splice(deleteL[i].iceball, 1);
+      }
   }
 
 setInterval(function(){

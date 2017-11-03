@@ -13,6 +13,8 @@ setInterval(function () {
   draw_shurikens();
   move_bomb();
   draw_bombs();
+  move_iceballs();
+  draw_iceballs();
   //Movement
 
 },1000/30);
@@ -28,10 +30,16 @@ function move_bomb(){
     move_point(bombs[i], 0.5, 0.45, true, true);
   }
 }
-
+function move_iceballs(){
+  for(var i = 0; i < iceballs.length; i++){
+    move_point(iceballs[i], 0, 0, false, false);
+  }
+}
+var ping = 0;
 //take in a ping, display last ping result and ping back to server with the latest ping. this is so server can calculate latency
 socket.on('ping',function(data){
   if(data){
+    ping = data.ping;
     document.getElementById('ping').innerHTML = "Ping:"+Math.round(data.ping)+"ms";
     socket.emit('back_ping', data.id);
   }

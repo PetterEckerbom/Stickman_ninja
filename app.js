@@ -120,9 +120,9 @@ socket.on('jump', function(){
 });
 
 //Reroutes punch request to to punch.js
-socket.on('punch', function(down){
-  if(down){
-    punch.punch_down(socket);
+socket.on('punch', function(up){
+  if(up){
+    punch.punch_up(socket);
   }else{
     punch.punch(socket);
   }
@@ -142,7 +142,7 @@ socket.on('back_ping',function(id){
   }
 });
 socket.on('kick', function(){
-  punch.kick_UP(socket);
+  punch.kick_down(socket);
 });
 socket.on('new_box',function(type){
   var game = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
@@ -158,6 +158,9 @@ socket.on('throw', function(force){
 })
 socket.on('throw_bomb', function(force){
   items["bomb"](socket, force);
+});
+socket.on('throw_iceball', function(force){
+  items["iceball"](socket);
 });
 socket.on('activate_wings', function(){
   items["wings"](socket);

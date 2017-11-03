@@ -52,7 +52,7 @@ socket.on('puch_up', function(player){
   players[player].frame = 0;
   if(player == 0){
     animation_change_you(animations.punch_up);
-  }else if(data.player == 1){
+  }else if(player == 1){
     animation_change_enemy(animations.punch_up);
   }
 });
@@ -105,11 +105,34 @@ socket.on('delete_shuriken',function(id){
   }
 });
 
+socket.on('new_iceball',function(data){
+  var iceball = data.info;
+  iceball.owner = data.type
+  iceballs.push(iceball);
+});
+socket.on('delete_iceball',function(id){
+  for(var i = 0; i < iceballs.length; i++){
+    if(iceballs[i].id == id){
+      iceballs.splice(i, 1);
+      return;
+    }
+  }
+});
+socket.on("slowed", function(player){
+  players[player].max_speed = 6;
+  players[player].accerelation = 0.3;
+  setTimeout(noslow, 8000-ping, player)
+})
+function noslow(player){
+  players[player].max_speed = 12;
+  players[player].accerelation = 0.6;
+}
+
 socket.on('new_bomb',function(data){
   var bomb = data.info;
   bomb.owner = data.type
   bombs.push(bomb);
-  setTimeout(delete_bomb, 1000, bomb.id);
+  setTimeout(delete_bomb, 1000-ping, bomb.id);
 })
 function delete_bomb(id){
   for(var i = 0; i < bombs.length; i++){

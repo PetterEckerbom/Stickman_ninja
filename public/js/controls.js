@@ -31,7 +31,7 @@ onkeydown = onkeyup = function(e){
   }
   //if "K" is unpressed we tell the server to punch
   if(e.keyCode == 75 && e.type == 'keyup'){
-    socket.emit('punch', down_down);
+    socket.emit('punch', up_down);
   }
   if(e.keyCode == 76 && e.type == 'keyup'){
     socket.emit('kick', down_down);

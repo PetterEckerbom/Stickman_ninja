@@ -148,7 +148,7 @@ function get_punch_cords(game, player, punchtype){
   return hitcords;
 }
 
-exports.punch_down = function(socket){
+exports.kick_down = function(socket){
   var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
   if(games_check != -1){
     var player = matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player];
@@ -162,15 +162,15 @@ exports.punch_down = function(socket){
         player.dir = 0;
         //We call hitfunction after the time it takes for punch to hit, we send through direction and both player postition in array.
         if(games_check.NotPlayer == 0){
-            setTimeout(check_down_punch, 100, games_check.index, games_check.NotPlayer, 1);
+            setTimeout(check_down_kick, 100, games_check.index, games_check.NotPlayer, 1);
         }else{
-          setTimeout(check_down_punch, 100, games_check.index, games_check.NotPlayer, 0);
+          setTimeout(check_down_kick, 100, games_check.index, games_check.NotPlayer, 0);
         }
       }
     }
 };
 
-function check_down_punch(game_instance, player, other){
+function check_down_kick(game_instance, player, other){
   var hit_player = matchmaking.STARTED_GAMES[game_instance].players[player];
   var hitting_player = matchmaking.STARTED_GAMES[game_instance].players[other];
   var hit_x = hitting_player.x;
@@ -185,7 +185,7 @@ function check_down_punch(game_instance, player, other){
   }
 }
 
-exports.kick_UP = function(socket){
+exports.punch_up = function(socket){
   var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
   if(games_check != -1){
     var player = matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player];
@@ -201,15 +201,15 @@ exports.kick_UP = function(socket){
         player.dir = 0;
         //We call hitfunction after the time it takes for punch to hit, we send through direction and both player postition in array.
         if(games_check.NotPlayer == 0){
-            setTimeout(check_up_kick, 300, games_check.index, games_check.NotPlayer, 1);
+            setTimeout(check_up_punch, 300, games_check.index, games_check.NotPlayer, 1);
         }else{
-          setTimeout(check_up_kick, 300, games_check.index, games_check.NotPlayer, 0);
+          setTimeout(check_up_punch, 300, games_check.index, games_check.NotPlayer, 0);
         }
       }
     }
 };
 
-function check_up_kick(game_instance, player, other){
+function check_up_punch(game_instance, player, other){
   var hit_player = matchmaking.STARTED_GAMES[game_instance].players[player];
   var hitting_player = matchmaking.STARTED_GAMES[game_instance].players[other];
   var hit_x = hitting_player.x;

@@ -39,7 +39,7 @@ exports.bomb = function(socket, force){
       dir = 1
     }
       if(player.attackready && player.controlE){
-        var newbomb = {x: player.x, y:(player.y-player.state.hitbox_H/2), x_speed: force*dir, y_speed: 0, owner: game_index.index, id: Math.random()};
+        var newbomb = {x: player.x, y:(player.y-player.state.hitbox_H/2), x_speed: force*dir, y_speed: 0, owner: game_index.Player, id: Math.random()};
         player.socket.emit('new_bomb', {type: "your", info: newbomb});
         notplayer.socket.emit('new_bomb', {type: "enemy", info: newbomb});
         bombarray.push(newbomb);
@@ -77,5 +77,46 @@ exports.wings = function(socket){
 function losewing(player){
   if(player){
     player.wings = false;
+  }
+}
+
+exports.iceball = function(socket){
+  var game_index = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
+  if(game_index != -1){
+    var iceball_array = matchmaking.STARTED_GAMES[game_index.index].iceballs;
+    var player = matchmaking.STARTED_GAMES[game_index.index].players[game_index.Player];
+    var notplayer = matchmaking.STARTED_GAMES[game_index.index].players[game_index.NotPlayer];
+      if(player.attackready && player.controlE){
+        var dir = 0;
+        if(player.facing == "left"){
+          dir = -1
+        }else{
+          dir = 1
+        }
+        var newiceball = {x: player.x, y: (player.y-player.state.hitbox_H/2), x_speed: 10*dir, y_speed: 0, owner: game_index.Player, id: Math.random()};
+        player.socket.emit('new_iceball', {type: "your", info: newiceball});
+        notplayer.socket.emit('new_iceball', {type: "enemy", info: newiceball});
+        iceball_array.push(newiceball);
+        player.charges--;
+        if(player.charges <= 0){
+          player.item = "nothing";
+          player.charges = 0;
+        }
+    }
+  }
+}
+exports.item_hit = function(item, player, other, array){
+  if(item.x >= player.x - (player.state.hitbox_W/2) && item.x <= player.x + (player.state.hitbox_W/2)){
+    if(item.y >= player.y - player.state.hitbox_H && item.y <= player.y){
+      return true;
+    }
+  }
+}
+exports.reset_speed = function(player){
+  player.iceballhits--
+  if(player.iceballhits <= 0){
+    player.max_speed = 12;
+    player.accerelation = 0.6;
+    player.iceballhits = 0;
   }
 }

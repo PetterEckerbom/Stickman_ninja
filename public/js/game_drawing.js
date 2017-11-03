@@ -94,6 +94,13 @@ function draw_bombs(){
   }
 }
 
+function draw_iceballs(){
+  for(var i = 0; i < iceballs.length; i++){
+    ctx.fillStyle="#87c0ec";
+    ctx.fillRect(iceballs[i].x+xoffset-5,iceballs[i].y+yoffset-5,10,10);
+  }
+}
+
 //these functions take in an animation, sets the framerate to the correct speed and resets all frames in order to apply the correct animation.
 function animation_change_you(animation){
   if(players[0].animation != animation && !players[0].animation_block ){
