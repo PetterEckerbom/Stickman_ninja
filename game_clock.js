@@ -66,7 +66,7 @@ function move_bomb(){
           }
           var iceball = matchmaking.STARTED_GAMES[i].iceballs[y];
           var array = matchmaking.STARTED_GAMES[i].iceballs;
-          if(items.iceball_hit(iceball, player, other, array)){
+          if(items.item_hit(iceball, player, other, array)){
             player.x_speed = 0;
             player.max_speed = 6;
             player.accerelation = 0.3;

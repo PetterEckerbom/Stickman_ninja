@@ -121,11 +121,16 @@ socket.on('delete_iceball',function(id){
 socket.on("slowed", function(player){
   players[player].max_speed = 6;
   players[player].accerelation = 0.3;
+  players[player].iceballhits++;
   setTimeout(noslow, 8000-ping, player)
 })
 function noslow(player){
-  players[player].max_speed = 12;
-  players[player].accerelation = 0.6;
+  players[player].iceballhits--;
+  if(players[player].iceballhits <= 0){
+    players[player].max_speed = 12;
+    players[player].accerelation = 0.6;
+    players[player].iceballhits = 0;
+  }
 }
 
 socket.on('new_bomb',function(data){

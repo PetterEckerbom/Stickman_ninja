@@ -243,7 +243,8 @@ var players = [
     facing:"right",
     animation: animations.idle,
     animationlock:false,
-    flipping: false
+    flipping: false,
+		iceballhits: 0
   },
 enemy = {
     name:"",
@@ -261,6 +262,7 @@ enemy = {
     facing:"left",
     animation: animations.idle,
     animationlock:false,
-    flipping: false
+    flipping: false,
+		iceballhits: 0
   }
 ];
