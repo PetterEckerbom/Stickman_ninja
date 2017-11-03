@@ -2,6 +2,7 @@ var boxes = [];
 var shurikens = [];
 var bombs = [];
 var iceballs = [];
+var bananas = [];
 //establishes connection with server.
 var socket = io();
 //sets up drawing varibles

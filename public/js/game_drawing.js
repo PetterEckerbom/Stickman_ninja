@@ -93,6 +93,12 @@ function draw_bombs(){
     ctx.fillRect(bombs[i].x+xoffset-15,bombs[i].y+yoffset-15,30,30);
   }
 }
+function draw_bananas(){
+  for(var i = 0; i < bananas.length; i++){
+    ctx.fillStyle="#fcfc02";
+    ctx.fillRect(bananas[i].x+xoffset-15,bananas[i].y+yoffset-15,30,30);
+  }
+}
 
 function draw_iceballs(){
   for(var i = 0; i < iceballs.length; i++){

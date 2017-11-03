@@ -15,6 +15,8 @@ setInterval(function () {
   draw_bombs();
   move_iceballs();
   draw_iceballs();
+  move_banana();
+  draw_bananas();
   //Movement
 
 },1000/30);
@@ -27,7 +29,12 @@ function move_shuriken(){
 }
 function move_bomb(){
   for(var i = 0; i < bombs.length; i++){
-    move_point(bombs[i], 0.5, 0.45, true, true);
+    move_point(bombs[i], 0.5, 0.4, true, true);
+  }
+}
+function move_banana(){
+  for(var i = 0; i < bananas.length; i++){
+    move_point(bananas[i], 0, 0.4, true, true);
   }
 }
 function move_iceballs(){

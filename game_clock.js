@@ -10,6 +10,7 @@ setInterval(function(){
     move_shuriken();
     move_bomb();
     move_iceball();
+    move_banana();
     wingcheck();
 
 },1000/30);
@@ -49,6 +50,49 @@ function move_bomb(){
       }
     }
   }
+  function move_banana(){
+      for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
+        for(var y = 0; y < matchmaking.STARTED_GAMES[i].bananas.length; y++){
+          physics.move_point(matchmaking.STARTED_GAMES[i].bananas[y], 0, 0.40, true, true);
+          var target = get_players(matchmaking.STARTED_GAMES[i].players, matchmaking.STARTED_GAMES[i].bananas[y].owner);
+          var banana = matchmaking.STARTED_GAMES[i].bananas[y];
+          if(target.other.y_speed === 0 && items.item_hit(banana, target.other, matchmaking.STARTED_GAMES[i].bananas)){
+            target.other.socket.emit("delete_banana", banana.id);
+            target.player.socket.emit("delete_banana", banana.id);
+            target.other.socket.emit("banana_slide", 0);
+            target.player.socket.emit("banana_slide", 1);
+            target.other.attackstack++
+            target.other.controlstack++
+            target.other.controlE = false;
+            target.other.attackready = false;
+            setTimeout(attackready_back, 3000, target.other)
+            setTimeout(controlE_back, 3000, target.other)
+            matchmaking.STARTED_GAMES[i].bananas.splice(matchmaking.STARTED_GAMES[i].bananas.indexOf(banana), 1);
+          }
+        }
+      }
+    }
+    function controlE_back(player){
+      player.controlstack--
+      if(player.controlstack <= 0){
+        player.controlE = true;
+        player.controlstack = 0;
+      }
+    }
+    function attackready_back(player){
+      player.attackstack--
+      if(player.attackstack <= 0){
+        player.attackready = true;
+        player.attackstack = 0;
+      }
+    }
+    function get_players(array, player){
+      if(player === 0){
+        return{player: array[0], other: array[1]};
+      }else{
+        return{player: array[1], other: array[0]};
+      }
+    }
 
   function move_iceball(){
     var deleteL = [];
@@ -66,7 +110,7 @@ function move_bomb(){
           }
           var iceball = matchmaking.STARTED_GAMES[i].iceballs[y];
           var array = matchmaking.STARTED_GAMES[i].iceballs;
-          if(items.item_hit(iceball, player, other, array)){
+          if(items.item_hit(iceball, player, array)){
             player.x_speed = 0;
             player.max_speed = 6;
             player.accerelation = 0.3;

@@ -162,6 +162,9 @@ socket.on('throw_bomb', function(force){
 socket.on('throw_iceball', function(force){
   items["iceball"](socket);
 });
+socket.on('throw_banana', function(force){
+  items["banana"](socket);
+});
 socket.on('activate_wings', function(){
   items["wings"](socket);
 });

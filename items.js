@@ -105,7 +105,7 @@ exports.iceball = function(socket){
     }
   }
 }
-exports.item_hit = function(item, player, other, array){
+exports.item_hit = function(item, player, array){
   if(item.x >= player.x - (player.state.hitbox_W/2) && item.x <= player.x + (player.state.hitbox_W/2)){
     if(item.y >= player.y - player.state.hitbox_H && item.y <= player.y){
       return true;
@@ -118,5 +118,25 @@ exports.reset_speed = function(player){
     player.max_speed = 12;
     player.accerelation = 0.6;
     player.iceballhits = 0;
+  }
+}
+
+exports.banana = function(socket){
+  var game_index = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
+  if(game_index != -1){
+    var banana_array = matchmaking.STARTED_GAMES[game_index.index].bananas;
+    var player = matchmaking.STARTED_GAMES[game_index.index].players[game_index.Player];
+    var notplayer = matchmaking.STARTED_GAMES[game_index.index].players[game_index.NotPlayer];
+      if(player.attackready && player.controlE){
+        var newbanana = {x: player.x, y: player.y-20, x_speed: 0, y_speed: 0, owner: game_index.Player, id: Math.random()};
+        player.socket.emit('new_banana', {type: "your", info: newbanana});
+        notplayer.socket.emit('new_banana', {type: "enemy", info: newbanana});
+        banana_array.push(newbanana);
+        player.charges--;
+        if(player.charges <= 0){
+          player.item = "nothing";
+          player.charges = 0;
+        }
+    }
   }
 }

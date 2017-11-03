@@ -146,6 +146,11 @@ function delete_bomb(id){
     }
   }
 }
+socket.on('new_banana',function(data){
+  var banana = data.info;
+  banana.owner = data.type
+  bananas.push(banana);
+});
 //this is to apply a the flipping animation when the other jump comes through.
 socket.on('flipping', function(player){
   players[player].flipping = true;

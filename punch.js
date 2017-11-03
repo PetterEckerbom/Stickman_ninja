@@ -14,6 +14,7 @@ exports.punch = function(socket){
       if(player.controlE && player.attackready){
         //We disable control of character for 0.6s
         player.controlE = false;
+        player.controlstack++;
         setTimeout(control_ready, 6000/10, games_check.index, games_check.Player);
         //Below we check what kind of punch it is that sould be sent. Done through two booleans in an object stored in player object.
         if(player.punch.punch2){
@@ -59,13 +60,17 @@ exports.punch = function(socket){
 
 //The below functions are for Resettting diffrent booleans such as movement, hit and the two diffrent pucnh booleans
 function attack_ready(game_instance, player){
-  if(matchmaking.STARTED_GAMES[game_instance]){
+  matchmaking.STARTED_GAMES[game_instance].players[player].attackstack--;
+  if(matchmaking.STARTED_GAMES[game_instance] && matchmaking.STARTED_GAMES[game_instance].players[player].attackstack <= 0){
     matchmaking.STARTED_GAMES[game_instance].players[player].attackready = true;
+    matchmaking.STARTED_GAMES[game_instance].players[player].attackstack = 0;
   }
 }
 function control_ready(game_instance, player){
-  if(matchmaking.STARTED_GAMES[game_instance]){
+  matchmaking.STARTED_GAMES[game_instance].players[player].controlstack--;
+  if(matchmaking.STARTED_GAMES[game_instance] && matchmaking.STARTED_GAMES[game_instance].players[player].controlstack <= 0){
   	matchmaking.STARTED_GAMES[game_instance].players[player].controlE = true;
+    matchmaking.STARTED_GAMES[game_instance].players[player].controlstack = 0;
   }
 }
 function reset_punch(game_instance, player, punch){
@@ -113,7 +118,9 @@ function check_hit(game_instance, player, dir, other, Ptype){
         }
         //We apply the hit to players speed and makes him lose control of character
         hit_player.x_speed = dir*force;
+        hit_player.controlstack++;
   		  hit_player.controlE = false;
+        hit_player.attackstack++;
   		  hit_player.attackready = false;
   		  hit_player.dir = 0;
   			setTimeout(control_ready, time/15, game_instance, player);
@@ -157,6 +164,7 @@ exports.kick_down = function(socket){
       if(player.controlE && player.attackready){
         //We disable control of character for 0.6s
         player.controlE = false;
+        player.controlstack++;
         setTimeout(control_ready, 600, games_check.index, games_check.Player);
         //We set player movement direction to 0 as to avoid the pysics.js move_players() to move him.
         player.dir = 0;
@@ -196,6 +204,7 @@ exports.punch_up = function(socket){
         OtherPlayer.socket.emit('puch_up',1);
         //We disable control of character for 0.6s
         player.controlE = false;
+        player.controlstack++;
         setTimeout(control_ready, 600, games_check.index, games_check.Player);
         //We set player movement direction to 0 as to avoid the pysics.js move_players() to move him.
         player.dir = 0;
