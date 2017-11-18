@@ -5,6 +5,7 @@ var jump = true;
 
 var down_down = false;
 var up_down = false;
+var item_type = "use";
 
 onkeydown = onkeyup = function(e){
   //If A or D are pressed or unpressed we change their status to true or false and calls move_change
@@ -35,6 +36,20 @@ onkeydown = onkeyup = function(e){
   }
   if(e.keyCode == 76 && e.type == 'keyup'){
     socket.emit('kick', down_down);
+  }
+  if(e.keyCode == 74){
+    if(item_type == "use" && e.type == 'keyup'){
+      socket.emit('use_item');
+      charges--;
+    }else if(e.type == 'keyup' && item_type == "throw"){
+      get_pwr =true;
+      charges--;
+    }else if(item_type == "throw"){
+      pwrD = true;
+    }
+    if(charges <= 0){
+      item_type = "none";
+    }
   }
 };
 //this function calculates what direction we want to move in and emits result to server.

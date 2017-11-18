@@ -56,7 +56,16 @@ socket.on('puch_up', function(player){
     animation_change_enemy(animations.punch_up);
   }
 });
-
+socket.on('swipe_kick', function(player){
+  players[player].dir = 0;
+  players[player].animationlock = true;
+  players[player].frame = 0;
+  if(player == 0){
+    animation_change_you(animations.swipe);
+  }else if(player == 1){
+    animation_change_enemy(animations.swipe);
+  }
+});
 socket.on('hit3', function(data){
   players[data.player].dir = 0;
   players[data.player].animationlock = true;
@@ -72,14 +81,39 @@ socket.on('hit3', function(data){
     animation_change_enemy(animations.hardknockback);
   }
 });
+socket.on('hit1', function(data){
+  players[data.player].dir = 0;
+  players[data.player].animationlock = true;
+  players[data.player].frame = 0;
+  if(data.player == 0){
+    animation_change_you(animations.punched);
+  }else if(data.player == 1){
+    animation_change_enemy(animations.punched);
+  }
+});
+function test(player){
+  players[player].dir = 0;
+  players[player].animationlock = true;
+  players[player].frame = 0;
+  if(player == 0){
+    animation_change_you(animations.punched);
+  }else if(player == 1){
+    animation_change_enemy(animations.punched);
+  }
+}
 
 socket.on('new_box',function(data){
   console.log(data);
   boxes.push(data);
 });
-
+var charges = 0;
 socket.on('new_item', function(item){
-  console.log("something happened")
+  if(item.name == "shuriken" || item.name == "bomb" ){
+    item_type = "throw";
+  }else{
+    item_type = "use";
+  }
+  charges = item.charges;
   console.log(item.name + " " + item.charges);
 });
 socket.on('remove_box',function(box){

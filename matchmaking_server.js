@@ -37,6 +37,8 @@ function player(id, elo, name, socket){
 	this.elo = elo;
 	this.id = id;
 	this.socket = socket;
+	this.hp = 1000;
+	this.fame = 0;
 	this.name = name;
 	this.Ptime = {};
 	this.ping = 0;
@@ -239,4 +241,29 @@ exports.setstate = function(){
 			}
 	}
 }
+};
+
+exports.decrese_health = function(player, health){
+	var otherplayer = findplayer(STARTED_GAMES, player.id);
+	player.health -= health;
+	player.socket.emit('health_update', player.health);
+	otherplayer.socket.emit('health_update', player.health);
+	if(player.health < 0){
+		player.health = 1000;
+		player.socket.emit('healthup');
+		otherplayer.socket.emit('healthup');
+		player.control++;
+		gameclock.controlE_back(player);
+	}
+};
+exports.fame_increase = function(player, fame){
+	var game_index = findplayer(STARTED_GAMES, player.id);
+	var otherplayer =  STARTED_GAMES[game_index.index].players[game_index.NotPlayer];
+	player.fame += fame;
+	if(player.health >= 1000){
+		player.fame = player.fame - 1000;
+		boxes.create_box(STARTED_GAMES[game_index.index], game_index.Player);
+	}
+	player.socket.emit('fame_update', player.fame);
+	otherplayer.socket.emit('fame_update', player.fame);
 };

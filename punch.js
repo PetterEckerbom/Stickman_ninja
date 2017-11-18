@@ -115,6 +115,7 @@ function check_hit(game_instance, player, dir, other, Ptype){
           force = 9;
           time = 12000;
           type = "hit1";
+          
         }
         //We apply the hit to players speed and makes him lose control of character
         hit_player.x_speed = dir*force;
@@ -155,6 +156,49 @@ function get_punch_cords(game, player, punchtype){
   return hitcords;
 }
 
+
+exports.swipe_kick = function(socket){
+  var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
+  var time;
+  if(games_check != -1){
+    var player = matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player];
+    var OtherPlayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
+    //If player has control over character aswell as not having punch on cooldown we send it through.
+      if(player.controlE && player.attackready){
+        //We disable control of character for 0.6s
+        player.controlE = false;
+        player.controlstack++;
+        setTimeout(control_ready, 6000/10, games_check.index, games_check.Player);
+        //Below we check what kind of punch it is that sould be sent. Done through two booleans in an object stored in player object.
+        player.socket.emit("swipe_kick", 0);
+        OtherPlayer.socket.emit("swipe_kick", 1);
+        time = 2000/15;
+        var dir;
+        if(player.y_speed == 0){
+          player.x_speed = 0;
+        }
+        //We sents his speed depending on punch typer and facing direction, we also define what direction the punch is in
+        if(player.facing == "left"){
+          dir = -1;
+        }else{
+          dir = 1;
+        }
+        //We set player movement direction to 0 as to avoid the pysics.js move_players() to move him.
+        player.dir = 0;
+        //We call hitfunction after the time it takes for punch to hit, we send through direction and both player postition in array.
+        if(games_check.NotPlayer == 0){
+          setTimeout(check_hit_wipe, 400, games_check.index, games_check.NotPlayer, dir, 1);
+        }else{
+          setTimeout(check_hit_wipe, 400, games_check.index, games_check.NotPlayer, dir, 0);
+        }
+      }
+    }
+};
+
+function check_hit_swipe(){
+
+}
+
 exports.kick_down = function(socket){
   var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
   if(games_check != -1){
@@ -187,6 +231,7 @@ function check_down_kick(game_instance, player, other){
     if(hit_x > hit_player.x - (hit_player.state.hitbox_W/2) && hit_x < hit_player.x + (hit_player.state.hitbox_W/2)){
       if(hit_y > hit_player.y - hit_player.state.hitbox_H && hit_y < hit_player.y){
         hit_player.y_speed = 14;
+        matchmaking.decrese_health(hit_player, 100);
         gameclock.sync(hit_player, hitting_player);
       }
     }

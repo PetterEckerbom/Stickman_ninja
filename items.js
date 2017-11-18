@@ -1,6 +1,7 @@
 var matchmaking = require('./matchmaking_server.js');
 var physics = require('./physics.js');
 exports.shuriken = function(socket, force){
+  force = force/12.5;
   var game_index = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
   if(game_index != -1){
     var shuriken_array = matchmaking.STARTED_GAMES[game_index.index].shurikens;
@@ -9,9 +10,9 @@ exports.shuriken = function(socket, force){
       if(player.attackready && player.controlE){
         var dir = 0;
         if(player.facing == "left"){
-          dir = -1
+          dir = -1;
         }else{
-          dir = 1
+          dir = 1;
         }
         var newshuriken = {x: player.x, y: (player.y-player.state.hitbox_H/2), x_speed: force*dir, y_speed: 0, owner: game_index.index, id: Math.random()};
         player.socket.emit('new_shuriken', {type: "your", info: newshuriken});
@@ -24,19 +25,20 @@ exports.shuriken = function(socket, force){
         }
     }
   }
-}
+};
 
 exports.bomb = function(socket, force){
   var game_index = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
+  force = force/20;
   if(game_index != -1){
     var bombarray = matchmaking.STARTED_GAMES[game_index.index].bombs;
     var player = matchmaking.STARTED_GAMES[game_index.index].players[game_index.Player];
     var notplayer = matchmaking.STARTED_GAMES[game_index.index].players[game_index.NotPlayer];
     var dir = 0;
     if(player.facing == "left"){
-      dir = -1
+      dir = -1;
     }else{
-      dir = 1
+      dir = 1;
     }
       if(player.attackready && player.controlE){
         var newbomb = {x: player.x, y:(player.y-player.state.hitbox_H/2), x_speed: force*dir, y_speed: 0, owner: game_index.Player, id: Math.random()};
@@ -51,7 +53,7 @@ exports.bomb = function(socket, force){
         }
     }
   }
-}
+};
 function bomb_blowup(bomb, bombarray, players){
   if(bombarray){
     physics.expolsion(bomb.x,bomb.y,25,players);
@@ -73,7 +75,7 @@ exports.wings = function(socket){
     player.charges = 0;
     player.item = "nothing";
   }
-}
+};
 function losewing(player){
   if(player){
     player.wings = false;
@@ -89,9 +91,9 @@ exports.iceball = function(socket){
       if(player.attackready && player.controlE){
         var dir = 0;
         if(player.facing == "left"){
-          dir = -1
+          dir = -1;
         }else{
-          dir = 1
+          dir = 1;
         }
         var newiceball = {x: player.x, y: (player.y-player.state.hitbox_H/2), x_speed: 10*dir, y_speed: 0, owner: game_index.Player, id: Math.random()};
         player.socket.emit('new_iceball', {type: "your", info: newiceball});
@@ -104,22 +106,22 @@ exports.iceball = function(socket){
         }
     }
   }
-}
+};
 exports.item_hit = function(item, player, array){
   if(item.x >= player.x - (player.state.hitbox_W/2) && item.x <= player.x + (player.state.hitbox_W/2)){
     if(item.y >= player.y - player.state.hitbox_H && item.y <= player.y){
       return true;
     }
   }
-}
+};
 exports.reset_speed = function(player){
-  player.iceballhits--
+  player.iceballhits--;
   if(player.iceballhits <= 0){
     player.max_speed = 12;
     player.accerelation = 0.6;
     player.iceballhits = 0;
   }
-}
+};
 
 exports.banana = function(socket){
   var game_index = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
@@ -139,4 +141,4 @@ exports.banana = function(socket){
         }
     }
   }
-}
+};

@@ -7,6 +7,7 @@ setInterval(function () {
   move_down();
   draw_players();
   draw_boxes();
+  draw_powerbar();
   find_animation(players[0]);
   find_animation(players[1]);
   move_shuriken();
@@ -51,6 +52,26 @@ socket.on('ping',function(data){
     socket.emit('back_ping', data.id);
   }
 });
+setInterval(power_decider,2);
+var power = 500;
+var power_dir = -1;
+var pwrD = false;
+var get_pwr = false;
+function power_decider(){
+  if(pwrD){
+    power+=power_dir*3;
+    if(power >= 500 || power <= 1){
+      power_dir = power_dir*-1;
+    }
+    if(get_pwr){
+      socket.emit('use_item', 500-power);
+      get_pwr = false;
+      pwrD = false;
+      power = 500;
+      power_dir = -1;
+    }
+  }
+}
 
 //takes all values the server provides and applies them to client players.
 //Hopefully they should already match pretty well ub order to avoid rubberbanding

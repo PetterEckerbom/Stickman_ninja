@@ -127,6 +127,9 @@ socket.on('punch', function(up){
     punch.punch(socket);
   }
 });
+socket.on('swipe', function(){
+    punch.swipe_kick(socket);
+});
 
 //Takes ping id and chcks when that id was sent, then calculates latency and stores in the player object.
 socket.on('back_ping',function(id){
@@ -155,7 +158,7 @@ socket.on('open_box',function(){
 
 socket.on('throw', function(force){
   items["shuriken"](socket, force);
-})
+});
 socket.on('throw_bomb', function(force){
   items["bomb"](socket, force);
 });
@@ -170,6 +173,9 @@ socket.on('activate_wings', function(){
 });
 
 socket.on('use_item', function(info){
+  if(info > 500){
+    info = 500;
+  }
   var game_index = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
   if(game_index != -1){
     var player = matchmaking.STARTED_GAMES[game_index.index].players[game_index.Player];

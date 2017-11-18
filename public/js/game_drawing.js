@@ -63,6 +63,10 @@ function draw_players(){
       ctx.fillStyle="#ff0000";
    }
 }
+function draw_powerbar(){
+  var img_bar = document.getElementById('powerbar');
+  ctx.drawImage(img_bar,0,0,500-power,100,390+xoffset,700+yoffset,500-power,100);
+}
 
 function draw_boxes(){
   for(var i = 0; i < boxes.length; i++){

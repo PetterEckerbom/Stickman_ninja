@@ -46,7 +46,7 @@ function move_shuriken(){
 function move_bomb(){
     for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
       for(var y = 0; y < matchmaking.STARTED_GAMES[i].bombs.length; y++){
-        physics.move_point(matchmaking.STARTED_GAMES[i].bombs[y], 0.5, 0.40, true, true)
+        physics.move_point(matchmaking.STARTED_GAMES[i].bombs[y], 0.5, 0.40, true, true);
       }
     }
   }
@@ -61,26 +61,27 @@ function move_bomb(){
             target.player.socket.emit("delete_banana", banana.id);
             target.other.socket.emit("banana_slide", 0);
             target.player.socket.emit("banana_slide", 1);
-            target.other.attackstack++
-            target.other.controlstack++
+            target.other.attackstack++;
+            target.other.controlstack++;
             target.other.controlE = false;
             target.other.attackready = false;
-            setTimeout(attackready_back, 3000, target.other)
-            setTimeout(controlE_back, 3000, target.other)
+            setTimeout(attackready_back, 3000, target.other);
+            setTimeout(controlE_back, 3000, target.other);
             matchmaking.STARTED_GAMES[i].bananas.splice(matchmaking.STARTED_GAMES[i].bananas.indexOf(banana), 1);
           }
         }
       }
     }
-    function controlE_back(player){
-      player.controlstack--
+    var controlE_back = function(player){
+      player.controlstack--;
       if(player.controlstack <= 0){
         player.controlE = true;
         player.controlstack = 0;
       }
-    }
+    };
+    exports.controlE_back = controlE_back;
     function attackready_back(player){
-      player.attackstack--
+      player.attackstack--;
       if(player.attackstack <= 0){
         player.attackready = true;
         player.attackstack = 0;
@@ -121,7 +122,7 @@ function move_bomb(){
             other.socket.emit("slowed", 1);
             setTimeout(items.reset_speed, 8000, player);
             array.splice(array.indexOf(iceball), 1);
-          };
+          }
         }
       }
       for(var i = 0; i < deleteL.length; i++){
