@@ -117,7 +117,7 @@ socket.on('new_item', function(item){
   console.log(item.name + " " + item.charges);
 });
 socket.on('remove_box',function(box){
-  console.log(box)
+  console.log(box);
   for(var i = 0; i < boxes.length; i++){
     if(boxes[i].cords.x == box.x && boxes[i].cords.y == box.y){
       boxes.splice(i, 1);
@@ -127,7 +127,7 @@ socket.on('remove_box',function(box){
 });
 socket.on('new_shuriken',function(data){
   var shuriken = data.info;
-  shuriken.owner = data.type
+  shuriken.owner = data.type;
   shurikens.push(shuriken);
 });
 socket.on('delete_shuriken',function(id){
@@ -141,7 +141,7 @@ socket.on('delete_shuriken',function(id){
 
 socket.on('new_iceball',function(data){
   var iceball = data.info;
-  iceball.owner = data.type
+  iceball.owner = data.type;
   iceballs.push(iceball);
 });
 socket.on('delete_iceball',function(id){
@@ -156,8 +156,8 @@ socket.on("slowed", function(player){
   players[player].max_speed = 6;
   players[player].accerelation = 0.3;
   players[player].iceballhits++;
-  setTimeout(noslow, 8000-ping, player)
-})
+  setTimeout(noslow, 8000-ping, player);
+});
 function noslow(player){
   players[player].iceballhits--;
   if(players[player].iceballhits <= 0){
@@ -169,10 +169,10 @@ function noslow(player){
 
 socket.on('new_bomb',function(data){
   var bomb = data.info;
-  bomb.owner = data.type
+  bomb.owner = data.type;
   bombs.push(bomb);
   setTimeout(delete_bomb, 1000-ping, bomb.id);
-})
+});
 function delete_bomb(id){
   for(var i = 0; i < bombs.length; i++){
     if(bombs[i].id == id){
@@ -182,7 +182,7 @@ function delete_bomb(id){
 }
 socket.on('new_banana',function(data){
   var banana = data.info;
-  banana.owner = data.type
+  banana.owner = data.type;
   bananas.push(banana);
 });
 //this is to apply a the flipping animation when the other jump comes through.
@@ -195,4 +195,17 @@ socket.on('death_count', function(player){
   }else{
     document.getElementById('ODeath').innerHTML = document.getElementById('ODeath').innerHTML*1 + 1;
   }
+});
+
+socket.on('health_update', function(health){
+  players[health.player].health = health.health;
+  document.getElementById('Health'+health.player).innerHTML = health.health;
+});
+socket.on('fame_update', function(fame){
+  players[fame.player].fame = fame.fame;
+  document.getElementById('fame'+fame.player).innerHTML = fame.fame;
+});
+socket.on('healthup',function(player){
+  players[player].health = 1000;
+  document.getElementById('Health'+player).innerHTML = 1000;
 });

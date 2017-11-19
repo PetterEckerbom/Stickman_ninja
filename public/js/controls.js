@@ -38,14 +38,14 @@ onkeydown = onkeyup = function(e){
     socket.emit('kick', down_down);
   }
   if(e.keyCode == 74){
-    if(item_type == "use" && e.type == 'keyup'){
-      socket.emit('use_item');
-      charges--;
-    }else if(e.type == 'keyup' && item_type == "throw"){
+    if(e.type == 'keyup' && item_type == "throw"){
       get_pwr =true;
       charges--;
     }else if(item_type == "throw"){
       pwrD = true;
+    }else if(e.type == 'keyup'){
+      socket.emit('use_item');
+      charges--;
     }
     if(charges <= 0){
       item_type = "none";

@@ -246,7 +246,9 @@ var players = [
     animation: animations.idle,
     animationlock:false,
     flipping: false,
-		iceballhits: 0
+		iceballhits: 0,
+		fame: 0,
+		health: 1000
   },
 enemy = {
     name:"",
@@ -265,6 +267,8 @@ enemy = {
     animation: animations.idle,
     animationlock:false,
     flipping: false,
-		iceballhits: 0
+		iceballhits: 0,
+		fame: 0,
+		health: 1000
   }
 ];

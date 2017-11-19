@@ -183,6 +183,7 @@ socket.on('use_item', function(info){
       items[player.item](socket, info);
     }
 }
+boxes.open_box(socket);
 });
 //Reroutes diconnects to matchmaking.js
 socket.on("disconnect",function(){

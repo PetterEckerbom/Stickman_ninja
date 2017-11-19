@@ -101,6 +101,13 @@ function check_hit(game_instance, player, dir, other, Ptype){
           force = 15;
           time = 16000;
           type = "hit3";
+          matchmaking.decrese_health(hit_player, 300);
+          matchmaking.fame_increase(hitting_player, 700);
+          if(dir == -1){
+            hit_player.facing = "right";
+          }else{
+            hit_player.facing = "left";
+          }
         }else if(Ptype == 2){
           //We set punch2 ready for 5s and then removes it, this gives a 5s window to hit third hit for max power
           hitting_player.punch.punch2 = true;
@@ -108,6 +115,8 @@ function check_hit(game_instance, player, dir, other, Ptype){
           force = 10;
           time = 12000;
           type = "hit2";
+          matchmaking.decrese_health(hit_player, 150);
+          matchmaking.fame_increase(hitting_player, 100);
         }else{
           //same here 5s to hit next value
           hitting_player.punch.punch1 = true;
@@ -115,7 +124,8 @@ function check_hit(game_instance, player, dir, other, Ptype){
           force = 9;
           time = 12000;
           type = "hit1";
-          
+          matchmaking.decrese_health(hit_player, 100);
+          matchmaking.fame_increase(hitting_player, 60);
         }
         //We apply the hit to players speed and makes him lose control of character
         hit_player.x_speed = dir*force;
@@ -187,9 +197,9 @@ exports.swipe_kick = function(socket){
         player.dir = 0;
         //We call hitfunction after the time it takes for punch to hit, we send through direction and both player postition in array.
         if(games_check.NotPlayer == 0){
-          setTimeout(check_hit_wipe, 400, games_check.index, games_check.NotPlayer, dir, 1);
+          setTimeout(check_hit_swipe, 400, games_check.index, games_check.NotPlayer, dir, 1);
         }else{
-          setTimeout(check_hit_wipe, 400, games_check.index, games_check.NotPlayer, dir, 0);
+          setTimeout(check_hit_swipe, 400, games_check.index, games_check.NotPlayer, dir, 0);
         }
       }
     }
@@ -272,6 +282,7 @@ function check_up_punch(game_instance, player, other){
     if(hit_x > hit_player.x - (hit_player.state.hitbox_W/2) && hit_x < hit_player.x + (hit_player.state.hitbox_W/2)){
       if(hit_y > hit_player.y - hit_player.state.hitbox_H && hit_y < hit_player.y){
         hit_player.y_speed = -13;
+        matchmaking.decrese_health(hit_player, 50);
         gameclock.sync(hit_player, hitting_player);
       }
     }

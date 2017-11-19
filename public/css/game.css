@@ -37,3 +37,31 @@ h1{
   top:90%;
   left:0;
 }
+#fame0{
+  position: absolute;
+  color:blue;
+  font-weight: bold;
+  top:90%;
+  left:10%;
+}
+#fame1{
+  position: absolute;
+  color:red;
+  font-weight: bold;
+  top:90%;
+  right:10%;
+}
+#Health0{
+  position: absolute;
+  color:blue;
+  font-weight: bold;
+  top:90%;
+  left:20%;
+}
+#Health1{
+  position: absolute;
+  color:red;
+  font-weight: bold;
+  top:90%;
+  right:20%;
+}

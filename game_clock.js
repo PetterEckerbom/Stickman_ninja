@@ -116,6 +116,7 @@ function move_bomb(){
             player.max_speed = 6;
             player.accerelation = 0.3;
             player.iceballhits++;
+            matchmaking.decrese_health(player, 15);
             player.socket.emit("delete_iceball", iceball.id);
             other.socket.emit("delete_iceball", iceball.id);
             player.socket.emit("slowed", 0);
@@ -125,10 +126,10 @@ function move_bomb(){
           }
         }
       }
-      for(var i = 0; i < deleteL.length; i++){
-        matchmaking.STARTED_GAMES[deleteL[i].game].players[0].socket.emit('delete_iceball', matchmaking.STARTED_GAMES[deleteL[i].game].iceballs[deleteL[i].iceball].id);
-        matchmaking.STARTED_GAMES[deleteL[i].game].players[1].socket.emit('delete_iceball', matchmaking.STARTED_GAMES[deleteL[i].game].iceballs[deleteL[i].iceball].id);
-        matchmaking.STARTED_GAMES[deleteL[i].game].iceballs.splice(deleteL[i].iceball, 1);
+      for(var x = 0; x < deleteL.length; x++){
+        matchmaking.STARTED_GAMES[deleteL[x].game].players[0].socket.emit('delete_iceball', matchmaking.STARTED_GAMES[deleteL[x].game].iceballs[deleteL[x].iceball].id);
+        matchmaking.STARTED_GAMES[deleteL[x].game].players[1].socket.emit('delete_iceball', matchmaking.STARTED_GAMES[deleteL[x].game].iceballs[deleteL[x].iceball].id);
+        matchmaking.STARTED_GAMES[deleteL[x].game].iceballs.splice(deleteL[x].iceball, 1);
       }
   }
 
