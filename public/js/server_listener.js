@@ -66,6 +66,16 @@ socket.on('swipe_kick', function(player){
     animation_change_enemy(animations.swipe);
   }
 });
+socket.on('kickdown',function(player){
+  players[player].dir = 0;
+  players[player].animationlock = true;
+  players[player].frame = 0;
+  if(player == 0){
+    animation_change_you(animations.kickdown);
+  }else if(player == 1){
+    animation_change_enemy(animations.kickdown);
+  }
+});
 socket.on('hit3', function(data){
   players[data.player].dir = 0;
   players[data.player].animationlock = true;
@@ -208,4 +218,14 @@ socket.on('fame_update', function(fame){
 socket.on('healthup',function(player){
   players[player].health = 1000;
   document.getElementById('Health'+player).innerHTML = 1000;
+});
+socket.on('fall',function(player){
+  players[player].dir = 0;
+  players[player].animationlock = true;
+  players[player].frame = 0;
+  if(player == 0){
+    animation_change_you(animations.fall);
+  }else if(player == 1){
+    animation_change_enemy(animations.fall);
+  }
 });

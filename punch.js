@@ -197,16 +197,40 @@ exports.swipe_kick = function(socket){
         player.dir = 0;
         //We call hitfunction after the time it takes for punch to hit, we send through direction and both player postition in array.
         if(games_check.NotPlayer == 0){
-          setTimeout(check_hit_swipe, 400, games_check.index, games_check.NotPlayer, dir, 1);
+          setTimeout(check_hit_swipe, 300, games_check.index, games_check.NotPlayer, dir, 1);
         }else{
-          setTimeout(check_hit_swipe, 400, games_check.index, games_check.NotPlayer, dir, 0);
+          setTimeout(check_hit_swipe, 300, games_check.index, games_check.NotPlayer, dir, 0);
         }
       }
     }
 };
 
-function check_hit_swipe(){
-
+function check_hit_swipe(game, player, dir, other){
+  if(matchmaking.STARTED_GAMES[game]){
+    var hit_player = matchmaking.STARTED_GAMES[game].players[player];
+    var hitting_player = matchmaking.STARTED_GAMES[game].players[other];
+    var hitcords = {x: matchmaking.STARTED_GAMES[game].players[other].x + ((200/3)*dir), y:matchmaking.STARTED_GAMES[game].players[other].y-(40)};
+  //if player is ready to hit attack and coordinates match up we send through
+  if(hitting_player.attackready){
+      if(hitcords.x > hit_player.x - (hit_player.state.hitbox_W) && hitcords.x < hit_player.x + (hit_player.state.hitbox_W)){
+        if(hitcords.y > hit_player.y - hit_player.state.hitbox_H && hitcords.y < hit_player.y){
+          hit_player.controlstack++;
+    		  hit_player.controlE = false;
+          hit_player.attackstack++;
+    		  hit_player.attackready = false;
+    		  hit_player.dir = 0;
+    			setTimeout(control_ready, 1000, game, player);
+    			setTimeout(attack_ready, 1000, game, player);
+          matchmaking.decrese_health(hit_player, 150);
+          //We sync clients with server  in order for it to have accurated hit calculateions
+    		  gameclock.sync(hit_player, hitting_player);
+          //We let players know a player got hit so they can apply animations and shit.
+          hit_player.socket.emit("fall", 0);
+          hitting_player.socket.emit("fall", 1);
+        }
+      }
+    }
+  }
 }
 
 exports.kick_down = function(socket){
@@ -222,6 +246,8 @@ exports.kick_down = function(socket){
         setTimeout(control_ready, 600, games_check.index, games_check.Player);
         //We set player movement direction to 0 as to avoid the pysics.js move_players() to move him.
         player.dir = 0;
+        player.socket.emit('kickdown', 0);
+        OtherPlayer.socket.emit('kickdown', 1);
         //We call hitfunction after the time it takes for punch to hit, we send through direction and both player postition in array.
         if(games_check.NotPlayer == 0){
             setTimeout(check_down_kick, 100, games_check.index, games_check.NotPlayer, 1);
