@@ -254,9 +254,11 @@ exports.decrese_health = function(player, health){
 		player.health = 1000;
 		player.socket.emit('healthup',0);
 		otherplayer.socket.emit('healthup',1);
+		player.dir = 0;
 		player.controlstack++;
 		player.controlE = false;
 		setTimeout(gameclock.controlE_back, 5000, player);
+		gameclock.sync(player, otherplayer);
 	}
 };
 exports.fame_increase = function(player, fame){

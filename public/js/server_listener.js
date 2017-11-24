@@ -228,4 +228,22 @@ socket.on('fall',function(player){
   }else if(player == 1){
     animation_change_enemy(animations.fall);
   }
+  setTimeout(function(){
+    players[player].animationlock = true;
+    players[player].frame = 0;
+    if(player == 0){
+      animation_change_you(animations.down);
+    }else if(player == 1){
+      animation_change_enemy(animations.down);
+    }
+    setTimeout(function(){
+      players[player].animationlock = true;
+      players[player].frame = 0;
+      if(player == 0){
+        animation_change_you(animations.getup);
+      }else if(player == 1){
+        animation_change_enemy(animations.getup);
+      }
+    }, 495);
+  }, 7000/15);
 });
