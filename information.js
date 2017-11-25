@@ -207,7 +207,8 @@ var states = {
 	jumping: {hitbox_W:100/3, hitbox_H:300/3},
 	falling: {hitbox_W:100/3, hitbox_H:300/3},
 	idle: {hitbox_W:100/3, hitbox_H:300/3},
-	running: {hitbox_W:180/3, hitbox_H:310/3}
+	running: {hitbox_W:180/3, hitbox_H:310/3},
+	down: {hitbox_W:100/3, hitbox_H:100/3},
 };
 
 exports.walls = walls;

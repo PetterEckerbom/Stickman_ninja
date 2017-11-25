@@ -1,6 +1,7 @@
 var matchmaking = require('./matchmaking_server.js');
 var physics = require('./physics.js');
 var items = require('./items.js');
+var boxes = require('./boxes.js');
 
 setInterval(function(){
   //Runs the main functions every 33.333...ms
@@ -12,7 +13,7 @@ setInterval(function(){
     move_iceball();
     move_banana();
     wingcheck();
-
+    create_box();
 },1000/30);
 
 function wingcheck(){
@@ -21,6 +22,13 @@ function wingcheck(){
       if(matchmaking.STARTED_GAMES[i].players[y].wings && matchmaking.STARTED_GAMES[i].players[y].y > -200){
         matchmaking.STARTED_GAMES[i].players[y].jumpready = true;
       }
+    }
+  }
+}
+function create_box(){
+  for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
+    if(Math.random() < (1/600) && matchmaking.STARTED_GAMES[i].boxes.length < 5){
+      boxes.create_box(null, i);
     }
   }
 }
@@ -53,23 +61,37 @@ function move_bomb(){
   function move_banana(){
       for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
         for(var y = 0; y < matchmaking.STARTED_GAMES[i].bananas.length; y++){
-          physics.move_point(matchmaking.STARTED_GAMES[i].bananas[y], 0, 0.40, true, true);
+          physics.move_point(matchmaking.STARTED_GAMES[i].bananas[y], 0.2, 0.40, true, true);
           var target = get_players(matchmaking.STARTED_GAMES[i].players, matchmaking.STARTED_GAMES[i].bananas[y].owner);
           var banana = matchmaking.STARTED_GAMES[i].bananas[y];
           if(target.other.y_speed === 0 && items.item_hit(banana, target.other, matchmaking.STARTED_GAMES[i].bananas)){
             target.other.socket.emit("delete_banana", banana.id);
             target.player.socket.emit("delete_banana", banana.id);
-            target.other.socket.emit("banana_slide", 0);
-            target.player.socket.emit("banana_slide", 1);
             target.other.attackstack++;
             target.other.controlstack++;
             target.other.controlE = false;
             target.other.attackready = false;
-            setTimeout(attackready_back, 3000, target.other);
-            setTimeout(controlE_back, 3000, target.other);
+            var dir = 1;
+            if(target.other.facing == "left"){
+              dir = -1;
+            }
+            target.other.x_speed = dir*13;
+            target.other.dir = 0;
+            target.other.fallen = true;
+            target.other.socket.emit("fall", 0);
+            target.player.socket.emit("fall", 1);
+            setTimeout(up, 1440, i, target.other);
+            setTimeout(attackready_back, 1500, target.other);
+            setTimeout(controlE_back, 1500, target.other);
+            sync(target.other, target.player);
             matchmaking.STARTED_GAMES[i].bananas.splice(matchmaking.STARTED_GAMES[i].bananas.indexOf(banana), 1);
           }
         }
+      }
+    }
+    function up(game, player){
+      if(matchmaking.STARTED_GAMES[game]){
+        player.fallen = false;
       }
     }
     var controlE_back = function(player){

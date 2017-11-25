@@ -223,11 +223,13 @@ var animations = {
 	hardknockback: {frames:3, width:400, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"hardknockback", fps:1000/10, maxframe:9},
 	touchdown: {frames:1, width:250, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"speeddown", fps:1000, maxframe:0},
 	punched: {frames:7, width:1320/7, height:330, hitbox_W:100/3, hitbox_H:300/3, sprite:"punched", fps:1000/15, maxframe:7},
+	punched2: {frames:5, width:300, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"punched2", fps:1000/10, maxframe:5},
 	swipe: {frames:8, width:350, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"swipe", fps:1000/15, maxframe:8},
 	kickdown: {frames:14, width:200, height:400, hitbox_W:100/3, hitbox_H:300/3, sprite:"kickdown", fps:1000/20, maxframe:14},
-	fall: {frames:7, width:450, height:300, hitbox_W:100/3, hitbox_H:100, sprite:"fall", fps:1000/15, maxframe:7},
+	fall: {frames:7, width:450, height:300, hitbox_W:100/3, hitbox_H:100/3, sprite:"fall", fps:1000/15, maxframe:7},
 	down: {frames:1, width:450, height:100, hitbox_W:100/3, hitbox_H:100/3, sprite:"down", fps:500, maxframe:1},
 	getup: {frames:8, width:450, height:400, hitbox_W:100/3, hitbox_H:100/3, sprite:"getup", fps:1000/15, maxframe:7},
+	airkick: {frames:3, width:400, height:300, hitbox_W:100/3, hitbox_H:300/3, sprite:"airkick", fps:100, maxframe:2},
 };
 
 //Below are the two player who are in every game. You as in the owner of client and enemy as in the other client in game.

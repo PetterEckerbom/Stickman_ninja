@@ -144,8 +144,18 @@ socket.on('back_ping',function(id){
     }
   }
 });
-socket.on('kick', function(){
-  punch.kick_down(socket);
+socket.on('kick', function(down){
+  var gamecheck = matchmaking.findplayer(matchmaking.STARTED_GAMES,socket.id);
+  if(gamecheck != -1){
+    var player = matchmaking.STARTED_GAMES[gamecheck.index].players[gamecheck.Player];
+    if(player.y_speed != 0){
+      punch.punch(socket,true);
+    }else if(down){
+      punch.kick_down(socket);
+    }else{
+      punch.swipe_kick(socket);
+    }
+  }
 });
 socket.on('new_box',function(type){
   var game = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
@@ -166,12 +176,14 @@ socket.on('throw_iceball', function(force){
   items["iceball"](socket);
 });
 socket.on('throw_banana', function(force){
-  items["banana"](socket);
+  items["banana"](socket, force);
 });
 socket.on('activate_wings', function(){
   items["wings"](socket);
 });
-
+socket.on('test',function(){
+  punch.punch(socket, true);
+});
 socket.on('use_item', function(info){
   if(info > 500){
     info = 500;

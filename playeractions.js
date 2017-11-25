@@ -45,7 +45,7 @@ exports.jump = function(socket){
         player.jumpready = false;
       }
       //If player stand on a boosterplate he jumps ~140% higher
-      if(boostedjump(player)){
+      if(boostedjump(player) || player.wings){
         player.y_speed = -12.5;
       }else{
         player.y_speed = -9;

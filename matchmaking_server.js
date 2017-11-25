@@ -53,6 +53,7 @@ function player(id, elo, name, socket){
 	this.iceballhits = 0;
 	this.attackstack = 0;
 	this.controlstack = 0;
+	this.fallen = false;
 }
 //this one is for the "wrap" that the players are in and pretty much whole game
 function game_instance(player, type,id){
@@ -231,7 +232,10 @@ exports.disconnect = function(socket){
 exports.setstate = function(){
 	for(var i = 0; i < STARTED_GAMES.length; i++){
 		for(var y = 0; y < 2; y++){
-			if(STARTED_GAMES[i].players[y].y_speed < 0){
+			//console.log(STARTED_GAMES[i].players[y].y + " " + STARTED_GAMES[i].players[y].x)
+			if(STARTED_GAMES[i].players[y].fallen){
+				STARTED_GAMES[i].players[y].state = info.states.down;
+			}else if(STARTED_GAMES[i].players[y].y_speed < 0){
 				STARTED_GAMES[i].players[y].state = info.states.jumping;
 			}else if(STARTED_GAMES[i].players[y].y_speed > 0){
 				STARTED_GAMES[i].players[y].state = info.states.falling;
@@ -265,8 +269,8 @@ exports.fame_increase = function(player, fame){
 	var game_index = findplayer(STARTED_GAMES, player.id);
 	var otherplayer =  STARTED_GAMES[game_index.index].players[game_index.NotPlayer];
 	player.fame += fame;
-	if(player.fame >= 1000){
-		player.fame = player.fame - 1000;
+	if(player.fame >= 500){
+		player.fame = player.fame - 500;
 		boxes.create_box(game_index.Player, game_index.index);
 	}
 	player.socket.emit('fame_update', {fame:player.fame, player:0});

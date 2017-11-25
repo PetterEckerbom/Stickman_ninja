@@ -3,7 +3,7 @@ var matchmaking = require('./matchmaking_server.js');
 var gameclock = require('./game_clock.js');
 var physics = require('./physics.js');
 
-exports.punch = function(socket){
+exports.punch = function(socket, airkick){
   var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
   var time;
   var type;
@@ -17,7 +17,12 @@ exports.punch = function(socket){
         player.controlstack++;
         setTimeout(control_ready, 6000/10, games_check.index, games_check.Player);
         //Below we check what kind of punch it is that sould be sent. Done through two booleans in an object stored in player object.
-        if(player.punch.punch2){
+        if(airkick){
+          type = 4;
+          player.socket.emit("airkick", 0);
+          OtherPlayer.socket.emit("airkick", 1);
+          time = 3000/15;
+        }else if(player.punch.punch2){
           type = 3;
           player.socket.emit("punch", {player:0, type:3});
           OtherPlayer.socket.emit("punch", {player:1, type:3});
@@ -35,19 +40,25 @@ exports.punch = function(socket){
         }
 
         var dir;
-        if(player.y_speed == 0){
+        if(player.y_speed == 0 && !airkick){
           player.x_speed = 0;
         }
         //We sents his speed depending on punch typer and facing direction, we also define what direction the punch is in
         if(player.facing == "left"){
-          player.x_speed = (2 * type + 2) * -1;
+          if(!airkick){
+            player.x_speed = (2 * type + 2) * -1;
+          }
           dir = -1;
         }else{
           dir = 1;
-          player.x_speed = 2*type + 2;
+          if(!airkick){
+            player.x_speed = 2*type + 2;
+          }
         }
         //We set player movement direction to 0 as to avoid the pysics.js move_players() to move him.
-        player.dir = 0;
+        if(!airkick){
+          player.dir = 0;
+        }
         //We call hitfunction after the time it takes for punch to hit, we send through direction and both player postition in array.
         if(games_check.NotPlayer == 0){
             setTimeout(check_hit, time, games_check.index, games_check.NotPlayer, dir, 1, type);
@@ -95,11 +106,17 @@ function check_hit(game_instance, player, dir, other, Ptype){
   	  if(hitcords.x > hit_player.x - (hit_player.state.hitbox_W) && hitcords.x < hit_player.x + (hit_player.state.hitbox_W)){
   		if(hitcords.y > hit_player.y - hit_player.state.hitbox_H && hitcords.y < hit_player.y){
         //We check what kind of hit it is and apply correct values to the vars.
-        if(Ptype == 3){
+        if(Ptype == 4){
+          force = 7;
+          time = 10000;
+          type = "hit1";
+          matchmaking.decrese_health(hit_player, 175);
+          matchmaking.fame_increase(hitting_player, 100);
+        }else if(Ptype == 3){
           hitting_player.punch.punch1 = false;
           hitting_player.punch.punch2 = false;
           force = 15;
-          time = 16000;
+          time = 19000;
           type = "hit3";
           matchmaking.decrese_health(hit_player, 300);
           matchmaking.fame_increase(hitting_player, 700);
@@ -151,17 +168,21 @@ function check_hit(game_instance, player, dir, other, Ptype){
 function get_punch_cords(game, player, punchtype){
   var hitcords = {};
   var x_dist = 0;
+  var y_dist = 205;
   if(punchtype == 1){
     x_dist = 120;
   }else if(punchtype == 2){
     x_dist = 150;
   }else if(punchtype == 3){
     x_dist = 200;
+  }else if(punchtype == 4){
+    x_dist = 120;
+    y_dist = 100;
   }
   if(matchmaking.STARTED_GAMES[game].players[player].facing == "left"){
-    hitcords = {x: matchmaking.STARTED_GAMES[game].players[player].x - (x_dist/3), y:matchmaking.STARTED_GAMES[game].players[player].y-(205/3)};
+    hitcords = {x: matchmaking.STARTED_GAMES[game].players[player].x - (x_dist/3), y:matchmaking.STARTED_GAMES[game].players[player].y-(y_dist/3)};
   }else{
-    hitcords = {x: matchmaking.STARTED_GAMES[game].players[player].x + (x_dist/3), y:matchmaking.STARTED_GAMES[game].players[player].y-(205/3)};
+    hitcords = {x: matchmaking.STARTED_GAMES[game].players[player].x + (x_dist/3), y:matchmaking.STARTED_GAMES[game].players[player].y-(y_dist/3)};
   }
   return hitcords;
 }
@@ -227,12 +248,18 @@ function check_hit_swipe(game, player, dir, other){
           //We let players know a player got hit so they can apply animations and shit.
           hit_player.socket.emit("fall", 0);
           hitting_player.socket.emit("fall", 1);
+          hit_player.fallen = true;
+          setTimeout(up, 1440, game, hit_player);
         }
       }
     }
   }
 }
-
+function up(game, player){
+  if(matchmaking.STARTED_GAMES[game]){
+    player.fallen = false;
+  }
+}
 exports.kick_down = function(socket){
   var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
   if(games_check != -1){

@@ -33,7 +33,11 @@ exports.open_box = function(socket){
       if(player.x*1 - (player.state.hitbox_W*1/2) <= box_array[i].x*1 + 25 && player.x*1 + (player.state.hitbox_W*1/2) >= box_array[i].x*1 - 25){
         if(player.y*1 == box_array[i].y*1){
           if(game_index.Player == box_array[i].player || box_array[i].player == null){
-            var item = get_random_item();
+            var type = 1;
+            if(game_index.Player == box_array[i].player ){
+              type = 2;
+            }
+            var item = get_random_item(type);
             player.socket.emit('new_item', item);
             player.item = item.name;
             player.charges = item.charges;
@@ -48,15 +52,17 @@ exports.open_box = function(socket){
   }
 };
 
-function get_random_item(){
+function get_random_item(type){
   var random =  Math.random();
-  if(random < (1/4)){
-    return {name: "shuriken", charges: Math.floor(Math.random()*4)+1};
-  }else if(random < (2/4)){
-    return {name: "bomb", charges: Math.floor(Math.random()*2)+1};
-  }else if(random < (3/4)){
+  if(random < (1/5)){
+    return {name: "shuriken", charges: (Math.floor(Math.random()*4)+1) * type};
+  }else if(random < (2/5)){
+    return {name: "bomb", charges: (Math.floor(Math.random()*2)+1) * type};
+  }else if(random < (3/5)){
     return {name: "wings", charges: 1};
+  }else if(random < (4/5)){
+    return {name: "iceball", charges: (Math.floor(Math.random()*15)+5) * type};
   }else{
-    return {name: "iceball", charges: Math.floor(Math.random()*15)+5};
+    return {name: "banana", charges: (Math.floor(Math.random()*3)+2) * type};
   }
 }

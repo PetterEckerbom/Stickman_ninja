@@ -95,10 +95,37 @@ socket.on('hit1', function(data){
   players[data.player].dir = 0;
   players[data.player].animationlock = true;
   players[data.player].frame = 0;
+  type = "punched";
+  if(players[0].facing == players[1].facing){
+    type = "punched2";
+  }
   if(data.player == 0){
-    animation_change_you(animations.punched);
+    animation_change_you(animations[type]);
   }else if(data.player == 1){
-    animation_change_enemy(animations.punched);
+    animation_change_enemy(animations[type]);
+  }
+});
+socket.on('hit2', function(data){
+  players[data.player].dir = 0;
+  players[data.player].animationlock = true;
+  players[data.player].frame = 0;
+  type = "punched";
+  if(players[0].facing == players[1].facing){
+    type = "punched2";
+  }
+  if(data.player == 0){
+    animation_change_you(animations[type]);
+  }else if(data.player == 1){
+    animation_change_enemy(animations[type]);
+  }
+});
+socket.on('airkick', function(player){
+  players[player].animationlock = true;
+  players[player].frame = 0;
+  if(player == 0){
+    animation_change_you(animations.airkick);
+  }else if(player == 1){
+    animation_change_enemy(animations.airkick);
   }
 });
 function test(player){
@@ -106,9 +133,9 @@ function test(player){
   players[player].animationlock = true;
   players[player].frame = 0;
   if(player == 0){
-    animation_change_you(animations.punched);
+    animation_change_you(animations.airkick);
   }else if(player == 1){
-    animation_change_enemy(animations.punched);
+    animation_change_enemy(animations.airkick);
   }
 }
 
@@ -144,6 +171,15 @@ socket.on('delete_shuriken',function(id){
   for(var i = 0; i < shurikens.length; i++){
     if(shurikens[i].id == id){
       shurikens.splice(i, 1);
+      return;
+    }
+  }
+});
+socket.on('delete_banana',function(id){
+  console.log(id);
+  for(var i = 0; i < bananas.length; i++){
+    if(bananas[i].id == id){
+      bananas.splice(i, 1);
       return;
     }
   }
