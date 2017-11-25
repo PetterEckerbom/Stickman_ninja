@@ -37,6 +37,18 @@ function move_shuriken(){
   var deleteL = [];
     for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
       for(var y = 0; y < matchmaking.STARTED_GAMES[i].shurikens.length; y++){
+        var player = matchmaking.STARTED_GAMES[i].players[0];
+        var other = matchmaking.STARTED_GAMES[i].players[1];
+        if(matchmaking.STARTED_GAMES[i].shurikens[y].owner === 0){
+          player = matchmaking.STARTED_GAMES[i].players[1];
+          other = matchmaking.STARTED_GAMES[i].players[0];
+        }
+        if(items.item_hit(matchmaking.STARTED_GAMES[i].shurikens[y], player)){
+          matchmaking.decrese_health(player, 250);
+          player.socket.emit("delete_shuriken", matchmaking.STARTED_GAMES[i].shurikens[y].id);
+          other.socket.emit("delete_shuriken", matchmaking.STARTED_GAMES[i].shurikens[y].id);
+          deleteL.push({game: i, shuriken: y});
+        }
         if(physics.move_point(matchmaking.STARTED_GAMES[i].shurikens[y], 0.2, 0.45, true, true)){
           deleteL.push({game: i, shuriken: y});
         }

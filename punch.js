@@ -232,7 +232,7 @@ function check_hit_swipe(game, player, dir, other){
     var hitting_player = matchmaking.STARTED_GAMES[game].players[other];
     var hitcords = {x: matchmaking.STARTED_GAMES[game].players[other].x + ((200/3)*dir), y:matchmaking.STARTED_GAMES[game].players[other].y-(40)};
   //if player is ready to hit attack and coordinates match up we send through
-  if(hitting_player.attackready){
+  if(hitting_player.attackready && !hit_player.fallen){
       if(hitcords.x > hit_player.x - (hit_player.state.hitbox_W) && hitcords.x < hit_player.x + (hit_player.state.hitbox_W)){
         if(hitcords.y > hit_player.y - hit_player.state.hitbox_H && hitcords.y < hit_player.y){
           hit_player.controlstack++;

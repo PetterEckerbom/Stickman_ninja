@@ -54,6 +54,7 @@ function player(id, elo, name, socket){
 	this.attackstack = 0;
 	this.controlstack = 0;
 	this.fallen = false;
+	this.lives = 3;
 }
 //this one is for the "wrap" that the players are in and pretty much whole game
 function game_instance(player, type,id){

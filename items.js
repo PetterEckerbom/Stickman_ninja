@@ -14,7 +14,7 @@ exports.shuriken = function(socket, force){
         }else{
           dir = 1;
         }
-        var newshuriken = {x: player.x, y: (player.y-player.state.hitbox_H/2), x_speed: force*dir, y_speed: 0, owner: game_index.index, id: Math.random()};
+        var newshuriken = {x: player.x, y: (player.y-player.state.hitbox_H/2), x_speed: force*dir, y_speed: 0, owner: game_index.Player, id: Math.random()};
         player.socket.emit('new_shuriken', {type: "your", info: newshuriken});
         notplayer.socket.emit('new_shuriken', {type: "enemy", info: newshuriken});
         shuriken_array.push(newshuriken);
