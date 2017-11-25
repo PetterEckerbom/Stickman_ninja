@@ -18,8 +18,8 @@ router.post('/register', function(req, res){
   var password = req.body.password;
   var password2 = req.body.password2;
   //checks if username is to short.
-  if(username.length < 6){
-    req.flash('error','Username must be atleast 6 characters long');
+  if(username.length < 4){
+    req.flash('error','Username must be atleast 4 characters long');
     res.redirect('/users/register');
     return;
   }
@@ -70,7 +70,8 @@ router.post('/register', function(req, res){
               elo:0,
               Wins:0,
               Losses:0,
-              date:new Date()
+              date:new Date(),
+              bought_items: ["nothing", "nothing2"]
             });
             //we genereate a hash representing password with "bcrypt" from function
             //in the models.js file, this is to make sure passwords are not saved in plane text
@@ -138,9 +139,5 @@ router.post('/login', function(req,res){
    req.flash('Success','You are now logged out!');
    res.redirect('/');
  });
-
- router.get('/:id', function(req, res){
-  res.send("Hey");
-});
 
 module.exports = router;

@@ -29,6 +29,10 @@ var UserSchema = mongoose.Schema({
   date:{
     type:Date,
     required:true
+  },
+  bought_items:{
+    type: Array,
+    required:true
   }
 });
 //Creates a encrypted password for a given user oppon being called.

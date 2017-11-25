@@ -186,17 +186,6 @@ socket.on("disconnect",function(){
   matchmaking.disconnect(socket);
 });
 });
-			/*for(var i = 0; i < GAMES.length; i++){
-				if(GAMES[i].player2 == null){
-					plyr.x = 100;
-					plyr.facing = "left"
-					GAMES[i].player2 = plyr;
-					GAMES[i].player2.socket.emit("Game_start", GAMES[i].player1.name);
-					GAMES[i].player1.socket.emit("Game_start", GAMES[i].player2.name);
-					found = true;
-					index = i;
-				}
-			}*/
 
 /*function increse_score(username,socket){
   return User.findOne({ username: username}, function(err, userDoc) {
