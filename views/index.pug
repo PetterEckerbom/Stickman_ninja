@@ -18,3 +18,6 @@ html(lang='en')
     br
     a(href='/game') Game
     br
+    form(action='/ninjas/search', method='POST')
+      input(type='text', name='ninja', placeholder='Input ninja name here')
+      input(type='submit', value='Search')

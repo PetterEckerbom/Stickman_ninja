@@ -15,6 +15,17 @@ router.get('/leaderboard',function(req, res){
      });
 });
 
+router.post('/search', function(req, res){
+  var username = req.body.ninja;
+  User.findOne({"username": username}).exec(function(err, user){
+    if(err || !user){
+      res.send('No ninja with the name: ' + username);
+      return;
+    }
+    res.redirect('/ninjas/'+user.id);
+  });
+});
+
 
 router.get('/:id', function(req, res){
  User.findById(req.params.id, function(err, user){
