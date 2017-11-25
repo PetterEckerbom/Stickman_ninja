@@ -61,7 +61,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //reroutes any requests related to users to users.js and "normal requests" to index.js
 var index = require('./routes/index');
 var users = require('./routes/users');
+var ninjas = require('./routes/ninjas');
 app.use('/', index);
+app.use('/ninjas', ninjas);
 app.use('/users', users);
 
 //Creates Array and objects related to game and makes accessable from any file
@@ -166,24 +168,6 @@ socket.on('open_box',function(){
   boxes.open_box(socket);
 });
 
-socket.on('throw', function(force){
-  items["shuriken"](socket, force);
-});
-socket.on('throw_bomb', function(force){
-  items["bomb"](socket, force);
-});
-socket.on('throw_iceball', function(force){
-  items["iceball"](socket);
-});
-socket.on('throw_banana', function(force){
-  items["banana"](socket, force);
-});
-socket.on('activate_wings', function(){
-  items["wings"](socket);
-});
-socket.on('test',function(){
-  punch.punch(socket, true);
-});
 socket.on('use_item', function(info){
   if(info > 500){
     info = 500;

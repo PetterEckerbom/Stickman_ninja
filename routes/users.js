@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 //brings User model including schema and encryption and stuff
-let User = require('../models/user');
+var User = require('../models/user');
 
 //These just render appropriate PUG templete when get request is sent
 router.get('/register',function(req,res){
@@ -21,32 +21,32 @@ router.post('/register', function(req, res){
   if(username.length < 6){
     req.flash('error','Username must be atleast 6 characters long');
     res.redirect('/users/register');
-    return
+    return;
   }
   //checks if email is actually a email
   if(validateEmail(email) == false){
     req.flash('error','Please enter a valid email');
     res.redirect('/users/register');
-    return
+    return;
   }
   //makes sure password match
   if(password != password2){
     req.flash('error','Password doesnt match');
     res.redirect('/users/register');
-    return
+    return;
   }
   //checks if there is a user with the same username
   User.findOne({username: username}, function(err, user) {
     if(err){
       req.flash('error','There was an error! Please contact support!');
       res.redirect('/users/register');
-      return false
+      return false;
     }
     if(user){
       //if there is we just kinda end it here and ask user to pick new name
       req.flash('error','Name already taken');
       res.redirect('/users/register');
-      return
+      return;
     }else{
       //If we dont find user with same name we make last check to make sure
       //email is not already in use
@@ -54,20 +54,23 @@ router.post('/register', function(req, res){
         if(err){
           req.flash('error','There was an error! Please contact support!');
           res.redirect('/users/register');
-          return false
+          return false;
         }
         if(user){
           //We tell user email already is used and return function once again
           req.flash('error','That email has already been used to register');
           res.redirect('/users/register');
-          return
+          return;
         }else{
           //if all checks go through we create a new user with elo of 0
             var newUser = new User({
               username:username,
               email:email,
               password:password,
-              elo:0
+              elo:0,
+              Wins:0,
+              Losses:0,
+              date:new Date()
             });
             //we genereate a hash representing password with "bcrypt" from function
             //in the models.js file, this is to make sure passwords are not saved in plane text
@@ -80,8 +83,8 @@ router.post('/register', function(req, res){
                   } else{
                     //Notify user of their accounts successful creation and send them to index
                     req.flash('Success','Your account has been created, you can now login');
-                    res.redirect('/')
-                    console.log("account created")
+                    res.redirect('/');
+                    console.log("account created");
                   }
                 });
         }
@@ -134,5 +137,10 @@ router.post('/login', function(req,res){
    req.session.user = null;
    req.flash('Success','You are now logged out!');
    res.redirect('/');
- })
+ });
+
+ router.get('/:id', function(req, res){
+  res.send("Hey");
+});
+
 module.exports = router;

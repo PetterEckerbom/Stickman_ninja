@@ -12,6 +12,7 @@ var physics = require('./physics.js');
 exports.move_players = function(){
   for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
     for(var y = 0; y < 2; y++){
+      if(matchmaking.STARTED_GAMES[i]){
       var player = matchmaking.STARTED_GAMES[i].players[y];
       //check_x_move return a statement of what will happen if a player moves in the direction it is about to move in
       var do_what = check_x_move(player);
@@ -66,67 +67,76 @@ exports.move_players = function(){
         player.x += player.x_speed;
       }
 }
+}
   };
 
 exports.move_down = function(){
   var y_check;
   for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
     for(var y = 0; y < 2; y++){
-      var player = matchmaking.STARTED_GAMES[i].players[y];
+      if(matchmaking.STARTED_GAMES[i]){
+        var player = matchmaking.STARTED_GAMES[i].players[y];
 
-      if(player.y_speed < 0){
-        //if player is moving up we check so his head is not bumping into any platforms.
-        y_check = check_head_collision(player);
-        if(y_check === false){
-          //If he is not we simply move him as fast as y_speed is and decrese his y_speed with gravity.
-          player.y+=player.y_speed;
-          player.y_speed += player.gravity;
+        if(player.y_speed < 0){
+          //if player is moving up we check so his head is not bumping into any platforms.
+          y_check = check_head_collision(player);
+          if(y_check === false){
+            //If he is not we simply move him as fast as y_speed is and decrese his y_speed with gravity.
+            player.y+=player.y_speed;
+            player.y_speed += player.gravity;
+          }else{
+            //if he is about to bump his head we set his y to the place where he is about to bump his head and sets his y_speed to a slow speed downwards
+            player.y=y_check;
+            //Negative speeds are UP and Posetive speeds are DOWN due to canvas working that way
+             player.y_speed = 1;
+          }
         }else{
-          //if he is about to bump his head we set his y to the place where he is about to bump his head and sets his y_speed to a slow speed downwards
-          player.y=y_check;
-          //Negative speeds are UP and Posetive speeds are DOWN due to canvas working that way
-           player.y_speed = 1;
-        }
+          //If he is moving down we instead check his feet
+          y_check = check_feet_collision(player);
+    if(y_check === false){
+      //if nothing is about to happen we increase y with y_speed and assuming we are not going to fast we increase y_speed with gravity
+         player.y+=player.y_speed;
+        if(player.y_speed < 17){
+            player.y_speed += player.gravity;
+         }
       }else{
-        //If he is moving down we instead check his feet
-        y_check = check_feet_collision(player);
-  if(y_check === false){
-    //if nothing is about to happen we increase y with y_speed and assuming we are not going to fast we increase y_speed with gravity
-       player.y+=player.y_speed;
-      if(player.y_speed < 17){
-          player.y_speed += player.gravity;
-       }
-    }else{
-      //if he makes contact with ground we set his y cord to ground and sets speed to 0, also makes sure he can jump again
-       player.y=y_check.y;
-        player.y_speed = 0;
-        player.jumpready = true;
-        if(y_check.sync){
-          gameclock.sync(matchmaking.STARTED_GAMES[i].players[0], matchmaking.STARTED_GAMES[i].players[1]);
-        }
+        //if he makes contact with ground we set his y cord to ground and sets speed to 0, also makes sure he can jump again
+         player.y=y_check.y;
+          player.y_speed = 0;
+          player.jumpready = true;
+          if(y_check.sync){
+            gameclock.sync(matchmaking.STARTED_GAMES[i].players[0], matchmaking.STARTED_GAMES[i].players[1]);
+          }
+      }
     }
-  }
-  if(player.y > 1500){
-    //respawn for diffrent players
-    var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);
-    var otherplayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
-    player.socket.emit('death_count', 0);
-    otherplayer.socket.emit('death_count', 1);
-    if(y == 0){
-      matchmaking.STARTED_GAMES[i].players[0].y = 100;
-      matchmaking.STARTED_GAMES[i].players[0].x = 100;
-      matchmaking.STARTED_GAMES[i].players[0].dir = 0;
-    }else{
-      matchmaking.STARTED_GAMES[i].players[1].y = 100;
-      matchmaking.STARTED_GAMES[i].players[1].x = 1180;
-      matchmaking.STARTED_GAMES[i].players[1].dir = 0;
+    if(player.y > 1500){
+      //respawn for diffrent players
+      var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);
+      var otherplayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
+      player.socket.emit('death_count', 0);
+      otherplayer.socket.emit('death_count', 1);
+      player.lives--;
+        matchmaking.STARTED_GAMES[i].players[0].y = 100;
+        matchmaking.STARTED_GAMES[i].players[0].x = 100;
+        matchmaking.STARTED_GAMES[i].players[0].dir = 0;
+        matchmaking.STARTED_GAMES[i].players[1].y = 100;
+        matchmaking.STARTED_GAMES[i].players[1].x = 1180;
+        matchmaking.STARTED_GAMES[i].players[1].dir = 0;
+      //if player died we sync client and server.
+      gameclock.sync(matchmaking.STARTED_GAMES[i].players[0], matchmaking.STARTED_GAMES[i].players[1]);
+      if(player.lives <= 0){
+        game_end(otherplayer, player, i);
+      }
     }
-    //if player died we sync client and server.
-    gameclock.sync(matchmaking.STARTED_GAMES[i].players[0], matchmaking.STARTED_GAMES[i].players[1]);
   }
 }
 }
 };
+function game_end(winner, loser, game){
+  winner.socket.emit('Won');
+  loser.socket.emit('lost');
+  matchmaking.STARTED_GAMES.splice(game, 1);
+}
 
 function check_feet_collision(player){
   var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);

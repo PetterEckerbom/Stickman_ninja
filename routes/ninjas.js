@@ -1,0 +1,16 @@
+var express = require('express');
+var router = express.Router();
+var User = require('../models/user');
+router.get('/:id', function(req, res){
+ User.findById(req.params.id, function(err, user){
+   if(err){
+     res.send("no such user!");
+     return;
+   }
+   var foo = new Date(user.date);
+   var temp_result = "<b>Username: </b>"+user.username + "<br><br><b>Elo: </b>" + user.elo + "<br><br><b>Wins/Losses:</b> "+user.Wins+"/"+user.Losses+"<br><br> <b>Joined: </b>"+foo.toDateString();
+   res.send(temp_result);
+ });
+});
+
+module.exports = router;

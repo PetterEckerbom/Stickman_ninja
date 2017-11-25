@@ -283,3 +283,12 @@ socket.on('fall',function(player){
     }, 495);
   }, 7000/15);
 });
+
+socket.on('Won',function(){
+  alert('You won!');
+  location.reload();
+});
+socket.on('lost',function(){
+  alert('You lost!');
+  location.reload();
+});
