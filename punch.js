@@ -8,6 +8,7 @@ exports.punch = function(socket, airkick){
   var time;
   var type;
   if(games_check != -1){
+    if(matchmaking.STARTED_GAMES[games_check.index]){
     var player = matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player];
     var OtherPlayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
     //If player has control over character aswell as not having punch on cooldown we send it through.
@@ -67,21 +68,26 @@ exports.punch = function(socket, airkick){
         }
       }
     }
+  }
 };
 
 //The below functions are for Resettting diffrent booleans such as movement, hit and the two diffrent pucnh booleans
 function attack_ready(game_instance, player){
+  if(matchmaking.STARTED_GAMES[game_instance]){
   matchmaking.STARTED_GAMES[game_instance].players[player].attackstack--;
-  if(matchmaking.STARTED_GAMES[game_instance] && matchmaking.STARTED_GAMES[game_instance].players[player].attackstack <= 0){
+  if(matchmaking.STARTED_GAMES[game_instance].players[player].attackstack <= 0){
     matchmaking.STARTED_GAMES[game_instance].players[player].attackready = true;
     matchmaking.STARTED_GAMES[game_instance].players[player].attackstack = 0;
   }
+  }
 }
 function control_ready(game_instance, player){
-  matchmaking.STARTED_GAMES[game_instance].players[player].controlstack--;
-  if(matchmaking.STARTED_GAMES[game_instance] && matchmaking.STARTED_GAMES[game_instance].players[player].controlstack <= 0){
-  	matchmaking.STARTED_GAMES[game_instance].players[player].controlE = true;
-    matchmaking.STARTED_GAMES[game_instance].players[player].controlstack = 0;
+  if(matchmaking.STARTED_GAMES[game_instance]){
+    matchmaking.STARTED_GAMES[game_instance].players[player].controlstack--;
+    if(matchmaking.STARTED_GAMES[game_instance].players[player].controlstack <= 0){
+    	matchmaking.STARTED_GAMES[game_instance].players[player].controlE = true;
+      matchmaking.STARTED_GAMES[game_instance].players[player].controlstack = 0;
+    }
   }
 }
 function reset_punch(game_instance, player, punch){
@@ -192,6 +198,7 @@ exports.swipe_kick = function(socket){
   var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
   var time;
   if(games_check != -1){
+    if(matchmaking.STARTED_GAMES[games_check.index]){
     var player = matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player];
     var OtherPlayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
     //If player has control over character aswell as not having punch on cooldown we send it through.
@@ -224,6 +231,7 @@ exports.swipe_kick = function(socket){
         }
       }
     }
+  }
 };
 
 function check_hit_swipe(game, player, dir, other){
@@ -263,6 +271,7 @@ function up(game, player){
 exports.kick_down = function(socket){
   var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
   if(games_check != -1){
+    if(matchmaking.STARTED_GAMES[games_check.index]){
     var player = matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player];
     var OtherPlayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
     //If player has control over character aswell as not having punch on cooldown we send it through.
@@ -283,19 +292,22 @@ exports.kick_down = function(socket){
         }
       }
     }
+  }
 };
 
 function check_down_kick(game_instance, player, other){
-  var hit_player = matchmaking.STARTED_GAMES[game_instance].players[player];
-  var hitting_player = matchmaking.STARTED_GAMES[game_instance].players[other];
-  var hit_x = hitting_player.x;
-  var hit_y = hitting_player.y + 50;
-  if(hitting_player.attackready){
-    if(hit_x > hit_player.x - (hit_player.state.hitbox_W/2) && hit_x < hit_player.x + (hit_player.state.hitbox_W/2)){
-      if(hit_y > hit_player.y - hit_player.state.hitbox_H && hit_y < hit_player.y){
-        hit_player.y_speed = 14;
-        matchmaking.decrese_health(hit_player, 100);
-        gameclock.sync(hit_player, hitting_player);
+  if(matchmaking.STARTED_GAMES[game_instance]){
+    var hit_player = matchmaking.STARTED_GAMES[game_instance].players[player];
+    var hitting_player = matchmaking.STARTED_GAMES[game_instance].players[other];
+    var hit_x = hitting_player.x;
+    var hit_y = hitting_player.y + 50;
+    if(hitting_player.attackready){
+      if(hit_x > hit_player.x - (hit_player.state.hitbox_W/2) && hit_x < hit_player.x + (hit_player.state.hitbox_W/2)){
+        if(hit_y > hit_player.y - hit_player.state.hitbox_H && hit_y < hit_player.y){
+          hit_player.y_speed = 14;
+          matchmaking.decrese_health(hit_player, 100);
+          gameclock.sync(hit_player, hitting_player);
+        }
       }
     }
   }
@@ -304,6 +316,7 @@ function check_down_kick(game_instance, player, other){
 exports.punch_up = function(socket){
   var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
   if(games_check != -1){
+    if(matchmaking.STARTED_GAMES[games_check.index]){
     var player = matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player];
     var OtherPlayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
     //If player has control over character aswell as not having punch on cooldown we send it through.
@@ -324,19 +337,22 @@ exports.punch_up = function(socket){
         }
       }
     }
+  }
 };
 
 function check_up_punch(game_instance, player, other){
-  var hit_player = matchmaking.STARTED_GAMES[game_instance].players[player];
-  var hitting_player = matchmaking.STARTED_GAMES[game_instance].players[other];
-  var hit_x = hitting_player.x;
-  var hit_y = hitting_player.y - hitting_player.state.hitbox_H - 10;
-  if(hitting_player.attackready){
-    if(hit_x > hit_player.x - (hit_player.state.hitbox_W/2) && hit_x < hit_player.x + (hit_player.state.hitbox_W/2)){
-      if(hit_y > hit_player.y - hit_player.state.hitbox_H && hit_y < hit_player.y){
-        hit_player.y_speed = -13;
-        matchmaking.decrese_health(hit_player, 50);
-        gameclock.sync(hit_player, hitting_player);
+  if(matchmaking.STARTED_GAMES[game_instance]){
+    var hit_player = matchmaking.STARTED_GAMES[game_instance].players[player];
+    var hitting_player = matchmaking.STARTED_GAMES[game_instance].players[other];
+    var hit_x = hitting_player.x;
+    var hit_y = hitting_player.y - hitting_player.state.hitbox_H - 10;
+    if(hitting_player.attackready){
+      if(hit_x > hit_player.x - (hit_player.state.hitbox_W/2) && hit_x < hit_player.x + (hit_player.state.hitbox_W/2)){
+        if(hit_y > hit_player.y - hit_player.state.hitbox_H && hit_y < hit_player.y){
+          hit_player.y_speed = -13;
+          matchmaking.decrese_health(hit_player, 50);
+          gameclock.sync(hit_player, hitting_player);
+        }
       }
     }
   }

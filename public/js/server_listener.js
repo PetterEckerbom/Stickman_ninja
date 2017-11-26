@@ -292,3 +292,11 @@ socket.on('lost',function(){
   alert('You lost!');
   location.reload();
 });
+socket.on('Won2',function(elo){
+  alert('You won! '+ elo + "Was added to your account");
+  location.reload();
+});
+socket.on('lost2',function(elo){
+  alert('You lost! ' + elo + "Was taken from your account");
+  location.reload();
+});

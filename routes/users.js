@@ -67,7 +67,7 @@ router.post('/register', function(req, res){
               username:username,
               email:email,
               password:password,
-              elo:0,
+              elo:50,
               Wins:0,
               Losses:0,
               date:new Date(),

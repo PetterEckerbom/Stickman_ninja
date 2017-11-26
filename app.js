@@ -150,10 +150,10 @@ socket.on('kick', function(down){
   var gamecheck = matchmaking.findplayer(matchmaking.STARTED_GAMES,socket.id);
   if(gamecheck != -1){
     var player = matchmaking.STARTED_GAMES[gamecheck.index].players[gamecheck.Player];
-    if(player.y_speed != 0){
-      punch.punch(socket,true);
-    }else if(down){
+    if(down){
       punch.kick_down(socket);
+    }else if(player.y_speed != 0){
+      punch.punch(socket,true);
     }else{
       punch.swipe_kick(socket);
     }
@@ -186,42 +186,3 @@ socket.on("disconnect",function(){
   matchmaking.disconnect(socket);
 });
 });
-
-/*function increse_score(username,socket){
-  return User.findOne({ username: username}, function(err, userDoc) {
-if (err)
-{
-  console.log(err);
-  return;
-}
-if (! userDoc)
-{
-
-}
-else
-{
-  userDoc.elo++;
-  socket.emit("your_score", userDoc.elo);
-  userDoc.save(function (err) {
-      if (err)
-      {
-        console.log(err);
-        return;
-      }
-      return userDoc;
-  });
-}
-});
-}
-function leader_update(){
-  leaderboard =[];
-  User.find({}).sort({score: -1}).exec(function (err, userQ) {
-    for(var i in userQ){
-     leaderboard.push(userQ[i].username + ": " + userQ[i].score);
-
-   }
-   for(var i in SOCKETS){
-     SOCKETS[i].emit('leaderboard', leaderboard);
-   }
-  });
-}*/

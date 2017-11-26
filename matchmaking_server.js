@@ -57,7 +57,11 @@ function player(id, elo, name, socket){
 	this.lives = 3;
 }
 //this one is for the "wrap" that the players are in and pretty much whole game
-function game_instance(player, type,id){
+function game_instance(player, type, id, ranked){
+	if(!ranked){
+		ranked = false;
+	}
+	this.ranked = ranked;
 	this.type = type;
 	this.players = [player];
   this.player1ID = id;
@@ -107,7 +111,7 @@ exports.find_ranked = function(socket, type){
 				//if we didnt find a game we create a new one and save player as player1 in that game.
 				plyr.x = 100;
 				plyr.facing = "right";
-				var game = new game_instance(plyr,type,plyr.id);
+				var game = new game_instance(plyr,type,plyr.id, true);
 				RankedQueue.push(game);
 				//we tell the client that we are waiting for an opponent
 				plyr.socket.emit('waiting');

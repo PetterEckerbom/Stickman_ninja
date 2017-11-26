@@ -7,7 +7,7 @@ router.get('/leaderboard',function(req, res){
     User.find({}).sort({elo: -1}).exec(function (err, userQ) {
       console.log(userQ);
       for(var i in userQ){
-       leaderboard.push({user:userQ[i].username, elo: userQ[i].elo});
+       leaderboard.push({user:userQ[i].username, elo: userQ[i].elo, id: userQ[i].id});
         }
         res.render('leaderboard', {
           leaderboard: leaderboard

@@ -9,6 +9,7 @@ var info = require('./information.js');
 var gameclock = require('./game_clock.js');
 var punch = require('./punch.js');
 var physics = require('./physics.js');
+var User = require('./models/user');
 exports.move_players = function(){
   for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
     for(var y = 0; y < 2; y++){
@@ -133,8 +134,51 @@ exports.move_down = function(){
 }
 };
 function game_end(winner, loser, game){
-  winner.socket.emit('Won');
-  loser.socket.emit('lost');
+  if(matchmaking.STARTED_GAMES[game].ranked){
+    var elomultW = ((winner.elo+1)/(loser.elo+1));
+    if(elomultW < 0.5){
+      elomultW = 0.5;
+    }else if(elomultW > 2){
+      elomultW = 2;
+    }
+    User.findOne({username: winner.name}, function(err, winnerDB){
+      if(err || !winnerDB){
+        return;
+      }
+      var new_elo = Math.round(10 / elomultW);
+      winnerDB.elo += new_elo;
+      winnerDB.Wins++;
+      winnerDB.save(function (err) {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          winner.socket.emit('Won2', new_elo);
+      });
+    });
+    User.findOne({username: loser.name}, function(err, loserDB){
+      if(err || !loserDB){
+        return;
+      }
+      var new_elo = Math.round(10 / elomultW);
+      loserDB.elo -= new_elo;
+      if(loserDB.elo < 0){
+        loserDB.elo = 0;
+      }
+      loserDB.Losses++;
+      loserDB.save(function (err) {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          loser.socket.emit('lost2', new_elo);
+      });
+    });
+
+  }else{
+    winner.socket.emit('Won');
+    loser.socket.emit('lost');
+  }
   matchmaking.STARTED_GAMES.splice(game, 1);
 }
 

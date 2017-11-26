@@ -5,4 +5,5 @@ html
     h1 leaderboard
     ul
       each val in leaderboard
-        li= val.user +" : "+ val.elo
+        a(href="/ninjas/"+ val.id)
+          li= val.user +" : "+ val.elo
