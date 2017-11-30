@@ -66,6 +66,15 @@ app.use('/', index);
 app.use('/ninjas', ninjas);
 app.use('/users', users);
 
+app.get('/test', function(req, res){
+  console.log(res.locals.user);
+  console.log(req.session.user);
+});
+  app.use(function(req, res, next){
+    res.locals.user = req.session.user;
+    next();
+  });
+
 //Creates Array and objects related to game and makes accessable from any file
 var SOCKETS = {};
 exports.SOCKETS = SOCKETS;

@@ -3,9 +3,9 @@ var router = express.Router();
 var User = require('../models/user');
 
 router.get('/leaderboard',function(req, res){
+  res.locals.user = req.session.user;
     var leaderboard =[];
     User.find({}).sort({elo: -1}).exec(function (err, userQ) {
-      console.log(userQ);
       for(var i in userQ){
        leaderboard.push({user:userQ[i].username, elo: userQ[i].elo, id: userQ[i].id});
         }
@@ -26,8 +26,8 @@ router.post('/search', function(req, res){
   });
 });
 
-
 router.get('/:id', function(req, res){
+  res.locals.user = req.session.user;
  User.findById(req.params.id, function(err, user){
    if(err){
      res.send("no such user!");

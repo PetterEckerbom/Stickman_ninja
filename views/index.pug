@@ -1,23 +1,7 @@
-html(lang='en')
-  head
-    meta(charset='UTF-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(http-equiv='X-UA-Compatible', content='ie=edge')
-    style.
-      body{
-      font-size:35px;
-      }
-    title Document
-  body
-    !=messages()
-    a(href='users/register') register
-    br
-    a(href='users/login') login
-    br
-    a(href='users/logout') logout
-    br
-    a(href='/game') Game
-    br
-    form(action='/ninjas/search', method='POST')
-      input(type='text', name='ninja', placeholder='Input ninja name here')
-      input(type='submit', value='Search')
+extends header
+
+block content
+  br
+  form(action='/ninjas/search', method='POST')
+    input(type='text', name='ninja', placeholder='Input ninja name here')
+    input(type='submit', value='Search')

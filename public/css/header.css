@@ -1,0 +1,47 @@
+@font-face {
+    font-family: ninja;
+    src: url('../ninja.otf');
+}
+body{
+  padding:0;
+  margin: 0;
+}
+header{
+  background: #333333;
+  background: -webkit-linear-gradient(#4d4d4d 0%, #191919 100%);
+  background: -o-linear-gradient(#4d4d4d 0%, #191919 100%);
+  background: linear-gradient(#4d4d4d 0%, #191919 100%);
+  margin:0;
+  -webkit-box-shadow: 0px 11px 17px 1px rgba(0,0,0,0.73);
+  -moz-box-shadow: 0px 11px 17px 1px rgba(0,0,0,0.73);
+  box-shadow: 0px 11px 17px 1px rgba(0,0,0,0.73);
+}
+.header_button{
+font-family: ninja;
+color:#80f077;
+font-size: 25px;
+margin-left: 60px;
+display:inline-block;
+transition: all .1s;
+}
+.header_button:hover{
+  color:#428bca;
+}
+.right{
+  float: right;
+  margin-right: 30px;
+}
+#coin{
+  display:inline-block;
+  background: #1a1a1a;
+  padding: 5px;
+  font-size: 20px;
+  border-radius: 10px;
+  margin-top:10%;
+  color:gold;
+}
+#sack{
+  display:inline-block;
+  width:40px;
+  vertical-align: middle;
+}

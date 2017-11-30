@@ -1,9 +1,8 @@
-html
-  head
-    title Stickman ninja
-  body
-    h1 leaderboard
-    ul
-      each val in leaderboard
-        a(href="/ninjas/"+ val.id)
-          li= val.user +" : "+ val.elo
+extends header
+
+block content
+  h1 leaderboard
+  ul
+    each val in leaderboard
+      a(href="/ninjas/"+ val.id)
+        li= val.user +" : "+ val.elo

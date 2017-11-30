@@ -1,0 +1,39 @@
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    title Document
+  body
+    link(rel='stylesheet', type='text/css', href='/css/header.css')
+    header
+      if user
+        a(href='/users/logout')
+          .header_button.right
+            p Sign out
+        .header_button.right
+          #coin
+            | 00001 
+            img#sack(src='/sack.png')
+      else
+        a(href="/users/login")
+          .header_button.right 
+            p Sign in
+        a(href="/users/Register")
+          .header_button.right 
+            p Register
+      a(href='/')
+        .header_button Home
+      a(href='/game')
+        .header_button Play
+      a(href='/myprofile')
+        .header_button
+          p My profile
+      a(href='#')
+        .header_button
+          p Shop
+      a(href='/ninjas/Leaderboard')
+        .header_button
+          p Leaderboard
+    !=messages()
+    block content

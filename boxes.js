@@ -3,16 +3,18 @@ var matchmaking = require('./matchmaking_server.js');
 
 exports.create_box = function(player, game){
   var cords = getbox_cords();
-  matchmaking.STARTED_GAMES[game].boxes.push({x:cords.x, y: cords.y, player: player});
-  if(player === null){
-    matchmaking.STARTED_GAMES[game].players[0].socket.emit('new_box',{cords: cords, type: "both"});
-    matchmaking.STARTED_GAMES[game].players[1].socket.emit('new_box',{cords: cords, type: "both"});
-  }else if(player === 0){
-    matchmaking.STARTED_GAMES[game].players[0].socket.emit('new_box',{cords: cords, type: "yours"});
-    matchmaking.STARTED_GAMES[game].players[1].socket.emit('new_box',{cords: cords, type: "enemys"});
-  }else if(player === 1){
-    matchmaking.STARTED_GAMES[game].players[0].socket.emit('new_box',{cords: cords, type: "enemys"});
-    matchmaking.STARTED_GAMES[game].players[1].socket.emit('new_box',{cords: cords, type: "yours"});
+  if(matchmaking.STARTED_GAMES[game]){
+    matchmaking.STARTED_GAMES[game].boxes.push({x:cords.x, y: cords.y, player: player});
+    if(player === null){
+      matchmaking.STARTED_GAMES[game].players[0].socket.emit('new_box',{cords: cords, type: "both"});
+      matchmaking.STARTED_GAMES[game].players[1].socket.emit('new_box',{cords: cords, type: "both"});
+    }else if(player === 0){
+      matchmaking.STARTED_GAMES[game].players[0].socket.emit('new_box',{cords: cords, type: "yours"});
+      matchmaking.STARTED_GAMES[game].players[1].socket.emit('new_box',{cords: cords, type: "enemys"});
+    }else if(player === 1){
+      matchmaking.STARTED_GAMES[game].players[0].socket.emit('new_box',{cords: cords, type: "enemys"});
+      matchmaking.STARTED_GAMES[game].players[1].socket.emit('new_box',{cords: cords, type: "yours"});
+    }
   }
 };
 
@@ -26,25 +28,27 @@ function getbox_cords(){
 exports.open_box = function(socket){
   var game_index = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
   if(game_index != -1){
-    var box_array = matchmaking.STARTED_GAMES[game_index.index].boxes;
-    var player = matchmaking.STARTED_GAMES[game_index.index].players[game_index.Player];
-    var notplayer = matchmaking.STARTED_GAMES[game_index.index].players[game_index.NotPlayer];
-    for(var i = 0; i < matchmaking.STARTED_GAMES[game_index.index].boxes.length; i++){
-      if(player.x*1 - (player.state.hitbox_W*1/2) <= box_array[i].x*1 + 25 && player.x*1 + (player.state.hitbox_W*1/2) >= box_array[i].x*1 - 25){
-        if(player.y*1 == box_array[i].y*1){
-          if(game_index.Player == box_array[i].player || box_array[i].player == null){
-            var type = 1;
-            if(game_index.Player == box_array[i].player ){
-              type = 2;
+    if(matchmaking.STARTED_GAMES[game_index.index]){
+      var box_array = matchmaking.STARTED_GAMES[game_index.index].boxes;
+      var player = matchmaking.STARTED_GAMES[game_index.index].players[game_index.Player];
+      var notplayer = matchmaking.STARTED_GAMES[game_index.index].players[game_index.NotPlayer];
+      for(var i = 0; i < matchmaking.STARTED_GAMES[game_index.index].boxes.length; i++){
+        if(player.x*1 - (player.state.hitbox_W*1/2) <= box_array[i].x*1 + 25 && player.x*1 + (player.state.hitbox_W*1/2) >= box_array[i].x*1 - 25){
+          if(player.y*1 == box_array[i].y*1){
+            if(game_index.Player == box_array[i].player || box_array[i].player == null){
+              var type = 1;
+              if(game_index.Player == box_array[i].player ){
+                type = 2;
+              }
+              var item = get_random_item(type);
+              player.socket.emit('new_item', item);
+              player.item = item.name;
+              player.charges = item.charges;
+              player.socket.emit('remove_box', box_array[i]);
+              notplayer.socket.emit('remove_box', box_array[i]);
+              box_array.splice(i, 1);
+              return;
             }
-            var item = get_random_item(type);
-            player.socket.emit('new_item', item);
-            player.item = item.name;
-            player.charges = item.charges;
-            player.socket.emit('remove_box', box_array[i]);
-            notplayer.socket.emit('remove_box', box_array[i]);
-            box_array.splice(i, 1);
-            return;
           }
         }
       }

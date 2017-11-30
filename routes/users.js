@@ -5,9 +5,11 @@ var User = require('../models/user');
 
 //These just render appropriate PUG templete when get request is sent
 router.get('/register',function(req,res){
+  res.locals.user = req.session.user;
   res.render('register');
 });
 router.get('/login',function(req,res){
+  res.locals.user = req.session.user;
   res.render('login');
 });
 
@@ -122,6 +124,7 @@ router.post('/login', function(req,res){
         //If password match we save user in session and tell client we have successfully singed them in
         req.session.user = user;
         req.flash('Success','You are now logged in as '+user.username);
+        res.locals.user = user;
         res.redirect('/');
       }else{
         //If password is wrong we tell the client so and reloads page
