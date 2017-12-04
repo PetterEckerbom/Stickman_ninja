@@ -1,8 +1,16 @@
 extends header
 
 block content
-  h1 leaderboard
+  link(rel='stylesheet', type='text/css', href='/css/leaderboard.css')
+  h1.head leaderboard:
   ul
     each val in leaderboard
       a(href="/ninjas/"+ val.id)
-        li= val.user +" : "+ val.elo
+          if val.elo <= 100
+            li.bronze= val.user +" : "+ val.elo
+          else if val.elo <= 200
+            li.silver= val.user +" : "+ val.elo
+          else if val.elo <= 300
+            li.gold= val.user +" : "+ val.elo
+          else if val.elo <= 500
+            li.diamond= val.user +" : "+ val.elo

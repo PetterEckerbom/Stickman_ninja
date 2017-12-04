@@ -1,0 +1,48 @@
+ul{
+  width: 50%;
+  margin: auto;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color:white;
+  font-family: ninja;
+  border: 20px solid #80f077;
+  list-style-type: none;
+  padding: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #191919;
+  border-style:inset;
+}
+.head{
+  font-family: ninja;
+  text-align: center;
+  padding-top: 10px;
+  color: black;
+}
+a{
+  color:white;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+  text-decoration: none;
+}
+li{
+  padding:10px;
+  transition: all 0.2s;
+  border: 0px solid #333333;
+}
+li:hover{
+  border: 3px solid #333333;
+}
+
+.bronze{
+  background:#cd7f32;
+}
+.silver{
+  background:#c0c0c0;
+}
+.gold{
+  background:#FFD700;
+}
+.diamond{
+  background:#b9f2ff;
+}

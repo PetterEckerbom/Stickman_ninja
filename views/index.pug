@@ -1,7 +1,8 @@
 extends header
 
 block content
+  link(rel='stylesheet', type='text/css', href='/css/index.css')
   br
   form(action='/ninjas/search', method='POST')
-    input(type='text', name='ninja', placeholder='Input ninja name here')
-    input(type='submit', value='Search')
+    input#searchP(type='text', name='ninja', placeholder='Input ninja name here')
+    input#button(type='submit', value='Search')

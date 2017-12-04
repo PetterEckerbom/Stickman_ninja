@@ -1,0 +1,15 @@
+form{
+  background:green;
+  padding: 10px;
+  text-align: center;
+}
+#searchP{
+  font-size: 30px;
+  width:90%;
+  margin-left: 5%;
+  text-align: center;
+}
+#button{
+  margin: 10px;
+  font-size: 40px;
+}
