@@ -5,19 +5,20 @@ setInterval(function () {
   move_change();
   move_players();
   move_down();
+  move_iceballs();
+  draw_iceballs();
   draw_players();
   draw_boxes();
-  draw_powerbar();
+  move_banana();
+  draw_bananas();
   find_animation(players[0]);
   find_animation(players[1]);
   move_shuriken();
   draw_shurikens();
   move_bomb();
   draw_bombs();
-  move_iceballs();
-  draw_iceballs();
-  move_banana();
-  draw_bananas();
+  display_item();
+  draw_powerbar();
   //Movement
 
 },1000/30);

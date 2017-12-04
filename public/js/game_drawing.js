@@ -83,31 +83,37 @@ function draw_boxes(){
 
 function draw_shurikens(){
   for(var i = 0; i < shurikens.length; i++){
-    if(shurikens[i].owner == "your"){
-      ctx.fillStyle="#6842f4";
-    }else if(shurikens[i].owner == "enemy"){
-      ctx.fillStyle="#f74254";
-    }
-    ctx.fillRect(shurikens[i].x+xoffset-10,shurikens[i].y+yoffset-10,20,20);
+    var img = document.getElementById('shuriken');
+    ctx.drawImage(img,shurikens[i].x+xoffset-12,shurikens[i].y+yoffset-12,24,24);
   }
 }
 function draw_bombs(){
   for(var i = 0; i < bombs.length; i++){
-    ctx.fillStyle="#000000";
-    ctx.fillRect(bombs[i].x+xoffset-15,bombs[i].y+yoffset-15,30,30);
+    var img = document.getElementById('bomb');
+    ctx.drawImage(img,bombs[i].x+xoffset-21,bombs[i].y+yoffset-28);
   }
 }
 function draw_bananas(){
   for(var i = 0; i < bananas.length; i++){
-    ctx.fillStyle="#fcfc02";
-    ctx.fillRect(bananas[i].x+xoffset-15,bananas[i].y+yoffset-15,30,30);
+    var img = document.getElementById('banana');
+    ctx.drawImage(img,bananas[i].x+xoffset-15,bananas[i].y+yoffset-27);
   }
 }
 
 function draw_iceballs(){
   for(var i = 0; i < iceballs.length; i++){
-    ctx.fillStyle="#87c0ec";
-    ctx.fillRect(iceballs[i].x+xoffset-5,iceballs[i].y+yoffset-5,10,10);
+    var img = document.getElementById('iceball');
+    ctx.drawImage(img,iceballs[i].x+xoffset-16,iceballs[i].y+yoffset-16,32,32);
+  }
+}
+
+function display_item(){
+  if(charges > 0){
+    var img = document.getElementById(item_name);
+    ctx.fillStyle="#f4426b";
+    ctx.font="50px Arial";
+    ctx.drawImage(img,xoffset+700,0);
+    ctx.fillText(charges+"",xoffset+840,50);
   }
 }
 

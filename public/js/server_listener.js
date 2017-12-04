@@ -144,6 +144,7 @@ socket.on('new_box',function(data){
   boxes.push(data);
 });
 var charges = 0;
+var item_name = "";
 socket.on('new_item', function(item){
   if(item.name == "shuriken" || item.name == "bomb" ){
     item_type = "throw";
@@ -151,6 +152,7 @@ socket.on('new_item', function(item){
     item_type = "use";
   }
   charges = item.charges;
+  item_name = item.name;
   console.log(item.name + " " + item.charges);
 });
 socket.on('remove_box',function(box){
