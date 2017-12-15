@@ -1,6 +1,5 @@
 setInterval(function () {
   ctx.clearRect(0, 0, c.width, c.height);
-  draw_map();
   //calls functions that should be updated every tick and fuctions that may change outcome of the other function calls
   move_change();
   move_players();
@@ -17,6 +16,7 @@ setInterval(function () {
   draw_shurikens();
   move_bomb();
   draw_bombs();
+  draw_map();
   display_item();
   draw_powerbar();
   //Movement

@@ -10,49 +10,63 @@ var platform = [
 		xstart: 125,
 		xend: 425,
 		y:680,
-		thickness:40
+		thickness:40,
+		oveset:10,
+		sprite: "base2"
 	},
 	//Right big bottom platform
 	{
 		xstart: 855,
 		xend: 1155,
 		y:680,
-		thickness:40
+		thickness:40,
+		oveset:10,
+		sprite: "base1"
 	},
 	//Left thin platform
 	{
 		xstart: 300,
 		xend: 440,
 		y:490,
-		thickness:20
+		thickness:20,
+		oveset:5,
+		sprite: "thin1"
 	},
 	//Right thin platform
 	{
 		xstart: 820,
 		xend: 960,
 		y:490,
-		thickness:20
+		thickness:20,
+		oveset:5,
+		sprite: "thin2"
 	},
 	//Middle platform
 	{
 		xstart: 550,
 		xend: 730,
 		y:300,
-		thickness:40
+		thickness:40,
+		oveset:5,
+		sprite: "center"
 	},
 	//Left spawning platform
 	{
 		xstart: 0,
 		xend: 200,
 		y:100,
-		thickness:40
+		thickness:40,
+		oveset:5,
+		sprite: "spawn"
 	},
 	//Right Spawning platform
 	{
 		xstart: 1080,
 		xend: 1280,
 		y:100,
-		thickness:40
+		thickness:40,
+		oveset:5,
+		sprite: "spawn"
 	}
 ];
 
@@ -63,7 +77,8 @@ var walls = [
 		ystart:350,
 		yend:450,
 		thickness:15,
-		bouncy:true
+		bouncy:true,
+		texture:"LBounce"
 	},
 	//Right Bouncy wall
 	{
@@ -71,7 +86,8 @@ var walls = [
 		ystart:350,
 		yend:450,
 		thickness:15,
-		bouncy:true
+		bouncy:true,
+		texture:"RBounce"
 	},
 	//Middle wall
 	{
@@ -79,7 +95,8 @@ var walls = [
 		ystart:500,
 		yend:600,
 		thickness:15,
-		bouncy:false
+		bouncy:false,
+		texture:"Middlewall"
 	},
 	//Right Wall for left big bottom platform
 	{
