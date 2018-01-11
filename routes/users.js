@@ -21,7 +21,12 @@ router.post('/register', function(req, res){
   var password2 = req.body.password2;
   //checks if username is to short.
   if(username.length < 4){
-    req.flash('error','Username must be atleast 4 characters long');
+    req.flash('error','Username must be at least 4 characters long and can be at most 15 characters long');
+    res.redirect('/users/register');
+    return;
+  }
+  if(username.length > 15){
+    req.flash('error','Username must be at least 4 characters long and can be at most 15 characters long');
     res.redirect('/users/register');
     return;
   }
@@ -32,18 +37,28 @@ router.post('/register', function(req, res){
     return;
   }
   if(/^[0-9a-zA-Z]+$/.test(username) == false){
-    req.flash('error','Username contains illegal characters, only letters from a-z and numbers from 0-9 is allowed');
+    req.flash('error','Username contains illegal characters, only letters from a-z and numbers from 0-9 are allowed');
     res.redirect('/users/register');
     return;
   }
   //makes sure password match
   if(password != password2){
-    req.flash('error','Password doesnt match');
+    req.flash('error',"Password doesn't match");
     res.redirect('/users/register');
     return;
   }
   if(password.length < 5){
-    req.flash('error','Password not long enough');
+    req.flash('error','Password is not long enough');
+    res.redirect('/users/register');
+    return;
+  }
+  if(password.length > 4000){
+    req.flash('error','Password is to long');
+    res.redirect('/users/register');
+    return;
+  }
+  if(email.length > 1000){
+    req.flash('error','Email is to long');
     res.redirect('/users/register');
     return;
   }

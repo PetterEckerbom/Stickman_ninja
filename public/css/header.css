@@ -64,3 +64,6 @@ transition: all .1s;
 .error li, .Success li{
   padding: 6px;
 }
+.error li a , .Success li a{
+  color:white;
+}
