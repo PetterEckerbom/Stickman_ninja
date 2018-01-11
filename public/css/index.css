@@ -1,7 +1,51 @@
-form{
-  background:green;
+#layout{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+#chat,#news{
+  padding: 20px;
+  margin: 40px 40px 0px 40px;
+  position: relative;
+}
+#chatmessages, #newsbox{
+  position: relative;
+  border: solid 2px blue;
+  border-radius: 20px;
+  padding: 20px;
+  width: 80%;
+  margin-left: 10%;
+  overflow-y:auto;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  background:#f2f2f2;
+}
+#chatinput{
+  margin-left: 12%;
+}
+#chatinput input{
+  padding: 20px;
+}
+input:first-child{
+  width: 70%;
+}
+input:nth-child(2){
+  width: 14%;
+}
+#newsbox li{
+  font-size: 20px;
+  padding-top: 25px;
+}
+#newsbox b,#newsbox h2 {
+  color:#428bca;
+  text-decoration: underline;
+}
+#searchplayer{
+  background:#80f077;
+  margin: 0px 80px 0px 80px;
   padding: 10px;
   text-align: center;
+  border: black solid 1px;
+  border-radius: 20px;
 }
 #searchP{
   font-size: 30px;

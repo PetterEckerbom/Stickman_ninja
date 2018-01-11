@@ -31,6 +31,11 @@ router.post('/register', function(req, res){
     res.redirect('/users/register');
     return;
   }
+  if(/^[0-9a-zA-Z]+$/.test(username) == false){
+    req.flash('error','Username contains illegal characters, only letters from a-z and numbers from 0-9 is allowed');
+    res.redirect('/users/register');
+    return;
+  }
   //makes sure password match
   if(password != password2){
     req.flash('error','Password doesnt match');

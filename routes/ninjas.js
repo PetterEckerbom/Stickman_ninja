@@ -35,7 +35,30 @@ router.get('/:id', function(req, res){
    }
    var foo = new Date(user.date);
    var temp_result = "<b>Username: </b>"+user.username + "<br><br><b>Elo: </b>" + user.elo + "<br><br><b>Wins/Losses:</b> "+user.Wins+"/"+user.Losses+"<br><br> <b>Joined: </b>"+foo.toDateString();
-   res.send(temp_result);
+   //res.send(temp_result);
+   var progress = 0;
+   var rank = "";
+   if (user.elo <= 100){
+     rank = 'bronze';
+     progress = Math.round((user.elo/100) * 100);
+   }else if (user.elo <= 200){
+     rank = 'silver';
+     progress = Math.round(((user.elo-100)/100)*100);
+   }else if (user.elo <= 300){
+     rank = 'gold'
+     progress = Math.round(((user.elo-200)/100)*100);
+   }else if (user.elo <= 500){
+     rank = 'diamond';
+     progress = Math.round(((user.elo-300)/200)*100);
+   }
+   res.render('profile', {
+     username: user.username,
+     elo: user.elo,
+     wins: user.Wins,
+     losses: user.Losses,
+     date: foo.toDateString(),
+     progressP: progress
+   });
  });
 });
 module.exports = router;

@@ -2,7 +2,24 @@ extends header
 
 block content
   link(rel='stylesheet', type='text/css', href='/css/index.css')
+  div#layout
+    div#chat
+      div#chatmessages
+      form#chatinput
+        input(type='text' placeholder="Write chat message here!")
+        input(type='submit' value="Send")
+    div#news
+      div#newsbox
+        h2 News:
+        ul
+          li <b>Shop delayed:</b> We regret to inform that due to time constrains the shop has been delayed indefinitely
+          li <b>Added platform textures:</b> Textures are now implemeted into the game, small changes may come soon
+          li <b>Added items:</b> items can now be picked up from boxes with J and are used with J aswell
+          li <b>Added air kick:</b> can now kick in air, it is a qick and weak move but it let's you keep all your speed!
+          li <b>Box spawning now functioning:</b> Boxes now spawn randomly on the map, currenly un textured
+          li <b>Improved latincy calculation:</b> We now calculated ping more frequantly and can therefor keep server and client better in sync
   br
-  form(action='/ninjas/search', method='POST')
+  form#searchplayer(action='/ninjas/search', method='POST')
     input#searchP(type='text', name='ninja', placeholder='Input ninja name here')
     input#button(type='submit', value='Search')
+  script(src='js/website/index.js')
