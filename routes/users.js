@@ -97,8 +97,7 @@ router.post('/register', function(req, res){
               elo:50,
               Wins:0,
               Losses:0,
-              date:new Date(),
-              bought_items: ["nothing", "nothing2"]
+              date:new Date()
             });
             //we genereate a hash representing password with "bcrypt" from function
             //in the models.js file, this is to make sure passwords are not saved in plane text

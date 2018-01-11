@@ -4,28 +4,28 @@ block content
   link(rel='stylesheet', type='text/css', href='/css/playerpage.css')
   div#layout
     div#name
-      p #{username}
+      p(id=rank) #{username}
     div#elo
       p Elo: #{elo}
     div#winloss
       p <font color="Lime">W</font>/<font color="RED">L:</font> #{wins}/#{losses}</font>
     div#Rank
-      if elo <= 100
+      if elo < 100
         p Rank: Bronze
-      else if elo <= 200
+      else if elo < 200
         p Rank: Silver
-      else if elo <= 300
+      else if elo < 500
         p Rank: Gold
-      else if elo <= 500
+      else
         p Rank: Diamond
 
-      if elo <= 100
+      if elo < 100
         progress(min='0', max='100', value= elo)#bronze
-      else if elo <= 200
-        progress(max=(300-100), value= (elo-100))#silver
-      else if elo <= 300
-        progress(max=(500-300), value= (elo-300))#gold
-      else if elo <= 500
+      else if elo < 200
+        progress(max=(200-100), value= (elo-100))#silver
+      else if elo < 500
+        progress(max=(500-200), value= (elo-200))#gold
+      else
         progress(max='500', value='500')#diamond
       span #{progressP}%
     div#joined

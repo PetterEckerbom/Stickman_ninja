@@ -6,11 +6,11 @@ block content
   ul
     each val in leaderboard
       a(href="/ninjas/"+ val.id)
-          if val.elo <= 100
+          if val.elo < 100
             li.bronze= val.user +" : "+ val.elo
-          else if val.elo <= 200
+          else if val.elo < 200
             li.silver= val.user +" : "+ val.elo
-          else if val.elo <= 300
+          else if val.elo < 500
             li.gold= val.user +" : "+ val.elo
-          else if val.elo <= 500
+          else
             li.diamond= val.user +" : "+ val.elo

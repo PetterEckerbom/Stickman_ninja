@@ -36,18 +36,18 @@ router.get('/:id', function(req, res){
    var foo = new Date(user.date);
    var progress = 0;
    var rank = "";
-   if (user.elo <= 100){
-     rank = 'bronze';
+   if (user.elo < 100){
+     rank = 'bronzeC';
      progress = Math.round((user.elo/100) * 100);
-   }else if (user.elo <= 200){
-     rank = 'silver';
+   }else if (user.elo < 200){
+     rank = 'silverC';
      progress = Math.round(((user.elo-100)/100)*100);
-   }else if (user.elo <= 300){
-     rank = 'gold'
-     progress = Math.round(((user.elo-200)/100)*100);
-   }else if (user.elo <= 500){
-     rank = 'diamond';
-     progress = Math.round(((user.elo-300)/200)*100);
+   }else if (user.elo < 500){
+     rank = 'goldC';
+     progress = Math.round(((user.elo-200)/(500-200))*100);
+   }else{
+     rank = 'diamondC';
+     progress = Math.round(((user.elo)/500)*100);
    }
    res.render('profile', {
      username: user.username,
@@ -55,7 +55,8 @@ router.get('/:id', function(req, res){
      wins: user.Wins,
      losses: user.Losses,
      date: foo.toDateString(),
-     progressP: progress
+     progressP: progress,
+     rank: rank
    });
  });
 });
