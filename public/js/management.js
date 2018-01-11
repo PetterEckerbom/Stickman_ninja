@@ -67,6 +67,8 @@ socket.on("Game_start",function(name){
   //save names of players in their respective object
   players[0].name = name.you;
   players[1].name = name.enemy;
+  document.getElementById('headerr').style.display = "none";
+  document.getElementById('main').style.zIndex = "100";
   document.getElementById('matchmaking').innerHTML="";
   document.getElementById('matchmaking').style.width ="none";
   document.getElementById('matchmaking').style.width ="0";

@@ -1,157 +1,154 @@
-html
-  head
-    meta(charset='utf-8')
-    meta(name='viewport', content='width=device-width')
-    title Stickman ninja
-    link(rel='stylesheet', type='text/css', href='css/matchmaking.css')
-    link(rel='stylesheet', type='text/css', href='css/game.css')
-  body
-    #matchmaking
-      #wrap
-        form(onsubmit='match(); return false')
-          label(for='input') Ranked:
-          input#ranked(type='radio', name='mode', checked='', onclick='rankedSel()')
-          br
-          label(for='input')
-            | Casual:
-            input#casual(type='radio', name='mode', onclick='casualSel()')
-          br
-          label(for='input')
-            | Friend:
-            input#friend(type='radio', name='mode', onclick='friendsel()')
-            br
-            br
-            #chooseElo
-              select#Elo(name='elo')
-                option(value='0') Any (fast queue time)
-                option(value='1') Better elo than me
-                option(value='-1') Worse elo than me
-            br
-            br
-            input(type='submit', value='Search Match')
-    canvas#main(width='1480', height='820')
-    h1#ping
-    h1#ODeath 0
-    h1#YDeath 0
-    h1#Health0 1000
-    h1#Health1 1000
-    h1#fame0 0
-    h1#fame1 0
-    //items
-    img#banana.invis(src='img/banana.png')
-    img#bomb.invis(src='img/Bomb.png')
-    img#iceball.invis(src='img/iceball.png')
-    img#shuriken.invis(src='img/Shuriken.png')
-    img#wings.invis(src='img/boots.png')
-    //platforms
-    img#spawn.invis(src='img/spawn.png')
-    img#center.invis(src='img/center.png')
-    img#thin1.invis(src='img/thin1.png')
-    img#thin2.invis(src='img/thin2.png')
-    img#base2.invis(src='img/base2.png')
-    img#base1.invis(src='img/base1.png')
-    //All sprites for idle animations!
-    img#RED_idle_left.invis(src='sprites/RED/left/RED_idle_left.png')
-    img#RED_idle_right.invis(src='sprites/RED/right/RED_idle_right.png')
-    img#BLUE_idle_right.invis(src='sprites/BLUE/right/BLUE_idle_right.png')
-    img#BLUE_idle_left.invis(src='sprites/BLUE/left/BLUE_idle_left.png')
-    //All sprites for running animations!
-    img#RED_running_left.invis(src='sprites/RED/left/RED_running_left.png')
-    img#RED_running_right.invis(src='sprites/RED/right/RED_running_right.png')
-    img#BLUE_running_right.invis(src='sprites/BLUE/right/BLUE_running_right.png')
-    img#BLUE_running_left.invis(src='sprites/BLUE/left/BLUE_running_left.png')
-    //All sprites for falling animations!
-    img#RED_falling_left.invis(src='sprites/RED/left/RED_falling_left.png')
-    img#RED_falling_right.invis(src='sprites/RED/right/RED_falling_right.png')
-    img#BLUE_falling_right.invis(src='sprites/BLUE/right/BLUE_falling_right.png')
-    img#BLUE_falling_left.invis(src='sprites/BLUE/left/BLUE_falling_left.png')
-    //All sprites for jump animations!
-    img#RED_jump_left.invis(src='sprites/RED/left/RED_jump2_left.png')
-    img#RED_jump_right.invis(src='sprites/RED/right/RED_jump2_right.png')
-    img#BLUE_jump_right.invis(src='sprites/BLUE/right/BLUE_jump2_right.png')
-    img#BLUE_jump_left.invis(src='sprites/BLUE/left/BLUE_jump2_left.png')
-    //All sprites for flip animations!
-    img#RED_flip_left.invis(src='sprites/RED/left/RED_flip_left.png')
-    img#RED_flip_right.invis(src='sprites/RED/right/RED_flip_right.png')
-    img#BLUE_flip_right.invis(src='sprites/BLUE/right/BLUE_flip_right.png')
-    img#BLUE_flip_left.invis(src='sprites/BLUE/left/BLUE_flip_left.png')
-    //All sprites for punching animations!
-    img#RED_punch_left.invis(src='sprites/RED/left/RED_punch_left.png')
-    img#RED_punch_right.invis(src='sprites/RED/right/RED_punch_right.png')
-    img#BLUE_punch_right.invis(src='sprites/BLUE/right/BLUE_punch_right.png')
-    img#BLUE_punch_left.invis(src='sprites/BLUE/left/BLUE_punch_left.png')
-    //All sprites for punching2 animations!
-    img#RED_punch2_left.invis(src='sprites/RED/left/RED_punch2_left.png')
-    img#RED_punch2_right.invis(src='sprites/RED/right/RED_punch2_right.png')
-    img#BLUE_punch2_right.invis(src='sprites/BLUE/right/BLUE_punch2_right.png')
-    img#BLUE_punch2_left.invis(src='sprites/BLUE/left/BLUE_punch2_left.png')
-    //All sprites for punching3 animations!
-    img#RED_punch3_left.invis(src='sprites/RED/left/RED_punch3_left.png')
-    img#RED_punch3_right.invis(src='sprites/RED/right/RED_punch3_right.png')
-    img#BLUE_punch3_right.invis(src='sprites/BLUE/right/BLUE_punch3_right.png')
-    img#BLUE_punch3_left.invis(src='sprites/BLUE/left/BLUE_punch3_left.png')
-    //All sprites for punching3 animations!
-    img#RED_speeddown_left.invis(src='sprites/RED/left/RED_speeddown_left.png')
-    img#RED_speeddown_right.invis(src='sprites/RED/right/RED_speeddown_right.png')
-    img#BLUE_speeddown_right.invis(src='sprites/BLUE/right/BLUE_speeddown_right.png')
-    img#BLUE_speeddown_left.invis(src='sprites/BLUE/left/BLUE_speeddown_left.png')
-    //All sprites for punching3 animations!
-    img#RED_punchup_left.invis(src='sprites/RED/left/RED_punchup_left.png')
-    img#RED_punchup_right.invis(src='sprites/RED/right/RED_punchup_right.png')
-    img#BLUE_punchup_right.invis(src='sprites/BLUE/right/BLUE_punchup_right.png')
-    img#BLUE_punchup_left.invis(src='sprites/BLUE/left/BLUE_punchup_left.png')
-    //All sprites for punching3 animations!
-    img#RED_hardknockback_left.invis(src='sprites/RED/left/RED_hardknockback_left.png')
-    img#RED_hardknockback_right.invis(src='sprites/RED/right/RED_hardknockback_right.png')
-    img#BLUE_hardknockback_right.invis(src='sprites/BLUE/right/BLUE_hardknockback_right.png')
-    img#BLUE_hardknockback_left.invis(src='sprites/BLUE/left/BLUE_hardknockback_left.png')
-    //All sprites for punching3 animations!
-    img#RED_punched_left.invis(src='sprites/RED/left/RED_punched_left.png')
-    img#RED_punched_right.invis(src='sprites/RED/right/RED_punched_right.png')
-    img#BLUE_punched_right.invis(src='sprites/BLUE/right/BLUE_punched_right.png')
-    img#BLUE_punched_left.invis(src='sprites/BLUE/left/BLUE_punched_left.png')
-    //All sprites for punching3 animations!
-    img#RED_punched2_left.invis(src='sprites/RED/left/RED_punched2_left.png')
-    img#RED_punched2_right.invis(src='sprites/RED/right/RED_punched2_right.png')
-    img#BLUE_punched2_right.invis(src='sprites/BLUE/right/BLUE_punched2_right.png')
-    img#BLUE_punched2_left.invis(src='sprites/BLUE/left/BLUE_punched2_left.png')
-    //All sprites for swipe animations!
-    img#RED_swipe_left.invis(src='sprites/RED/left/RED_swipe_left.png')
-    img#RED_swipe_right.invis(src='sprites/RED/right/RED_swipe_right.png')
-    img#BLUE_swipe_right.invis(src='sprites/BLUE/right/BLUE_swipe_right.png')
-    img#BLUE_swipe_left.invis(src='sprites/BLUE/left/BLUE_swipe_left.png')
-    //All sprites for swipe animations!
-    img#RED_kickdown_left.invis(src='sprites/RED/left/RED_kickdown_left.png')
-    img#RED_kickdown_right.invis(src='sprites/RED/right/RED_kickdown_right.png')
-    img#BLUE_kickdown_right.invis(src='sprites/BLUE/right/BLUE_kickdown_right.png')
-    img#BLUE_kickdown_left.invis(src='sprites/BLUE/left/BLUE_kickdown_left.png')
-    //All sprites for swipe animations!
-    img#RED_fall_left.invis(src='sprites/RED/left/RED_fall_left.png')
-    img#RED_fall_right.invis(src='sprites/RED/right/RED_fall_right.png')
-    img#BLUE_fall_right.invis(src='sprites/BLUE/right/BLUE_fall_right.png')
-    img#BLUE_fall_left.invis(src='sprites/BLUE/left/BLUE_fall_left.png')
-    //All sprites for down animations!
-    img#RED_down_left.invis(src='sprites/RED/left/RED_down_left.png')
-    img#RED_down_right.invis(src='sprites/RED/right/RED_down_right.png')
-    img#BLUE_down_right.invis(src='sprites/BLUE/right/BLUE_down_right.png')
-    img#BLUE_down_left.invis(src='sprites/BLUE/left/BLUE_down_left.png')
-    //All sprites for getup animations!
-    img#RED_getup_left.invis(src='sprites/RED/left/RED_getup_left.png')
-    img#RED_getup_right.invis(src='sprites/RED/right/RED_getup_right.png')
-    img#BLUE_getup_right.invis(src='sprites/BLUE/right/BLUE_getup_right.png')
-    img#BLUE_getup_left.invis(src='sprites/BLUE/left/BLUE_getup_left.png')
-    //All sprites for getup animations!
-    img#RED_airkick_left.invis(src='sprites/RED/left/RED_airkick_left.png')
-    img#RED_airkick_right.invis(src='sprites/RED/right/RED_airkick_right.png')
-    img#BLUE_airkick_right.invis(src='sprites/BLUE/right/BLUE_airkick_right.png')
-    img#BLUE_airkick_left.invis(src='sprites/BLUE/left/BLUE_airkick_left.png')
+extends header
 
-    img#powerbar.invis(src='img/powerbar.png')
-    script(src='https://cdn.socket.io/socket.io-1.4.5.js')
-    script(src='js/data.js')
-    script(src='js/game_drawing.js')
-    script(src='js/game_physics.js')
-    script(src='js/management.js')
-    script(src='js/server_listener.js')
-    script(src='js/controls.js')
-    script(src='js/game_clock.js')
+block content
+  link(rel='stylesheet', type='text/css', href='css/matchmaking.css')
+  link(rel='stylesheet', type='text/css', href='css/game.css')
+  #matchmaking
+    #wrap
+      form(onsubmit='match(); return false')
+        label(for='input') Ranked:
+        input#ranked(type='radio', name='mode', checked='', onclick='rankedSel()')
+        br
+        label(for='input')
+          | Casual:
+          input#casual(type='radio', name='mode', onclick='casualSel()')
+        br
+        label(for='input')
+          | Friend:
+          input#friend(type='radio', name='mode', onclick='friendsel()')
+          br
+          br
+          #chooseElo
+            select#Elo(name='elo')
+              option(value='0') Any (faster queue time)
+              option(value='1') Better elo than me
+              option(value='-1') Worse elo than me
+          br
+          br
+          input(type='submit', value='Search Match')
+  canvas#main(width='1480', height='820')
+  h1#ping
+  h1#ODeath 0
+  h1#YDeath 0
+  h1#Health0 1000
+  h1#Health1 1000
+  h1#fame0 0
+  h1#fame1 0
+  //items
+  img#banana.invis(src='img/banana.png')
+  img#bomb.invis(src='img/Bomb.png')
+  img#iceball.invis(src='img/iceball.png')
+  img#shuriken.invis(src='img/Shuriken.png')
+  img#wings.invis(src='img/boots.png')
+  //platforms
+  img#spawn.invis(src='img/spawn.png')
+  img#center.invis(src='img/center.png')
+  img#thin1.invis(src='img/thin1.png')
+  img#thin2.invis(src='img/thin2.png')
+  img#base2.invis(src='img/base2.png')
+  img#base1.invis(src='img/base1.png')
+  //All sprites for idle animations!
+  img#RED_idle_left.invis(src='sprites/RED/left/RED_idle_left.png')
+  img#RED_idle_right.invis(src='sprites/RED/right/RED_idle_right.png')
+  img#BLUE_idle_right.invis(src='sprites/BLUE/right/BLUE_idle_right.png')
+  img#BLUE_idle_left.invis(src='sprites/BLUE/left/BLUE_idle_left.png')
+  //All sprites for running animations!
+  img#RED_running_left.invis(src='sprites/RED/left/RED_running_left.png')
+  img#RED_running_right.invis(src='sprites/RED/right/RED_running_right.png')
+  img#BLUE_running_right.invis(src='sprites/BLUE/right/BLUE_running_right.png')
+  img#BLUE_running_left.invis(src='sprites/BLUE/left/BLUE_running_left.png')
+  //All sprites for falling animations!
+  img#RED_falling_left.invis(src='sprites/RED/left/RED_falling_left.png')
+  img#RED_falling_right.invis(src='sprites/RED/right/RED_falling_right.png')
+  img#BLUE_falling_right.invis(src='sprites/BLUE/right/BLUE_falling_right.png')
+  img#BLUE_falling_left.invis(src='sprites/BLUE/left/BLUE_falling_left.png')
+  //All sprites for jump animations!
+  img#RED_jump_left.invis(src='sprites/RED/left/RED_jump2_left.png')
+  img#RED_jump_right.invis(src='sprites/RED/right/RED_jump2_right.png')
+  img#BLUE_jump_right.invis(src='sprites/BLUE/right/BLUE_jump2_right.png')
+  img#BLUE_jump_left.invis(src='sprites/BLUE/left/BLUE_jump2_left.png')
+  //All sprites for flip animations!
+  img#RED_flip_left.invis(src='sprites/RED/left/RED_flip_left.png')
+  img#RED_flip_right.invis(src='sprites/RED/right/RED_flip_right.png')
+  img#BLUE_flip_right.invis(src='sprites/BLUE/right/BLUE_flip_right.png')
+  img#BLUE_flip_left.invis(src='sprites/BLUE/left/BLUE_flip_left.png')
+  //All sprites for punching animations!
+  img#RED_punch_left.invis(src='sprites/RED/left/RED_punch_left.png')
+  img#RED_punch_right.invis(src='sprites/RED/right/RED_punch_right.png')
+  img#BLUE_punch_right.invis(src='sprites/BLUE/right/BLUE_punch_right.png')
+  img#BLUE_punch_left.invis(src='sprites/BLUE/left/BLUE_punch_left.png')
+  //All sprites for punching2 animations!
+  img#RED_punch2_left.invis(src='sprites/RED/left/RED_punch2_left.png')
+  img#RED_punch2_right.invis(src='sprites/RED/right/RED_punch2_right.png')
+  img#BLUE_punch2_right.invis(src='sprites/BLUE/right/BLUE_punch2_right.png')
+  img#BLUE_punch2_left.invis(src='sprites/BLUE/left/BLUE_punch2_left.png')
+  //All sprites for punching3 animations!
+  img#RED_punch3_left.invis(src='sprites/RED/left/RED_punch3_left.png')
+  img#RED_punch3_right.invis(src='sprites/RED/right/RED_punch3_right.png')
+  img#BLUE_punch3_right.invis(src='sprites/BLUE/right/BLUE_punch3_right.png')
+  img#BLUE_punch3_left.invis(src='sprites/BLUE/left/BLUE_punch3_left.png')
+  //All sprites for punching3 animations!
+  img#RED_speeddown_left.invis(src='sprites/RED/left/RED_speeddown_left.png')
+  img#RED_speeddown_right.invis(src='sprites/RED/right/RED_speeddown_right.png')
+  img#BLUE_speeddown_right.invis(src='sprites/BLUE/right/BLUE_speeddown_right.png')
+  img#BLUE_speeddown_left.invis(src='sprites/BLUE/left/BLUE_speeddown_left.png')
+  //All sprites for punching3 animations!
+  img#RED_punchup_left.invis(src='sprites/RED/left/RED_punchup_left.png')
+  img#RED_punchup_right.invis(src='sprites/RED/right/RED_punchup_right.png')
+  img#BLUE_punchup_right.invis(src='sprites/BLUE/right/BLUE_punchup_right.png')
+  img#BLUE_punchup_left.invis(src='sprites/BLUE/left/BLUE_punchup_left.png')
+  //All sprites for punching3 animations!
+  img#RED_hardknockback_left.invis(src='sprites/RED/left/RED_hardknockback_left.png')
+  img#RED_hardknockback_right.invis(src='sprites/RED/right/RED_hardknockback_right.png')
+  img#BLUE_hardknockback_right.invis(src='sprites/BLUE/right/BLUE_hardknockback_right.png')
+  img#BLUE_hardknockback_left.invis(src='sprites/BLUE/left/BLUE_hardknockback_left.png')
+  //All sprites for punching3 animations!
+  img#RED_punched_left.invis(src='sprites/RED/left/RED_punched_left.png')
+  img#RED_punched_right.invis(src='sprites/RED/right/RED_punched_right.png')
+  img#BLUE_punched_right.invis(src='sprites/BLUE/right/BLUE_punched_right.png')
+  img#BLUE_punched_left.invis(src='sprites/BLUE/left/BLUE_punched_left.png')
+  //All sprites for punching3 animations!
+  img#RED_punched2_left.invis(src='sprites/RED/left/RED_punched2_left.png')
+  img#RED_punched2_right.invis(src='sprites/RED/right/RED_punched2_right.png')
+  img#BLUE_punched2_right.invis(src='sprites/BLUE/right/BLUE_punched2_right.png')
+  img#BLUE_punched2_left.invis(src='sprites/BLUE/left/BLUE_punched2_left.png')
+  //All sprites for swipe animations!
+  img#RED_swipe_left.invis(src='sprites/RED/left/RED_swipe_left.png')
+  img#RED_swipe_right.invis(src='sprites/RED/right/RED_swipe_right.png')
+  img#BLUE_swipe_right.invis(src='sprites/BLUE/right/BLUE_swipe_right.png')
+  img#BLUE_swipe_left.invis(src='sprites/BLUE/left/BLUE_swipe_left.png')
+  //All sprites for swipe animations!
+  img#RED_kickdown_left.invis(src='sprites/RED/left/RED_kickdown_left.png')
+  img#RED_kickdown_right.invis(src='sprites/RED/right/RED_kickdown_right.png')
+  img#BLUE_kickdown_right.invis(src='sprites/BLUE/right/BLUE_kickdown_right.png')
+  img#BLUE_kickdown_left.invis(src='sprites/BLUE/left/BLUE_kickdown_left.png')
+  //All sprites for swipe animations!
+  img#RED_fall_left.invis(src='sprites/RED/left/RED_fall_left.png')
+  img#RED_fall_right.invis(src='sprites/RED/right/RED_fall_right.png')
+  img#BLUE_fall_right.invis(src='sprites/BLUE/right/BLUE_fall_right.png')
+  img#BLUE_fall_left.invis(src='sprites/BLUE/left/BLUE_fall_left.png')
+  //All sprites for down animations!
+  img#RED_down_left.invis(src='sprites/RED/left/RED_down_left.png')
+  img#RED_down_right.invis(src='sprites/RED/right/RED_down_right.png')
+  img#BLUE_down_right.invis(src='sprites/BLUE/right/BLUE_down_right.png')
+  img#BLUE_down_left.invis(src='sprites/BLUE/left/BLUE_down_left.png')
+  //All sprites for getup animations!
+  img#RED_getup_left.invis(src='sprites/RED/left/RED_getup_left.png')
+  img#RED_getup_right.invis(src='sprites/RED/right/RED_getup_right.png')
+  img#BLUE_getup_right.invis(src='sprites/BLUE/right/BLUE_getup_right.png')
+  img#BLUE_getup_left.invis(src='sprites/BLUE/left/BLUE_getup_left.png')
+  //All sprites for getup animations!
+  img#RED_airkick_left.invis(src='sprites/RED/left/RED_airkick_left.png')
+  img#RED_airkick_right.invis(src='sprites/RED/right/RED_airkick_right.png')
+  img#BLUE_airkick_right.invis(src='sprites/BLUE/right/BLUE_airkick_right.png')
+  img#BLUE_airkick_left.invis(src='sprites/BLUE/left/BLUE_airkick_left.png')
+
+  img#powerbar.invis(src='img/powerbar.png')
+  script(src='https://cdn.socket.io/socket.io-1.4.5.js')
+  script(src='js/data.js')
+  script(src='js/game_drawing.js')
+  script(src='js/game_physics.js')
+  script(src='js/management.js')
+  script(src='js/server_listener.js')
+  script(src='js/controls.js')
+  script(src='js/game_clock.js')

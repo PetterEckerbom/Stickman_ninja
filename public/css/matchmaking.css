@@ -8,22 +8,25 @@ body{
     position: absolute;
     width:100%;
     Height:100%;
-    background: blue;
+    background: white;
   }
   /*Wrap around form to keep proprtions once diffrent options appear/disappear*/
   #wrap{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    /*centers it on page*/
-    transform: translate(-50%, -50%);
+    color:#80f077;
+    font-family: ninja;
+    margin: 50px auto;
     text-align: center;
-    background: skyblue;
+    background: #f2f2f2;
     padding:80px;
-    border-radius: 20px;
     line-height: 40px;
     font-size: 40px;
-    border: 4px black solid;
+    background: #333333;
+    background: -webkit-linear-gradient(#4d4d4d 0%, #191919 100%);
+    background: -o-linear-gradient(#4d4d4d 0%, #191919 100%);
+    background: linear-gradient(#4d4d4d 0%, #191919 100%);
+    border: 20px solid silver;
+    border-style: outset;
+    border-radius: 12px;
     height: 400px;
     width: 400px;
   }
