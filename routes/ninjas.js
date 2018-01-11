@@ -34,8 +34,6 @@ router.get('/:id', function(req, res){
      return;
    }
    var foo = new Date(user.date);
-   var temp_result = "<b>Username: </b>"+user.username + "<br><br><b>Elo: </b>" + user.elo + "<br><br><b>Wins/Losses:</b> "+user.Wins+"/"+user.Losses+"<br><br> <b>Joined: </b>"+foo.toDateString();
-   //res.send(temp_result);
    var progress = 0;
    var rank = "";
    if (user.elo <= 100){

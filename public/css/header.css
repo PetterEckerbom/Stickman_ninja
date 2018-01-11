@@ -45,3 +45,22 @@ transition: all .1s;
   width:40px;
   vertical-align: middle;
 }
+.error{
+  text-align: center;
+  background: red;
+  list-style-type: none;
+  font-size: 24px;
+  font-weight: bold;
+  color:white;
+}
+.Success{
+  text-align: center;
+  background: #33cc00;
+  list-style-type: none;
+  font-size: 24px;
+  font-weight: bold;
+  color:white;
+}
+.error li, .Success li{
+  padding: 6px;
+}

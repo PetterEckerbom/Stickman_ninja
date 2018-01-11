@@ -18,7 +18,7 @@ router.get('/myprofile', function(req, res){
       res.redirect('/ninjas/'+user.id);
     });
   }else{
-    req.flash('error','You cannot view your profile befor you are logged in!');
+    req.flash('error','You cannot view your profile before you are logged in!');
     res.redirect('/');
   }
 });

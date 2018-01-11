@@ -42,6 +42,11 @@ router.post('/register', function(req, res){
     res.redirect('/users/register');
     return;
   }
+  if(password.length < 5){
+    req.flash('error','Password not long enough');
+    res.redirect('/users/register');
+    return;
+  }
   //checks if there is a user with the same username
   User.findOne({username: username}, function(err, user) {
     if(err){
