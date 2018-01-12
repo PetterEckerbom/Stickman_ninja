@@ -32,7 +32,8 @@ function draw_map(){
   ctx.fillStyle="#00f735";
   for(var y=0;y<walls.length;y++){
     if(walls[y].texture){
-      ctx.fillRect(walls[y].x+xoffset,walls[y].ystart+yoffset,walls[y].thickness,walls[y].yend - walls[y].ystart);
+      var img = document.getElementById(walls[y].texture);
+      ctx.drawImage(img, walls[y].x+xoffset, walls[y].ystart+yoffset);
     }
   }
 }
