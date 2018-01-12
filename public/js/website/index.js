@@ -6,6 +6,8 @@ var socket = io();
 socket.emit('Join_chat');
 socket.on('Get_message', function(data){
   document.getElementById('chatlist').innerHTML += "<li> <b>" + data.name +":</b> "+ data.msg + "</li><br>";
+  var elem = document.getElementById('chatmessages');
+  elem.scrollTop = elem.scrollHeight;
 });
 
 function send_in_chat(){

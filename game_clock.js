@@ -43,30 +43,40 @@ function move_shuriken(){
           player = matchmaking.STARTED_GAMES[i].players[1];
           other = matchmaking.STARTED_GAMES[i].players[0];
         }
-        if(items.item_hit(matchmaking.STARTED_GAMES[i].shurikens[y], player)){
-          matchmaking.decrese_health(player, 250);
-          player.socket.emit("delete_shuriken", matchmaking.STARTED_GAMES[i].shurikens[y].id);
-          other.socket.emit("delete_shuriken", matchmaking.STARTED_GAMES[i].shurikens[y].id);
-          deleteL.push({game: i, shuriken: y});
-        }
-        if(physics.move_point(matchmaking.STARTED_GAMES[i].shurikens[y], 0.2, 0.45, true, true)){
-          deleteL.push({game: i, shuriken: y});
-        }
-        if(matchmaking.STARTED_GAMES[i].shurikens[y].y > 1000 || matchmaking.STARTED_GAMES[i].shurikens[y].x < -300 || matchmaking.STARTED_GAMES[i].shurikens[y].x > 1455){
-          deleteL.push({game: i, shuriken: y});
+        if(matchmaking.STARTED_GAMES[i].shurikens[y]){
+          if(items.item_hit(matchmaking.STARTED_GAMES[i].shurikens[y], player)){
+            matchmaking.decrese_health(player, 250);
+            player.socket.emit("delete_shuriken", matchmaking.STARTED_GAMES[i].shurikens[y].id);
+            other.socket.emit("delete_shuriken", matchmaking.STARTED_GAMES[i].shurikens[y].id);
+            deleteL.push({game: i, shuriken: y});
+          }
+          if(matchmaking.STARTED_GAMES[i].shurikens[y]){
+            if(physics.move_point(matchmaking.STARTED_GAMES[i].shurikens[y], 0.2, 0.45, true, true)){
+              deleteL.push({game: i, shuriken: y});
+            }
+          }
+          if(matchmaking.STARTED_GAMES[i].shurikens[y]){
+            if(matchmaking.STARTED_GAMES[i].shurikens[y].y > 1000 || matchmaking.STARTED_GAMES[i].shurikens[y].x < -300 || matchmaking.STARTED_GAMES[i].shurikens[y].x > 1455){
+              deleteL.push({game: i, shuriken: y});
+            }
+          }
         }
       }
     }
     for(var i = 0; i < deleteL.length; i++){
-      matchmaking.STARTED_GAMES[deleteL[i].game].players[0].socket.emit('delete_shuriken', matchmaking.STARTED_GAMES[deleteL[i].game].shurikens[deleteL[i].shuriken].id);
-      matchmaking.STARTED_GAMES[deleteL[i].game].players[1].socket.emit('delete_shuriken', matchmaking.STARTED_GAMES[deleteL[i].game].shurikens[deleteL[i].shuriken].id);
-      matchmaking.STARTED_GAMES[deleteL[i].game].shurikens.splice(deleteL[i].shuriken, 1);
+      if(matchmaking.STARTED_GAMES[deleteL[i].game].shurikens[deleteL[i].shuriken]){
+        matchmaking.STARTED_GAMES[deleteL[i].game].players[0].socket.emit('delete_shuriken', matchmaking.STARTED_GAMES[deleteL[i].game].shurikens[deleteL[i].shuriken].id);
+        matchmaking.STARTED_GAMES[deleteL[i].game].players[1].socket.emit('delete_shuriken', matchmaking.STARTED_GAMES[deleteL[i].game].shurikens[deleteL[i].shuriken].id);
+        matchmaking.STARTED_GAMES[deleteL[i].game].shurikens.splice(deleteL[i].shuriken, 1);
+      }
     }
 }
 function move_bomb(){
     for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
       for(var y = 0; y < matchmaking.STARTED_GAMES[i].bombs.length; y++){
-        physics.move_point(matchmaking.STARTED_GAMES[i].bombs[y], 0.5, 0.40, true, true);
+        if(matchmaking.STARTED_GAMES[i].bombs.length){
+          physics.move_point(matchmaking.STARTED_GAMES[i].bombs[y], 0.5, 0.40, true, true);
+        }
       }
     }
   }
@@ -133,37 +143,44 @@ function move_bomb(){
     var deleteL = [];
       for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
         for(var y = 0; y < matchmaking.STARTED_GAMES[i].iceballs.length; y++){
-          var player = matchmaking.STARTED_GAMES[i].players[0];
-          var other = matchmaking.STARTED_GAMES[i].players[1];
-          if(matchmaking.STARTED_GAMES[i].iceballs[y].owner === 0){
-            player = matchmaking.STARTED_GAMES[i].players[1];
-            other = matchmaking.STARTED_GAMES[i].players[0];
-          }
-          physics.move_point(matchmaking.STARTED_GAMES[i].iceballs[y], 0, 0, false, false);
-          if(matchmaking.STARTED_GAMES[i].iceballs[y].x < -300 || matchmaking.STARTED_GAMES[i].iceballs[y].x > 1455){
-            deleteL.push({game: i, iceball: y});
-          }
-          var iceball = matchmaking.STARTED_GAMES[i].iceballs[y];
-          var array = matchmaking.STARTED_GAMES[i].iceballs;
-          if(items.item_hit(iceball, player, array)){
-            player.x_speed = 0;
-            player.max_speed = 6;
-            player.accerelation = 0.3;
-            player.iceballhits++;
-            matchmaking.decrese_health(player, 15);
-            player.socket.emit("delete_iceball", iceball.id);
-            other.socket.emit("delete_iceball", iceball.id);
-            player.socket.emit("slowed", 0);
-            other.socket.emit("slowed", 1);
-            setTimeout(items.reset_speed, 8000, player);
-            array.splice(array.indexOf(iceball), 1);
+          if(matchmaking.STARTED_GAMES[i].iceballs[y]){}
+            var player = matchmaking.STARTED_GAMES[i].players[0];
+            var other = matchmaking.STARTED_GAMES[i].players[1];
+            if(matchmaking.STARTED_GAMES[i].iceballs[y].owner === 0){
+              player = matchmaking.STARTED_GAMES[i].players[1];
+              other = matchmaking.STARTED_GAMES[i].players[0];
+            }
+            if(matchmaking.STARTED_GAMES[i].iceballs[y]){
+              physics.move_point(matchmaking.STARTED_GAMES[i].iceballs[y], 0, 0, false, false);
+            }
+            if(matchmaking.STARTED_GAMES[i].iceballs[y].x < -300 || matchmaking.STARTED_GAMES[i].iceballs[y].x > 1455){
+              if(matchmaking.STARTED_GAMES[i].iceballs[y]){
+                deleteL.push({game: i, iceball: y});
+              }
+            }
+            var iceball = matchmaking.STARTED_GAMES[i].iceballs[y];
+            var array = matchmaking.STARTED_GAMES[i].iceballs;
+            if(items.item_hit(iceball, player, array)){
+              player.x_speed = 0;
+              player.max_speed = 6;
+              player.accerelation = 0.3;
+              player.iceballhits++;
+              matchmaking.decrese_health(player, 15);
+              player.socket.emit("delete_iceball", iceball.id);
+              other.socket.emit("delete_iceball", iceball.id);
+              player.socket.emit("slowed", 0);
+              other.socket.emit("slowed", 1);
+              setTimeout(items.reset_speed, 8000, player);
+              deleteL.push({game: i, iceball: y});
+            }
           }
         }
-      }
       for(var x = 0; x < deleteL.length; x++){
-        matchmaking.STARTED_GAMES[deleteL[x].game].players[0].socket.emit('delete_iceball', matchmaking.STARTED_GAMES[deleteL[x].game].iceballs[deleteL[x].iceball].id);
-        matchmaking.STARTED_GAMES[deleteL[x].game].players[1].socket.emit('delete_iceball', matchmaking.STARTED_GAMES[deleteL[x].game].iceballs[deleteL[x].iceball].id);
-        matchmaking.STARTED_GAMES[deleteL[x].game].iceballs.splice(deleteL[x].iceball, 1);
+        if(matchmaking.STARTED_GAMES[deleteL[x].game].iceballs[deleteL[x].iceball]){
+          matchmaking.STARTED_GAMES[deleteL[x].game].players[0].socket.emit('delete_iceball', matchmaking.STARTED_GAMES[deleteL[x].game].iceballs[deleteL[x].iceball].id);
+          matchmaking.STARTED_GAMES[deleteL[x].game].players[1].socket.emit('delete_iceball', matchmaking.STARTED_GAMES[deleteL[x].game].iceballs[deleteL[x].iceball].id);
+          matchmaking.STARTED_GAMES[deleteL[x].game].iceballs.splice(deleteL[x].iceball, 1);
+        }
       }
   }
 

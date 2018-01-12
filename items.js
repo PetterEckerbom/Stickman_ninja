@@ -60,6 +60,7 @@ function bomb_blowup(bomb, bombarray, players){
     for(var i = 0; i < bombarray.length; i++){
       if(bombarray[i] == bomb){
         bombarray.splice(i, 1);
+        return;
       }
     }
   }
