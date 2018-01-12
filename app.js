@@ -93,8 +93,10 @@ io.on("connection", function(socket) {
     Active_in_chat.push(socket);
   });
   socket.on('Send_message', function(msg){
-    console.log(msg);
     msg = msg.replace(/<(?:.|\n)*?>/gm, '');
+    if(msg.length <= 0 || msg.length > 200){
+      return;
+    }
     for(var i = 0; i < Active_in_chat.length; i++){
       Active_in_chat[i].emit('Get_message', {msg:msg, name: socket.Chatname});
     }

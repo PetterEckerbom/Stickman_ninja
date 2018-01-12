@@ -41,6 +41,11 @@ router.post('/register', function(req, res){
     res.redirect('/users/register');
     return;
   }
+  if(/<[a-z][\s\S]*>/i.test(username)){
+    req.flash('error','Please do not use html elements in username!');
+    res.redirect('/users/register');
+    return;
+  }
   //makes sure password match
   if(password != password2){
     req.flash('error',"Password doesn't match");
