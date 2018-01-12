@@ -112,11 +112,10 @@ exports.find_ranked = function(socket, type){
 				plyr.x = 100;
 				plyr.facing = "right";
 				var game = new game_instance(plyr,type,plyr.id, true);
-				RankedQueue.push(game);
+				RankedQueue[RankedQueue.length] = game;
 				//we tell the client that we are waiting for an opponent
 				plyr.socket.emit('waiting');
 			}
-			console.log(RankedQueue.length);
 };
 exports.find_casual = function(socket){
 	//start by createing a player (Needs to be done regardless of where it will end up)
@@ -146,7 +145,7 @@ exports.find_casual = function(socket){
 					plyr.x = 100;
 					plyr.facing = "right";
 					var game = new game_instance(plyr,0,plyr.id);
-					CasualQueue.push(game);
+					CasualQueue[CasualQueue.length] = game;
 					//we tell the client that we are waiting for an opponent
 					plyr.socket.emit('waiting');
 				}
