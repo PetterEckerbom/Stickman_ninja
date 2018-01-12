@@ -5,8 +5,9 @@ block content
   div#layout
     div#chat
       div#chatmessages
-      form#chatinput
-        input(type='text' placeholder="Write chat message here!")
+        ul#chatlist
+      form(onsubmit="send_in_chat(); return false")#chatinput
+        input(type='text' placeholder="Write chat message here!" autocomplete="off")#txtinput
         input(type='submit' value="Send")
     div#news
       div#newsbox
@@ -22,4 +23,5 @@ block content
   form#searchplayer(action='/ninjas/search', method='POST')
     input#searchP(type='text', name='ninja', placeholder='Input ninja name here')
     input#button(type='submit', value='Search')
+  script(src='https://cdn.socket.io/socket.io-1.4.5.js')
   script(src='js/website/index.js')

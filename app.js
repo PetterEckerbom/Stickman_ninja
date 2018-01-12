@@ -75,10 +75,7 @@ app.get('/test', function(req, res){
     next();
   });
 
-//Creates Array and objects related to game and makes accessable from any file
-var SOCKETS = {};
-exports.SOCKETS = SOCKETS;
-
+var Active_in_chat = [];
 //Allows us to edit and acces session infromation from socket.
 var io = require("socket.io")(serv);
 io.use(sharedsession(session));
@@ -86,7 +83,22 @@ io.on("connection", function(socket) {
   //gives ID to socket and saves it in SOCKETS object. Useful to manage sockets noy in game
 	var id = Math.random();
 	socket.id =id;
-	SOCKETS[id] = socket;
+
+  socket.on('Join_chat', function(){
+    if(socket.handshake.session.user){
+      socket.Chatname = socket.handshake.session.user.username;
+    }else{
+      socket.Chatname = "Anonymous" + Math.floor(Math.random()*100);
+    }
+    Active_in_chat.push(socket);
+  });
+  socket.on('Send_message', function(msg){
+    console.log(msg);
+    msg = msg.replace(/<(?:.|\n)*?>/gm, '');
+    for(var i = 0; i < Active_in_chat.length; i++){
+      Active_in_chat[i].emit('Get_message', {msg:msg, name: socket.Chatname});
+    }
+  });
   //calls for a match to be created, gives out what elo user asked for and the socket
 	socket.on('match_making_ranked',function(type){
     if(socket.handshake.session.user){
@@ -193,5 +205,15 @@ boxes.open_box(socket);
 //Reroutes diconnects to matchmaking.js
 socket.on("disconnect",function(){
   matchmaking.disconnect(socket);
+  disconnect_chat(socket);
 });
 });
+
+function disconnect_chat(socket){
+  for(var i = 0; i < Active_in_chat.length; i++){
+    if(socket.Chatname == Active_in_chat[i].Chatname){
+      Active_in_chat.splice[i, 1];
+      return;
+    }
+  }
+}
