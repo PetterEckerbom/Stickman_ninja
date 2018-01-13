@@ -32,8 +32,8 @@ function draw_map(){
   ctx.fillStyle="#00f735";
   for(var y=0;y<walls.length;y++){
     if(walls[y].texture){
-      var img = document.getElementById(walls[y].texture);
-      ctx.drawImage(img, walls[y].x+xoffset, walls[y].ystart+yoffset);
+      var imgwall = document.getElementById(walls[y].texture);
+      ctx.drawImage(imgwall, walls[y].x+xoffset, walls[y].ystart+yoffset);
     }
   }
 }
@@ -69,14 +69,15 @@ function draw_powerbar(){
 
 function draw_boxes(){
   for(var i = 0; i < boxes.length; i++){
+    var boxtype = "";
     if(boxes[i].type == "yours"){
-      ctx.fillStyle="#6842f4";
+      boxtype = document.getElementById('box_blue');
     }else if(boxes[i].type == "enemys"){
-      ctx.fillStyle="#f74254";
+      boxtype = document.getElementById('box_red');
     }else{
-      ctx.fillStyle="#913c00";
+      boxtype = document.getElementById('box_both');
     }
-    ctx.fillRect(boxes[i].cords.x+xoffset-25,boxes[i].cords.y+yoffset-50,50,50);
+    ctx.drawImage(boxtype, boxes[i].cords.x+xoffset-25,boxes[i].cords.y+yoffset-50);
   }
 }
 
