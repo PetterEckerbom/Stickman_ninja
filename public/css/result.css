@@ -1,0 +1,39 @@
+#all{
+  text-align: center;
+  font-family: ninja;
+}
+#win{
+  font-size: 150px;
+  color:#2c77c3 ;
+  text-decoration: underline overline;
+}
+#eloind{
+  font-size: 70px;
+}
+.green{
+  color: #006847;
+}
+#loss{
+  text-decoration: underline overline;
+  font-size: 150px;
+  color:#8B0000;
+}
+.red{
+  color: red;
+}
+#links{
+  display: inline-block;
+  padding: 20px;
+  background: #333333;
+  background: -webkit-linear-gradient(#4d4d4d 0%, #191919 100%);
+  background: -o-linear-gradient(#4d4d4d 0%, #191919 100%);
+  background: linear-gradient(#4d4d4d 0%, #191919 100%);
+  border: 10px solid silver;
+  border-style: outset;
+  border-radius: 12px;
+  color:white;
+  margin: 0 200px 10px 200px;
+}
+a{
+  color:white;
+}

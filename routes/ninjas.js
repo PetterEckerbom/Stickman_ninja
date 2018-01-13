@@ -26,6 +26,16 @@ router.post('/search', function(req, res){
   });
 });
 
+router.get('/results/:res/:amount', function(req, res){
+  if(req.session.user){
+    res.locals.user = req.session.user;
+  }
+  res.render('results',{
+    res: req.params.res,
+    amount: req.params.amount
+  });
+});
+
 router.get('/:id', function(req, res){
   res.locals.user = req.session.user;
  User.findById(req.params.id, function(err, user){

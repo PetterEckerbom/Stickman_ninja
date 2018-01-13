@@ -287,18 +287,14 @@ socket.on('fall',function(player){
 });
 
 socket.on('Won',function(){
-  alert('You won!');
-  location.reload();
+  window.location = '/ninjas/results/Win/0';
 });
 socket.on('lost',function(){
-  alert('You lost!');
-  location.reload();
+  window.location = '/ninjas/results/Loss/0';
 });
 socket.on('Won2',function(elo){
-  alert('You won! '+ elo + "Was added to your account");
-  location.reload();
+  window.location = '/ninjas/results/Won/' + elo;
 });
 socket.on('lost2',function(elo){
-  alert('You lost! ' + elo + "Was taken from your account");
-  location.reload();
+  window.location = '/ninjas/results/Loss/' + elo;
 });

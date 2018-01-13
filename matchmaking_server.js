@@ -11,6 +11,7 @@ dont touch elo.
 var info = require('./information.js');
 var gameclock = require('./game_clock.js');
 var boxes = require('./boxes.js');
+var physics = require('./physics.js')
 
 var RankedQueue = [];
 var CasualQueue = [];
@@ -217,7 +218,8 @@ exports.disconnect = function(socket){
 		RankedQueue.splice(queueR_check.index, 1);
 	}else if(games_check != -1){
 		//if game had started we alert remaining user and throw the game away
-		STARTED_GAMES[games_check.index].players[games_check.NotPlayer].socket.emit('Opponent_DC');
+		physics.game_end(STARTED_GAMES[games_check.index].players[games_check.NotPlayer], STARTED_GAMES[games_check.index].players[games_check.Player], games_check.index);
+		//STARTED_GAMES[games_check.index].players[games_check.NotPlayer].socket.emit('Opponent_DC');
 		STARTED_GAMES.splice(games_check.index, 1);
 	}else if(queueC_check != -1){
 		//if game had started we alert remaining user and throw the game away

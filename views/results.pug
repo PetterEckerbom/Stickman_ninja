@@ -1,0 +1,14 @@
+extends header
+
+block content
+  link(rel='stylesheet', type='text/css', href='/css/result.css')
+  div#all
+    if user
+      if res == "Win"
+        h1#win Victory!
+        h1#eloind Elo: #{user.elo} <b class="green">(+#{amount})</b>
+      else if res == "Loss"
+        h1#loss Defeat!
+        h1#eloind Elo: #{user.elo} <b class="red">(+#{amount})</b>
+      a(href="/") <h1 id="links"> Home</h1><br>
+      a(href="/game") <h1 id="links"> Play Again</h1>

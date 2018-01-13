@@ -133,7 +133,7 @@ exports.move_down = function(){
 }
 }
 };
-function game_end(winner, loser, game){
+var game_end = function(winner, loser, game){
   if(matchmaking.STARTED_GAMES[game].ranked){
     var elomultW = ((winner.elo+1)/(loser.elo+1));
     if(elomultW < 0.5){
@@ -180,7 +180,8 @@ function game_end(winner, loser, game){
     loser.socket.emit('lost');
   }
   matchmaking.STARTED_GAMES.splice(game, 1);
-}
+};
+exports.game_end = game_end;
 
 function check_feet_collision(player){
   var games_check = matchmaking.findplayer(matchmaking.STARTED_GAMES, player.socket.id);

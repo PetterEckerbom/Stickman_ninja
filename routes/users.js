@@ -12,7 +12,6 @@ router.get('/login',function(req,res){
   res.locals.user = req.session.user;
   res.render('login');
 });
-
 //Register below
 router.post('/register', function(req, res){
   var username = req.body.username;
