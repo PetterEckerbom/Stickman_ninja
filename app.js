@@ -104,7 +104,11 @@ io.on("connection", function(socket) {
   //calls for a match to be created, gives out what elo user asked for and the socket
 	socket.on('match_making_ranked',function(type){
     if(socket.handshake.session.user){
-      matchmaking.find_ranked(socket, type);
+      if(check_if_in(socket.handshake.session.user.username)){
+        matchmaking.find_ranked(socket, type);
+      }else{
+        socket.emit('already_in_game');
+      }
     }else{
       socket.emit('not_logged_in');
     }
@@ -112,7 +116,11 @@ io.on("connection", function(socket) {
   //CAlls for a casual match to be created works simular to ranked but stored in other array and doesnt care about elo
   socket.on('match_making_casual',function(){
     if(socket.handshake.session.user){
-      matchmaking.find_casual(socket);
+      if(check_if_in(socket.handshake.session.user.username)){
+        matchmaking.find_casual(socket);
+      }else{
+        socket.emit('already_in_game');
+      }
     }else{
       socket.emit('not_logged_in');
     }
@@ -123,13 +131,17 @@ io.on("connection", function(socket) {
       socket.emit('bad_code');
     }else{
         if(socket.handshake.session.user){
-            if(data.new_match){
-              socket.codeID = data.code;
-              matchmaking.create_match_friend(socket, data.code);
-            }else{
-              socket.codeID = data.code;
-            	matchmaking.find_match_friend(socket, data.code);
-            }
+          if(check_if_in(socket.handshake.session.user.username)){
+              if(data.new_match){
+                socket.codeID = data.code;
+                matchmaking.create_match_friend(socket, data.code);
+              }else{
+                socket.codeID = data.code;
+              	matchmaking.find_match_friend(socket, data.code);
+              }
+          }else{
+            socket.emit('already_in_game');
+          }
         }
       }
 	});
@@ -214,8 +226,32 @@ socket.on("disconnect",function(){
 function disconnect_chat(socket){
   for(var i = 0; i < Active_in_chat.length; i++){
     if(socket.Chatname == Active_in_chat[i].Chatname){
-      Active_in_chat.splice[i, 1];
+      Active_in_chat.splice(i, 1);
       return;
     }
   }
+}
+
+function check_if_in(name){
+  for(var i = 0; i < matchmaking.STARTED_GAMES.length; i++){
+    if(matchmaking.STARTED_GAMES[i].players[0].name == name || matchmaking.STARTED_GAMES[i].players[1].name == name){
+      return false;
+    }
+  }
+  for(var y = 0; y < matchmaking.RankedQueue.length; y++){
+    if(matchmaking.RankedQueue[y].players[0].name == name){
+      return false;
+    }
+  }
+  for(var x = 0; x < matchmaking.CasualQueue.length; x++){
+    if(matchmaking.CasualQueue[x].players[0].name == name){
+      return false;
+    }
+  }
+  for(var z = 0; z < matchmaking.FriendQueue.length; z++){
+    if(matchmaking.FriendQueue[z].players[0].name == name){
+      return false;
+    }
+  }
+  return true;
 }

@@ -285,7 +285,9 @@ socket.on('fall',function(player){
     }, 495);
   }, 7000/15);
 });
-
+socket.on('already_in_game', function(){
+  alert('This account is already currently in a game or in a queue. Please leave current game or queue and try again!');
+});
 socket.on('Won',function(){
   window.location = '/ninjas/results/Win/0';
 });
@@ -293,7 +295,7 @@ socket.on('lost',function(){
   window.location = '/ninjas/results/Loss/0';
 });
 socket.on('Won2',function(elo){
-  window.location = '/ninjas/results/Won/' + elo;
+  window.location = '/ninjas/results/Win/' + elo;
 });
 socket.on('lost2',function(elo){
   window.location = '/ninjas/results/Loss/' + elo;
