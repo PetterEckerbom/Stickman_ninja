@@ -1,12 +1,16 @@
 extends header
 
 block content
-    form(method='POST', action='/users/login')
-      h1 login
-      lable Username
+  link(rel='stylesheet', type='text/css', href='/css/form.css')
+  form(method='POST', action='/users/login')
+    h1#title Login
+    div#labels
+      lable Username: <br>
+      lable Password: <br>
+    div#feild
       input(name='username', type='text')
       br
-      lable password
       input(name='password', type='password')
       br
-      input(type='submit')
+    br
+    input(type='submit' value="Login")#sumbit

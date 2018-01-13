@@ -1,17 +1,22 @@
 extends header
 
 block content
-    form(method='POST', action='/users/register')
-      h1 Register
-      lable Username
+  link(rel='stylesheet', type='text/css', href='/css/form.css')
+  form(method='POST', action='/users/register')
+    h1#title Register
+    div#labels
+      lable Username: <br>
+      lable Email: <br>
+      lable Password: <br>
+      lable Password: <br>
+    div#feild
       input(name='username', type='text')
       br
-      lable Email
       input(name='email', type='text')
       br
-      lable password
       input(name='password', type='password')
       br
-      lable password
       input(name='password2', type='password')
-      input(type='submit')
+      br
+    br
+    input(type='submit' value="Register")#sumbit

@@ -1,0 +1,26 @@
+form{
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 550px;
+  font-family:ninja;
+  margin-top: 40px;
+  background: #f2f2f2;
+  padding: 30px;
+  border: solid 2px blue;
+  border-radius: 20px;
+}
+#title{
+  text-align: center;
+  grid-column: 1/3;
+}
+#labels{
+  text-align: right;
+  vertical-align: center;
+}
+input{
+  grid-column: 1/3;
+}
+#sumbit{
+
+}
