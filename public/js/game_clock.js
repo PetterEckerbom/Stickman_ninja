@@ -19,6 +19,7 @@ setInterval(function () {
   draw_map();
   display_item();
   draw_powerbar();
+  UI();
   //Movement
 
 },1000/30);

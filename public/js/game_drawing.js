@@ -161,3 +161,23 @@ function find_animation(player){
     }
   }
 }
+
+function UI(){
+  var UI_hud_left = document.getElementById('UI_hud_left');
+  var UI_hud_right = document.getElementById('UI_hud_right');
+  if(document.getElementById('main').height < 1000){
+    ctx.fillStyle = '#00b300';
+      ctx.fillRect(200+xoffset+57,33,243,13);
+    ctx.fillStyle = '#0099cc';
+      ctx.fillRect(200+xoffset+57,54,243,13);
+    ctx.drawImage(UI_hud_left,200+xoffset,0,300,75);
+    ctx.fillStyle = '#00b300';
+      ctx.fillRect(802+xoffset,33,243,13);
+    ctx.fillStyle = '#0099cc';
+      ctx.fillRect(802+xoffset,54,243,13);
+    ctx.drawImage(UI_hud_right,800+xoffset,0,300,75);
+  }else{
+    ctx.drawImage(UI_hud,xoffset-200,0);
+    ctx.drawImage(UI_hud,document.getElementById('main').width - 400-xoffset,0);
+  }
+}
