@@ -238,20 +238,14 @@ socket.on('flipping', function(player){
   players[player].flipping = true;
 });
 socket.on('death_count', function(player){
-  if(player == 0){
-    document.getElementById('YDeath').innerHTML = document.getElementById('YDeath').innerHTML*1 + 1;
-  }else{
-    document.getElementById('ODeath').innerHTML = document.getElementById('ODeath').innerHTML*1 + 1;
-  }
+  players[player].lives--;
 });
 
 socket.on('health_update', function(health){
   players[health.player].health = health.health;
-  document.getElementById('Health'+health.player).innerHTML = health.health;
 });
 socket.on('fame_update', function(fame){
   players[fame.player].fame = fame.fame;
-  document.getElementById('fame'+fame.player).innerHTML = fame.fame;
 });
 socket.on('healthup',function(player){
   players[player].health = 1000;

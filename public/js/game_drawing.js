@@ -166,7 +166,7 @@ function UI(){
   var UI_hud_left = document.getElementById('UI_hud_left');
   var UI_hud_right = document.getElementById('UI_hud_right');
   if(UI_left_plr !== null){
-    if(document.getElementById('main').height < 1000){
+    if(document.getElementById('main').height < 1100){
       var left_hp_pro = players[UI_left_plr].health/1000;
       var left_fame_pro = players[UI_left_plr].fame/500;
       ctx.fillStyle = '#00b300';
@@ -174,6 +174,14 @@ function UI(){
       ctx.fillStyle = '#0099cc';
         ctx.fillRect(200+xoffset+57,54,243*left_fame_pro,13);
       ctx.drawImage(UI_hud_left,200+xoffset,0,300,75);
+      ctx.fillStyle = '#000000';
+      ctx.font = "17px Arial";
+      ctx.fillText(players[UI_left_plr].name,300+xoffset,20);
+
+      for(var i = 0; i < players[UI_left_plr].lives; i++){
+        var heart = document.getElementById('heart');
+        ctx.drawImage(heart,202+xoffset+(i*13),43,26,26);
+      }
 
       var right_hp_pro = players[UI_right_plr].health/1000;
       var right_fame_pro = players[UI_right_plr].fame/500;
@@ -182,9 +190,14 @@ function UI(){
       ctx.fillStyle = '#0099cc';
         ctx.fillRect(802+xoffset + (243*(1-right_fame_pro)),54,243*right_fame_pro,13);
       ctx.drawImage(UI_hud_right,800+xoffset,0,300,75);
+      ctx.fillStyle = '#000000';
+      ctx.font = "17px Arial";
+      ctx.fillText(players[UI_right_plr].name,880+xoffset,20);
+      for(var i = 0; i < players[UI_right_plr].lives; i++){
+        var heart = document.getElementById('heart');
+        ctx.drawImage(heart,1076+xoffset-(i*13),43,26,26);
+      }
     }else{
-      //ctx.drawImage(UI_hud,xoffset-200,0);
-      //ctx.drawImage(UI_hud,document.getElementById('main').width - 400-xoffset,0);
       var left_hp_pro = players[UI_left_plr].health/1000;
       var left_fame_pro = players[UI_left_plr].fame/500;
       ctx.fillStyle = '#00b300';
@@ -192,6 +205,14 @@ function UI(){
       ctx.fillStyle = '#0099cc';
         ctx.fillRect(xoffset-200+114,66+42,486*left_fame_pro,26);
       ctx.drawImage(UI_hud_left,xoffset-200,0);
+      ctx.fillStyle = '#000000';
+      ctx.font = "30px Arial";
+      ctx.fillText(players[UI_left_plr].name,xoffset-200+180,40);
+
+      for(var i = 0; i < players[UI_left_plr].lives; i++){
+        var heart = document.getElementById('heart');
+        ctx.drawImage(heart,xoffset-198+(i*27),88,50,50);
+      }
 
       var right_hp_pro = players[UI_right_plr].health/1000;
       var right_fame_pro = players[UI_right_plr].fame/500;
@@ -200,6 +221,13 @@ function UI(){
       ctx.fillStyle = '#0099cc';
         ctx.fillRect(document.getElementById('main').width - 400-xoffset + (486*(1-right_fame_pro)),66+42,486*right_fame_pro,26);
       ctx.drawImage(UI_hud_right,document.getElementById('main').width - 400-xoffset,0);
+      ctx.fillStyle = '#000000';
+      ctx.font = "30px Arial";
+      ctx.fillText(players[UI_right_plr].name,document.getElementById('main').width - 265-xoffset,40);
+      for(var i = 0; i < players[UI_right_plr].lives; i++){
+        var heart = document.getElementById('heart');
+        ctx.drawImage(heart,document.getElementById('main').width + 150 -xoffset-(i*27),88,50,50);
+      }
     }
   }
 }

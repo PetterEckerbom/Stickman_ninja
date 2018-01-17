@@ -271,7 +271,8 @@ var players = [
     flipping: false,
 		iceballhits: 0,
 		fame: 0,
-		health: 1000
+		health: 1000,
+		lives: 3
   },
 enemy = {
     name:"",
@@ -292,6 +293,7 @@ enemy = {
     flipping: false,
 		iceballhits: 0,
 		fame: 0,
-		health: 1000
+		health: 1000,
+		lives: 3
   }
 ];
