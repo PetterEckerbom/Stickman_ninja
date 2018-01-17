@@ -61,12 +61,22 @@ socket.on("waiting",function(){
 socket.on("waiting_friend",function(code){
   document.getElementById('wrap').innerHTML ="<img src='img/loading.png' id='loading'/><br><br><br><br>Waiting for friend to connect to game " + code + "....";
 });
-
+var UI_left_plr = null;
+var UI_right_plr = null;
 //When server says game should start we remve matchmaking div
 socket.on("Game_start",function(name){
   //save names of players in their respective object
   players[0].name = name.you;
   players[1].name = name.enemy;
+  setTimeout(function(){
+    if(players[0].x > 700){
+      UI_left_plr = 1;
+      UI_right_plr = 0;
+    }else{
+      UI_left_plr = 0;
+      UI_right_plr = 1;
+    }
+  },10);
   document.getElementById('headerr').style.display = "none";
   document.getElementById('main').style.zIndex = "100";
   document.getElementById('matchmaking').innerHTML="";

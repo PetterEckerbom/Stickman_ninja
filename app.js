@@ -104,7 +104,8 @@ io.on("connection", function(socket) {
   //calls for a match to be created, gives out what elo user asked for and the socket
 	socket.on('match_making_ranked',function(type){
     if(socket.handshake.session.user){
-      if(check_if_in(socket.handshake.session.user.username)){
+      //check_if_in(socket.handshake.session.user.username)
+      if(true){
         matchmaking.find_ranked(socket, type);
       }else{
         socket.emit('already_in_game');
