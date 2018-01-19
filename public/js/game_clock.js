@@ -17,7 +17,6 @@ setInterval(function () {
   move_bomb();
   draw_bombs();
   draw_map();
-  display_item();
   draw_powerbar();
   UI();
   //Movement

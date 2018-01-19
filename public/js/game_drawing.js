@@ -107,16 +107,6 @@ function draw_iceballs(){
   }
 }
 
-function display_item(){
-  if(charges > 0){
-    var img = document.getElementById(item_name);
-    ctx.fillStyle="#f4426b";
-    ctx.font="50px Arial";
-    ctx.drawImage(img,xoffset+700,0);
-    ctx.fillText(charges+"",xoffset+840,50);
-  }
-}
-
 //these functions take in an animation, sets the framerate to the correct speed and resets all frames in order to apply the correct animation.
 function animation_change_you(animation){
   if(players[0].animation != animation && !players[0].animation_block ){
@@ -166,7 +156,7 @@ function UI(){
   var UI_hud_left = document.getElementById('UI_hud_left');
   var UI_hud_right = document.getElementById('UI_hud_right');
   if(UI_left_plr !== null){
-    if(document.getElementById('main').height < 1100){
+    if(document.getElementById('main').height < 1070){
       var left_hp_pro = players[UI_left_plr].health/1000;
       var left_fame_pro = players[UI_left_plr].fame/500;
       ctx.fillStyle = '#00b300';
@@ -196,6 +186,17 @@ function UI(){
       for(var i = 0; i < players[UI_right_plr].lives; i++){
         var heart = document.getElementById('heart');
         ctx.drawImage(heart,1076+xoffset-(i*13),43,26,26);
+      }
+
+      var UI_toolbar = document.getElementById('UI_toolbar');
+      ctx.drawImage(UI_toolbar,xoffset+340,document.getElementById('main').height -72,600,72);
+
+      if(charges > 0){
+        var item = document.getElementById(item_name);
+        ctx.fillStyle="#000000";
+        ctx.font="20px Arial";
+        ctx.drawImage(item,xoffset+340+154,document.getElementById('main').height -72 + 17,38,38);
+        ctx.fillText(charges+"",xoffset+340+200,document.getElementById('main').height -72+53);
       }
     }else{
       var left_hp_pro = players[UI_left_plr].health/1000;
@@ -227,6 +228,16 @@ function UI(){
       for(var i = 0; i < players[UI_right_plr].lives; i++){
         var heart = document.getElementById('heart');
         ctx.drawImage(heart,document.getElementById('main').width + 150 -xoffset-(i*27),88,50,50);
+      }
+
+      var UI_toolbar = document.getElementById('UI_toolbar');
+      ctx.drawImage(UI_toolbar,xoffset+240,document.getElementById('main').height - 120);
+      if(charges > 0){
+        var item = document.getElementById(item_name);
+        ctx.fillStyle="#000000";
+        ctx.font="30px Arial";
+        ctx.drawImage(item,xoffset+240+258,document.getElementById('main').height -120 + 28,64,64);
+        ctx.fillText(charges+"",xoffset+240+330,document.getElementById('main').height - 120 + 85);
       }
     }
   }
