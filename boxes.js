@@ -58,14 +58,16 @@ exports.open_box = function(socket){
 
 function get_random_item(type){
   var random =  Math.random();
-  if(random < (1/5)){
+  if(random < (1/6)){
     return {name: "shuriken", charges: (Math.floor(Math.random()*4)+1) * type};
-  }else if(random < (2/5)){
+  }else if(random < (2/6)){
     return {name: "bomb", charges: (Math.floor(Math.random()*2)+1) * type};
-  }else if(random < (3/5)){
+  }else if(random < (3/6)){
     return {name: "wings", charges: 1};
-  }else if(random < (4/5)){
+  }else if(random < (4/6)){
     return {name: "iceball", charges: (Math.floor(Math.random()*15)+5) * type};
+  }else if(random < (5/6)){
+    return {name: "Sushi", charges: (Math.floor(Math.random()*7)+3) * type};
   }else{
     return {name: "banana", charges: (Math.floor(Math.random()*3)+2) * type};
   }

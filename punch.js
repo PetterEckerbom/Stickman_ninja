@@ -125,7 +125,7 @@ function check_hit(game_instance, player, dir, other, Ptype){
           time = 19000;
           type = "hit3";
           matchmaking.decrese_health(hit_player, 300);
-          matchmaking.fame_increase(hitting_player, 700);
+          matchmaking.fame_increase(hitting_player, 400);
           if(dir == -1){
             hit_player.facing = "right";
           }else{

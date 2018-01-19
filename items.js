@@ -143,3 +143,18 @@ exports.banana = function(socket){
     }
   }
 };
+
+exports.Sushi = function(socket){
+  var game_index = matchmaking.findplayer(matchmaking.STARTED_GAMES, socket.id);
+  if(game_index != -1){
+    var player = matchmaking.STARTED_GAMES[game_index.index].players[game_index.Player];
+    var otherplayer = matchmaking.STARTED_GAMES[game_index.index].players[game_index.NotPlayer];
+    if(player.health + 150 > 1000){
+      player.health = 1000;
+    }else{
+      player.health += 150;
+    }
+    player.socket.emit('health_update', {health:player.health, player:0});
+  	otherplayer.socket.emit('health_update', {health:player.health, player:1});
+  }
+}
