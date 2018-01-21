@@ -155,90 +155,106 @@ function find_animation(player){
 function UI(){
   var UI_hud_left = document.getElementById('UI_hud_left');
   var UI_hud_right = document.getElementById('UI_hud_right');
+  var heart = document.getElementById('heart');
   if(UI_left_plr !== null){
     if(document.getElementById('main').height < 1070){
-      var left_hp_pro = players[UI_left_plr].health/1000;
-      var left_fame_pro = players[UI_left_plr].fame/500;
-      ctx.fillStyle = '#00b300';
-        ctx.fillRect(200+xoffset+57,33,243 * left_hp_pro,13);
-      ctx.fillStyle = '#0099cc';
-        ctx.fillRect(200+xoffset+57,54,243*left_fame_pro,13);
-      ctx.drawImage(UI_hud_left,200+xoffset,0,300,75);
-      ctx.fillStyle = '#000000';
-      ctx.font = "17px Arial";
-      ctx.fillText(players[UI_left_plr].name,300+xoffset,20);
-
-      for(var i = 0; i < players[UI_left_plr].lives; i++){
-        var heart = document.getElementById('heart');
-        ctx.drawImage(heart,202+xoffset+(i*13),43,26,26);
-      }
-
-      var right_hp_pro = players[UI_right_plr].health/1000;
-      var right_fame_pro = players[UI_right_plr].fame/500;
-      ctx.fillStyle = '#00b300';
-        ctx.fillRect(802+xoffset + (243*(1-right_hp_pro)),33,243*right_hp_pro,13);
-      ctx.fillStyle = '#0099cc';
-        ctx.fillRect(802+xoffset + (243*(1-right_fame_pro)),54,243*right_fame_pro,13);
-      ctx.drawImage(UI_hud_right,800+xoffset,0,300,75);
-      ctx.fillStyle = '#000000';
-      ctx.font = "17px Arial";
-      ctx.fillText(players[UI_right_plr].name,880+xoffset,20);
-      for(var i = 0; i < players[UI_right_plr].lives; i++){
-        var heart = document.getElementById('heart');
-        ctx.drawImage(heart,1076+xoffset-(i*13),43,26,26);
-      }
-
-      var UI_toolbar = document.getElementById('UI_toolbar');
-      ctx.drawImage(UI_toolbar,xoffset+340,document.getElementById('main').height -72,600,72);
-
-      if(charges > 0){
-        var item = document.getElementById(item_name);
-        ctx.fillStyle="#000000";
-        ctx.font="20px Arial";
-        ctx.drawImage(item,xoffset+340+154,document.getElementById('main').height -72 + 17,38,38);
-        ctx.fillText(charges+"",xoffset+340+200,document.getElementById('main').height -72+53);
-      }
+      draw_HUD_small();
+      draw_toolbar_small();
     }else{
-      var left_hp_pro = players[UI_left_plr].health/1000;
-      var left_fame_pro = players[UI_left_plr].fame/500;
-      ctx.fillStyle = '#00b300';
-        ctx.fillRect(xoffset-200+114,66,486 * left_hp_pro,26);
-      ctx.fillStyle = '#0099cc';
-        ctx.fillRect(xoffset-200+114,66+42,486*left_fame_pro,26);
-      ctx.drawImage(UI_hud_left,xoffset-200,0);
-      ctx.fillStyle = '#000000';
-      ctx.font = "30px Arial";
-      ctx.fillText(players[UI_left_plr].name,xoffset-200+180,40);
-
-      for(var i = 0; i < players[UI_left_plr].lives; i++){
-        var heart = document.getElementById('heart');
-        ctx.drawImage(heart,xoffset-198+(i*27),88,50,50);
-      }
-
-      var right_hp_pro = players[UI_right_plr].health/1000;
-      var right_fame_pro = players[UI_right_plr].fame/500;
-      ctx.fillStyle = '#00b300';
-        ctx.fillRect(document.getElementById('main').width - 400-xoffset + (486*(1-right_hp_pro)),66,486*right_hp_pro,26);
-      ctx.fillStyle = '#0099cc';
-        ctx.fillRect(document.getElementById('main').width - 400-xoffset + (486*(1-right_fame_pro)),66+42,486*right_fame_pro,26);
-      ctx.drawImage(UI_hud_right,document.getElementById('main').width - 400-xoffset,0);
-      ctx.fillStyle = '#000000';
-      ctx.font = "30px Arial";
-      ctx.fillText(players[UI_right_plr].name,document.getElementById('main').width - 265-xoffset,40);
-      for(var i = 0; i < players[UI_right_plr].lives; i++){
-        var heart = document.getElementById('heart');
-        ctx.drawImage(heart,document.getElementById('main').width + 150 -xoffset-(i*27),88,50,50);
-      }
-
-      var UI_toolbar = document.getElementById('UI_toolbar');
-      ctx.drawImage(UI_toolbar,xoffset+240,document.getElementById('main').height - 120);
-      if(charges > 0){
-        var item = document.getElementById(item_name);
-        ctx.fillStyle="#000000";
-        ctx.font="30px Arial";
-        ctx.drawImage(item,xoffset+240+258,document.getElementById('main').height -120 + 28,64,64);
-        ctx.fillText(charges+"",xoffset+240+330,document.getElementById('main').height - 120 + 85);
-      }
+      draw_HUD_big();
+      draw_toolbar_big();
     }
+  }
+}
+
+function draw_HUD_small(){
+  var left_hp_pro = players[UI_left_plr].health/1000;
+  var left_fame_pro = players[UI_left_plr].fame/500;
+  var heart = document.getElementById('heart');
+  ctx.drawImage(document.getElementById('profile_left_'+UI_left_plr),200+xoffset+5,5,44,39);
+  ctx.fillStyle = '#00b300';
+    ctx.fillRect(200+xoffset+57,33,243 * left_hp_pro,13);
+  ctx.fillStyle = '#0099cc';
+    ctx.fillRect(200+xoffset+57,54,243*left_fame_pro,13);
+  ctx.drawImage(UI_hud_left,200+xoffset,0,300,75);
+  ctx.fillStyle = '#000000';
+  ctx.font = "17px Arial";
+  ctx.fillText(players[UI_left_plr].name,300+xoffset,20);
+
+  for(var i = 0; i < players[UI_left_plr].lives; i++){
+    ctx.drawImage(heart,202+xoffset+(i*13),43,26,26);
+  }
+
+  var right_hp_pro = players[UI_right_plr].health/1000;
+  var right_fame_pro = players[UI_right_plr].fame/500;
+  ctx.drawImage(document.getElementById('profile_right_'+UI_right_plr),800+xoffset+251,5,44,39);
+  ctx.fillStyle = '#00b300';
+    ctx.fillRect(802+xoffset + (243*(1-right_hp_pro)),33,243*right_hp_pro,13);
+  ctx.fillStyle = '#0099cc';
+    ctx.fillRect(802+xoffset + (243*(1-right_fame_pro)),54,243*right_fame_pro,13);
+  ctx.drawImage(UI_hud_right,800+xoffset,0,300,75);
+  ctx.fillStyle = '#000000';
+  ctx.font = "17px Arial";
+  ctx.fillText(players[UI_right_plr].name,880+xoffset,20);
+  for(var i = 0; i < players[UI_right_plr].lives; i++){
+    ctx.drawImage(heart,1076+xoffset-(i*13),43,26,26);
+  }
+}
+function draw_toolbar_small(){
+  var UI_toolbar = document.getElementById('UI_toolbar');
+  ctx.drawImage(UI_toolbar,xoffset+340,document.getElementById('main').height -72,600,72);
+
+  if(charges > 0){
+    var item = document.getElementById(item_name);
+    ctx.fillStyle="#000000";
+    ctx.font="20px Arial";
+    ctx.drawImage(item,xoffset+340+154,document.getElementById('main').height -72 + 17,38,38);
+    ctx.fillText(charges+"",xoffset+340+200,document.getElementById('main').height -72+53);
+  }
+}
+
+function draw_HUD_big(){
+  var left_hp_pro = players[UI_left_plr].health/1000;
+  var left_fame_pro = players[UI_left_plr].fame/500;
+  var heart = document.getElementById('heart');
+  ctx.drawImage(document.getElementById('profile_left_'+UI_left_plr),xoffset-200+10,10);
+  ctx.fillStyle = '#00b300';
+    ctx.fillRect(xoffset-200+114,66,486 * left_hp_pro,26);
+  ctx.fillStyle = '#0099cc';
+    ctx.fillRect(xoffset-200+114,66+42,486*left_fame_pro,26);
+  ctx.drawImage(UI_hud_left,xoffset-200,0);
+  ctx.fillStyle = '#000000';
+  ctx.font = "30px Arial";
+  ctx.fillText(players[UI_left_plr].name,xoffset-200+180,40);
+
+  for(var i = 0; i < players[UI_left_plr].lives; i++){
+    ctx.drawImage(heart,xoffset-198+(i*27),88,50,50);
+  }
+
+  var right_hp_pro = players[UI_right_plr].health/1000;
+  var right_fame_pro = players[UI_right_plr].fame/500;
+  ctx.drawImage(document.getElementById('profile_right_'+UI_right_plr), document.getElementById('main').width - 400-xoffset+503,10);
+  ctx.fillStyle = '#00b300';
+    ctx.fillRect(document.getElementById('main').width - 400-xoffset + (486*(1-right_hp_pro)),66,486*right_hp_pro,26);
+  ctx.fillStyle = '#0099cc';
+    ctx.fillRect(document.getElementById('main').width - 400-xoffset + (486*(1-right_fame_pro)),66+42,486*right_fame_pro,26);
+  ctx.drawImage(UI_hud_right,document.getElementById('main').width - 400-xoffset,0);
+  ctx.fillStyle = '#000000';
+  ctx.font = "30px Arial";
+  ctx.fillText(players[UI_right_plr].name,document.getElementById('main').width - 265-xoffset,40);
+  for(var i = 0; i < players[UI_right_plr].lives; i++){
+    ctx.drawImage(heart,document.getElementById('main').width + 150 -xoffset-(i*27),88,50,50);
+  }
+}
+function draw_toolbar_big(){
+  var UI_toolbar = document.getElementById('UI_toolbar');
+  ctx.drawImage(UI_toolbar,xoffset+240,document.getElementById('main').height - 120);
+
+  if(charges > 0){
+    var item = document.getElementById(item_name);
+    ctx.fillStyle="#000000";
+    ctx.font="30px Arial";
+    ctx.drawImage(item,xoffset+240+258,document.getElementById('main').height -120 + 28,64,64);
+    ctx.fillText(charges+"",xoffset+240+332,document.getElementById('main').height - 120 + 85);
   }
 }

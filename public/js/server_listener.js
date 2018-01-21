@@ -249,7 +249,6 @@ socket.on('fame_update', function(fame){
 });
 socket.on('healthup',function(player){
   players[player].health = 1000;
-  document.getElementById('Health'+player).innerHTML = 1000;
 });
 socket.on('fall',function(player){
   players[player].dir = 0;
