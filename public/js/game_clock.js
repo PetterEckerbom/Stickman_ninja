@@ -49,7 +49,6 @@ var ping = 0;
 socket.on('ping',function(data){
   if(data){
     ping = data.ping;
-    document.getElementById('ping').innerHTML = "Ping:"+Math.round(data.ping)+"ms";
     socket.emit('back_ping', data.id);
   }
 });

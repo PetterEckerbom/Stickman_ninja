@@ -168,6 +168,7 @@ function UI(){
 }
 
 function draw_HUD_small(){
+  ctx.textAlign="left";
   var left_hp_pro = players[UI_left_plr].health/1000;
   var left_fame_pro = players[UI_left_plr].fame/500;
   var heart = document.getElementById('heart');
@@ -201,19 +202,25 @@ function draw_HUD_small(){
   }
 }
 function draw_toolbar_small(){
+  ctx.textAlign="center";
   var UI_toolbar = document.getElementById('UI_toolbar');
   ctx.drawImage(UI_toolbar,xoffset+340,document.getElementById('main').height -72,600,72);
 
   if(charges > 0){
     var item = document.getElementById(item_name);
     ctx.fillStyle="#000000";
-    ctx.font="20px Arial";
+    ctx.font="18px Arial";
     ctx.drawImage(item,xoffset+340+154,document.getElementById('main').height -72 + 17,38,38);
-    ctx.fillText(charges+"",xoffset+340+200,document.getElementById('main').height -72+53);
+    ctx.fillText(charges+"",xoffset+340+200,document.getElementById('main').height -74+53);
   }
+
+  ctx.textAlign="left";
+  ctx.font="15px Arial";
+  ctx.fillText("Ping: " + Math.round(ping),xoffset+340+472,document.getElementById('main').height - 72 + 36);
 }
 
 function draw_HUD_big(){
+  ctx.textAlign="left";
   var left_hp_pro = players[UI_left_plr].health/1000;
   var left_fame_pro = players[UI_left_plr].fame/500;
   var heart = document.getElementById('heart');
@@ -247,6 +254,7 @@ function draw_HUD_big(){
   }
 }
 function draw_toolbar_big(){
+  ctx.textAlign="center";
   var UI_toolbar = document.getElementById('UI_toolbar');
   ctx.drawImage(UI_toolbar,xoffset+240,document.getElementById('main').height - 120);
 
@@ -255,6 +263,9 @@ function draw_toolbar_big(){
     ctx.fillStyle="#000000";
     ctx.font="30px Arial";
     ctx.drawImage(item,xoffset+240+258,document.getElementById('main').height -120 + 28,64,64);
-    ctx.fillText(charges+"",xoffset+240+332,document.getElementById('main').height - 120 + 85);
+    ctx.fillText(charges+"",xoffset+240+334,document.getElementById('main').height - 120 + 85);
   }
+  ctx.textAlign="left";
+  ctx.font="25px Arial";
+  ctx.fillText("Ping: " + Math.round(ping),xoffset+240+787,document.getElementById('main').height - 120 + 63);
 }
