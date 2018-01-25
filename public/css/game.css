@@ -9,9 +9,9 @@ canvas{
   height: auto;
   margin-left: auto;
   margin-right: auto;
-	background: url("https://s-media-cache-ak0.pinimg.com/originals/9f/68/14/9f681495b792deb8dadb3fea6fd819ed.jpg");
-	background-size: cover;
-  background-position-y: -300px;
+	background: url("/img/bg.png");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
 }
 .invis{
   display:none;
