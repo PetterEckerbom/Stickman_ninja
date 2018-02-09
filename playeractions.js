@@ -37,7 +37,7 @@ exports.jump = function(socket){
     var player = matchmaking.STARTED_GAMES[games_check.index].players[games_check.Player];
     var OtherPlayer = matchmaking.STARTED_GAMES[games_check.index].players[games_check.NotPlayer];
 
-    if(player.jumpready){
+    if(player.jumpready && player.controlE){
       //If charcter is already in air we makes sure ha cant jump again and tells client that it was a flipjump
       if(player.y_speed != 0){
         player.socket.emit('flipping', 0);
