@@ -84,13 +84,13 @@ exports.find_ranked = function(socket, type){
 				if(type == 0 && RankedQueue[i].type == 0){
 					found = true;
 					index = i;
-				}else if(type == 0 && (plyr.elo - RankedQueue[i].player1.elo)*RankedQueue[i].type >= 0){
+				}else if(type == 0 && (plyr.elo - RankedQueue[i].players[0].elo)*RankedQueue[i].type >= 0){
 					found = true;
 					index = i;
-				}else if((RankedQueue[i].player1.elo - plyr.elo)*type >= 0 && RankedQueue[i].type == 0){
+				}else if((RankedQueue[i].players[0].elo - plyr.elo)*type >= 0 && RankedQueue[i].type == 0){
 					found = true;
 					index = i;
-				}else if((RankedQueue[i].player1.elo - plyr.elo)*type >= 0 && (plyr.elo - RankedQueue[i].player1.elo)*RankedQueue[i].type >= 0){
+				}else if((RankedQueue[i].players[0].elo - plyr.elo)*type >= 0 && (plyr.elo - RankedQueue[i].players[0].elo)*RankedQueue[i].type >= 0){
 					found = true;
 					index = i;
 				}
