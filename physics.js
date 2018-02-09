@@ -148,7 +148,7 @@ var game_end = function(winner, loser, game){
       var new_elo = Math.round(10 / elomultW);
       winnerDB.elo += new_elo;
       winnerDB.Wins++;
-      winner.elo = winnerDB.elo;
+      winner.socket.handshake.session.user.elo = winnerDB.elo;
       winnerDB.save(function (err) {
           if (err) {
             console.log(err);
@@ -163,7 +163,7 @@ var game_end = function(winner, loser, game){
       }
       var new_elo = Math.round(10 / elomultW);
       loserDB.elo -= new_elo;
-      loser.elo = loserDB.elo;
+      loser.socket.handshake.session.user.elo = loserDB.elo;
       if(loserDB.elo < 0){
         loserDB.elo = 0;
       }
