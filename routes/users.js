@@ -18,6 +18,7 @@ router.post('/register', function(req, res){
   var email = req.body.email;
   var password = req.body.password;
   var password2 = req.body.password2;
+  username = username.replace(/<(?:.|\n)*?>/gm, '');
   //checks if username is to short.
   if(username.length < 4){
     req.flash('error','Username must be at least 4 characters long and can be at most 15 characters long');
